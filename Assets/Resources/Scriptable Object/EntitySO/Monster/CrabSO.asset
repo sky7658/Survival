@@ -9,12 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fdfe0e3affeb584489477b914b9926ab, type: 3}
-  m_Name: BowSO
-  m_EditorClassIdentifier: Assembly-CSharp:LMS.User:WeaponSO
-  objName: Bow
-  atk: 50
-  penetrationCnt: 1
-  coolTime: 1
-  speed: 10
-  objectCount: 1
+  m_Script: {fileID: 11500000, guid: 35519d71c361aab43a2a0ccaa79e54b9, type: 3}
+  m_Name: CrabSO
+  m_EditorClassIdentifier: 
+  objectName: Crab
+  maxHp: 100
+  basicSpeed: 1
+  maxSpeed: 1
+  basicDefense: 0

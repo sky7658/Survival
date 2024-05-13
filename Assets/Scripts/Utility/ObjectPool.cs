@@ -28,6 +28,7 @@ namespace LMS.Utility
         {
             foreach (var objectInfo in objectInfos)
             {
+                if (objectInfo.comp == null) continue;
                 Type _type = objectInfo.comp.GetType();
                 if (!_type.IsSubclassOf(typeof(MonoBehaviour)))
                 {

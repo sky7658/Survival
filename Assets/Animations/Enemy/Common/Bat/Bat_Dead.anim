@@ -93,4 +93,11 @@ AnimationClip:
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events: []
+  m_Events:
+  - time: 0.75
+    functionName: ReturnMonster
+    data: 
+    objectReferenceParameter: {fileID: 3141966634729451290, guid: 14beddd647df0f3409ef91ef7427775c, type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0

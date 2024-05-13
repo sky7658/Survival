@@ -8,6 +8,15 @@ namespace LMS.General
     public abstract class Entity : MonoBehaviour, IDamageable
     {
         [SerializeField] private EntitySO entitySO;
+        protected void InitSO()
+        {
+            entitySO = entitySO == null ? ResourceManager.Instance.GetSO<EntitySO>(ObjectName) : entitySO;
+
+            hp = entitySO.MaxHp;
+            speed = entitySO.BasicSpeed;
+            defense = entitySO.BasicDefense;
+        }
+
         public string ObjectName { get { return entitySO.ObjectName; } }
         [SerializeField] private float hp;
         public float Hp
@@ -36,7 +45,8 @@ namespace LMS.General
         private SpriteRenderer spr;
         protected SpriteRenderer GetSpr { get { return spr; } }
         public void FlipX(bool set) => spr.flipX = set;
-        public void SetOriginColor() => spr.color = Color.white;
+        public bool GetFlipX => spr.flipX;
+        public void SetOriginColor() => SetColor(EntityInfo.originColor);
         public void SetColor(Color32 color) => spr.color = color;
 
         private Animator anim;
@@ -44,6 +54,7 @@ namespace LMS.General
         public void SetAnimation(string animName) => anim.SetTrigger(animName);
 
         private Collider2D col;
+        protected void SetCollider(bool set) => col.enabled = set;
         public void InitComponent()
         {
             if (TryGetComponent<Rigidbody2D>(out var rigidbody)) rb = rigidbody;
@@ -53,17 +64,13 @@ namespace LMS.General
         }
         public virtual void Initialized()
         {
-            entitySO = entitySO == null ? ResourceManager.Instance.GetSO<EntitySO>(ObjectName) : entitySO;
-
-            hp = entitySO.MaxHp;
-            speed = entitySO.BasicSpeed;
-            defense = entitySO.BasicDefense;
+            InitSO();
             InitCoroutine();
         }
 
         public virtual void TakeDamage(float value, Vector2 vec = default)
         {
-            cc.ExecuteCoroutine(SRUtilFunction.KeepSpriteColorTime(spr, Color.red, EntityInfo.keepHitTime), "HitColor");
+            cc.ExecuteCoroutine(SRUtilFunction.KeepSpriteColorTime(spr, EntityInfo.originColor, EntityInfo.hitColor, EntityInfo.keepHitTime), "HitColor");
             Hp -= (value - value / 100 * defense);
         }
         
@@ -80,7 +87,7 @@ namespace LMS.General
         }
         public virtual void Dead()
         {
-            col.enabled = false;
+            SetCollider(false);
         }
     }
 }

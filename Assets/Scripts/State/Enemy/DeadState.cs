@@ -14,7 +14,7 @@ namespace LMS.Enemy
 
         public void Enter(Monster obj)
         {
-            obj.SetAnimation(EntityInfo.m_DeadAnimName);
+            obj.SetAnimation(MonsterInfo.deadAnimName);
             obj.Dead();
         }
         public void Action(Monster obj)

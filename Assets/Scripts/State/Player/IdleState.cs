@@ -14,7 +14,7 @@ namespace LMS.User
 
         public void Enter(Player obj)
         {
-            obj.SetAnimation("IsMove", false);
+            obj.SetAnimation(PlayerInfo.idleAnimName, false);
         }
         public void Action(Player obj)
         {

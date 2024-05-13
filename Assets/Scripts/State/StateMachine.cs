@@ -21,12 +21,25 @@ namespace LMS.State
 
         public virtual void Initailized()
         {
-            curState = statecache["Idle"];
+            if (!statecache.TryGetValue("Idle", out var initState))
+            {
+                Debug.Log("Don't Exist StateName");
+                return;
+            }
+            ChangeState(initState);
         }
 
         protected void ChangeState(IState<T> newState)
-        { 
-            if (newState.Equals(null) || curState.Equals(newState)) return;
+        {
+            if (newState == null) return;
+            if (curState == null)
+            {
+                curState = newState;
+                curState?.Enter(obj);
+                return;
+            }
+            if (curState.Equals(newState)) return;
+
             curState?.Exit(obj);
             curState = newState;
             curState?.Enter(obj);

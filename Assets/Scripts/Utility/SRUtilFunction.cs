@@ -21,10 +21,8 @@ namespace LMS.Utility
             yield break;
         }
 
-        public static IEnumerator KeepSpriteColorTime(SpriteRenderer sr, Color32 keepColor, float t)
+        public static IEnumerator KeepSpriteColorTime(SpriteRenderer sr, Color32 originColor, Color32 keepColor, float t)
         {
-            Color32 originColor = sr.color;
-
             sr.color = keepColor;
             yield return UtilFunctions.WaitForSeconds(t);
             sr.color = originColor;

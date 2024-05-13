@@ -15,7 +15,8 @@ namespace LMS.Enemy
 
         public void Enter(Monster obj)
         {
-            obj.SetAnimation(EntityInfo.m_HitAnimName);
+            obj.SetAnimation(MonsterInfo.hitAnimName);
+            obj.KnockBack();
         }
         public void Action(Monster obj)
         {
@@ -24,5 +25,4 @@ namespace LMS.Enemy
         {
         }
     }
-
 }

@@ -15,7 +15,7 @@ namespace LMS.User
 
         public void Enter(Player obj)
         {
-            obj.SetAnimation("IsMove", true);
+            obj.SetAnimation(PlayerInfo.moveAnimName, true);
         }
         public void Action(Player obj)
         {
@@ -24,7 +24,6 @@ namespace LMS.User
         }
         public void Exit(Player obj)
         {
-            obj.SetAnimation("IsMove", false);
             obj.Move(Vector2.zero);
         }
     }

@@ -14,7 +14,7 @@ namespace LMS.User
 
         public void Enter(Player obj)
         {
-            obj.SetAnimation("Dead");
+            obj.SetAnimation(PlayerInfo.deadAnimName);
             obj.Dead();
         }
         public void Action(Player obj)
@@ -23,7 +23,6 @@ namespace LMS.User
         public void Exit(Player obj)
         {
             obj.SetOriginColor();
-            obj.SetAnimation("Revive");
         }
     }
 }

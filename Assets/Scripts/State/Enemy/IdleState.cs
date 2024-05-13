@@ -2,6 +2,7 @@ using UnityEngine;
 using LMS.State;
 using LMS.General;
 using Unity.VisualScripting;
+using UnityEditor.Tilemaps;
 
 namespace LMS.Enemy
 {
@@ -15,10 +16,11 @@ namespace LMS.Enemy
 
         public void Enter(Monster obj)
         {
-            obj.SetAnimation(EntityInfo.m_IdleAnimName, false);
+            obj.SetAnimation(MonsterInfo.idleAnimName, false);
         }
         public void Action(Monster obj)
         {
+            obj.FlipX();
         }
         public void Exit(Monster obj)
         {

@@ -10,6 +10,7 @@ namespace LMS.User
     {
         private PlayerStateMachine stateM;
         private WeaponController wController;
+        private Weapon w; // 테스트용
 
         public override void Dead()
         {
@@ -24,7 +25,9 @@ namespace LMS.User
             wController = new WeaponController(transform);
             stateM = new PlayerStateMachine(this);
 
-            wController.AddWeapon(Base.WeaponInfo.wnameSO.Bow);
+            w = new Bow(transform);
+
+            //wController.AddWeapon(Base.WeaponInfo.wnameSO.Bow);
             //wController.AddWeapon(Base.WeaponInfo.wnameSO.Ring);
             //wController.AddWeapon(Base.WeaponInfo.wnameSO.WizardBook);
         }
@@ -45,10 +48,11 @@ namespace LMS.User
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                wController.AllWeaponLevelUp();
+                //wController.AllWeaponLevelUp();
+                var obj = ObjectPool.Instance.GetObject<Enemy.Crab>("Crab");
+                obj.transform.position = Vector2.zero;
             }
-            if (Input.GetKeyDown(KeyCode.F)) wController.RemoveWeapon("Bow");
-            if (Input.GetKeyDown(KeyCode.G)) wController.AddWeapon("Bow");
+            if (Input.GetMouseButtonDown(0)) w.Attack();
             stateM.UpdateState();
         }
     }
