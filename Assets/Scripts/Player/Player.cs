@@ -49,7 +49,7 @@ namespace LMS.User
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 //wController.AllWeaponLevelUp();
-                var obj = ObjectPool.Instance.GetObject<Enemy.Crab>("Crab");
+                var obj = ObjectPool.Instance.GetObject<Enemy.Pebble>("Pebble");
                 obj.transform.position = Vector2.zero;
             }
             if (Input.GetMouseButtonDown(0)) w.Attack();

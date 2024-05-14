@@ -18,6 +18,9 @@ namespace LMS.Enemy
 
         [SerializeField] private string slime;
         public string Slime { get {  return slime; } }
+
+        [SerializeField] private string golem;
+        public string Golem { get { return golem; } }
     }
 
 }

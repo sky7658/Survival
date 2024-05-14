@@ -50,12 +50,18 @@ namespace LMS.General
         public void SetColor(Color32 color) => spr.color = color;
 
         private Animator anim;
-        public void SetAnimation(string animName, bool set) => anim.SetBool(animName, set);
-        public void SetAnimation(string animName) => anim.SetTrigger(animName);
+        public virtual void SetAnimation(string animName, bool set) => anim.SetBool(animName, set);
+        public virtual void SetAnimation(string animName) => anim.SetTrigger(animName);
 
         private Collider2D col;
         protected void SetCollider(bool set) => col.enabled = set;
-        public void InitComponent()
+        protected Vector2 GetColliderCenter()
+        {
+            if (col.enabled) return col.offset;
+            Debug.Log("Collider2D is Disabled");
+            return Vector2.zero;
+        }
+        protected virtual void InitComponent()
         {
             if (TryGetComponent<Rigidbody2D>(out var rigidbody)) rb = rigidbody;
             if (TryGetComponent<SpriteRenderer>(out var renderer)) spr = renderer;

@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace LMS.Enemy
 {
-    public class Bat : Monster
+    public class Bat : CommonMonster
     {
         protected override IEnumerator AttackMotion(Vector2 targetPos)
         {

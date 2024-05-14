@@ -3,7 +3,6 @@ using UnityEngine;
 using LMS.General;
 using LMS.User;
 using LMS.Enemy;
-using Unity.VisualScripting;
 
 namespace LMS.State
 {
@@ -81,15 +80,32 @@ namespace LMS.State
         }
     }
 
-    public class MonsterStateMachine : StateMachine<Monster>
+    public class MonsterStateMachine : StateMachine<CommonMonster>
     {
-        public MonsterStateMachine(Monster refObj) : base(refObj)
+        public MonsterStateMachine(CommonMonster refObj) : base(refObj)
         {
-            statecache.Add("Idle", new Enemy.IdleState());
-            statecache.Add("Move", new Enemy.MoveState());
-            statecache.Add("Attack", new AttackState());
-            statecache.Add("Hit", new HitState());
-            statecache.Add("Dead", new Enemy.DeadState());
+            statecache.Add("Idle", new Enemy.Common.IdleState());
+            statecache.Add("Move", new Enemy.Common.MoveState());
+            statecache.Add("Attack", new Enemy.Common.AttackState());
+            statecache.Add("Hit", new Enemy.Common.HitState());
+            statecache.Add("Dead", new Enemy.Common.DeadState());
+            Initailized();
+        }
+
+        public override void Initailized()
+        {
+            base.Initailized();
+        }
+    }
+
+    public class BossStateMachine : StateMachine<BossMonster>
+    {
+        public BossStateMachine(BossMonster refObj) : base(refObj)
+        {
+            statecache.Add("Idle", new Enemy.Boss.IdleState());
+            statecache.Add("Move", new Enemy.Boss.MoveState());
+            statecache.Add("Attack", new Enemy.Boss.AttackState());
+            statecache.Add("Dead", new Enemy.Boss.DeadState());
             Initailized();
         }
 
