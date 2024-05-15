@@ -44,7 +44,8 @@ namespace LMS.Enemy
             { mnameSO.Bat, 1f },
             { mnameSO.Crab, 1f },
             { mnameSO.Pebble, 0.2f },
-            { mnameSO.Slime, 0.2f }
+            { mnameSO.Slime, 0.2f },
+            { mnameSO.Golem, 3f }
         };
 
         public static readonly Dictionary<string, float> knockBackTime = new Dictionary<string, float>()
@@ -57,12 +58,12 @@ namespace LMS.Enemy
 
         public static readonly Dictionary<string, Dictionary<string, float>> bossAtkTimes = new Dictionary<string, Dictionary<string, float>>()
         {
-            { "Golem", new Dictionary<string, float>() { { "Rush", 0.6f }, { "Punch", 1f }, { "MagicAttack", 1f } } }
+            { "Golem", new Dictionary<string, float>() { { "Rush", 1f }, { "Punch", 1.2f }, { "MagicAttack", 1.5f }, { "Laser", 1.2f } } }
         };
 
         public static readonly Dictionary<string, Dictionary<string, float>> bossAtkRanges = new Dictionary<string, Dictionary<string, float>>()
         {
-            { "Golem", new Dictionary<string, float>() { { "Rush", 5f }, { "Punch", 2f }, { "MagicAttack", -1f } } }
+            { "Golem", new Dictionary<string, float>() { { "Rush", 5f }, { "Punch", 1.5f }, { "MagicAttack", 6f }, { "Laser", 10f } } }
         };
     }
 

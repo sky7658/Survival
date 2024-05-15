@@ -18,29 +18,30 @@ namespace LMS.General
         }
 
         public string ObjectName { get { return entitySO.ObjectName; } }
+        public float MaxHp { get { return entitySO.MaxHp; } }
         [SerializeField] private float hp;
         public float Hp
         {
             get { return hp; }
-            set { hp = Mathf.Clamp(value, 0, entitySO.MaxHp); }
+            protected set { hp = Mathf.Clamp(value, 0, MaxHp); }
         }
         [SerializeField] private float speed;
-        public float Speed
+        public virtual float Speed
         {
             get { return speed; }
-            set { speed = value; }
+            protected set { speed = Mathf.Clamp(value, entitySO.BasicSpeed, entitySO.MaxSpeed); }
         }
         [SerializeField] private float defense; // % ∞‘¿Ã¡ˆ
         public float Defense
         {
             get { return defense; }
-            set { defense = value; }
+            protected set { defense = value; }
         }
 
         private Rigidbody2D rb;
         public void Move(Vector2 vec)
         {
-            rb.velocity = vec * speed;
+            rb.velocity = vec * Speed;
         }
         private SpriteRenderer spr;
         protected SpriteRenderer GetSpr { get { return spr; } }

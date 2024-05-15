@@ -4,15 +4,18 @@ namespace LMS.Enemy.Boss
 {
     public class DeadState : IState<BossMonster>
     {
-        public bool Idle(BossMonster obj) => true;
-        public bool Move(BossMonster obj) => obj.IsChaseAble;
-        public bool Attack(BossMonster obj) => obj.IsAttackAble;
+        public bool Idle(BossMonster obj) => obj.Hp > 0;
+        public bool Move(BossMonster obj) => false;
+        public bool Attack(BossMonster obj) => false;
         public bool Hit(BossMonster obj) => false;
         public bool Dead(BossMonster obj) => obj.Hp <= 0;
 
         public void Enter(BossMonster obj)
         {
-            obj.SetAnimation(MonsterInfo.bossDeadAnimName);
+            if (!obj.TransformMode && true /* 특정 조건을 달성하면 2페이즈로 넘어갈 수 있음*/) 
+                obj.TransformInit();
+            else 
+                obj.SetAnimation(MonsterInfo.bossDeadAnimName);
         }
         public void Action(BossMonster obj)
         {

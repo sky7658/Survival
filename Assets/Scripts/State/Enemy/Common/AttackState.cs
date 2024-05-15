@@ -6,7 +6,7 @@ namespace LMS.Enemy.Common
     {
         public bool Idle(CommonMonster obj) => true;
         public bool Move(CommonMonster obj) => !obj.IsAtk && obj.IsChaseAble;
-        public bool Attack(CommonMonster obj) => obj.IsAttackAble && obj.IsAtk;
+        public bool Attack(CommonMonster obj) => obj.IsAttackAble || obj.IsAtk;
         public bool Hit(CommonMonster obj) => obj.IsHit;
         public bool Dead(CommonMonster obj) => obj.Hp <= 0;
 

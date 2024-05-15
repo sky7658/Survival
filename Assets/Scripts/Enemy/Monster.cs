@@ -1,9 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using LMS.General;
-using LMS.State;
 using LMS.Utility;
-using Unity.Burst.CompilerServices;
 
 namespace LMS.Enemy
 {
@@ -11,16 +9,42 @@ namespace LMS.Enemy
     {
         public IDamageable target;
         [SerializeField] private Transform targetTrans;
+        protected Vector2 TargetPos { get { return targetTrans.position; } }
 
-        protected float atk;
-        public virtual bool IsAttackAble { get { return !IsChaseAble; } } // 공격이 가능한지
+        private float atk;
+        public float Atk 
+        { 
+            get 
+            { 
+                return atk; 
+            }
+            protected set { atk = value; }
+        }
+        public virtual bool IsAttackAble { get { return !IsChaseAble && isAtkCool; } } // 공격이 가능한지
         private bool isAtk; // 공격중인지
         public bool IsAtk { get { return isAtk; } }
-        public virtual void EndAtk() => isAtk = false;
+        public virtual void EndAtk()
+        {
+            isAtkCool = false;
+            isAtk = false;
+        }
+        private float atkCoolTime;
+        protected bool isAtkCool; // 쿨타임이 찼는가
+        private IEnumerator AttackCoolTime()
+        {
+            while (true)
+            {
+                if (!isAtkCool)
+                {
+                    yield return UtilFunctions.WaitForSeconds(atkCoolTime);
+                    isAtkCool = true;
+                }
+                yield return null;
+            }
+        }
 
         protected virtual float AtkTime { get; set; } // 공격하는 시간
         protected virtual float AtkRange { get; set; }
-
         public void Attack()
         {
             isAtk = true;
@@ -28,19 +52,20 @@ namespace LMS.Enemy
         }
         protected abstract void Attack(Vector2 targetPos);
 
-        public bool IsChaseAble
+        public virtual bool IsChaseAble
         {
             get
             {
+                bool _flag = Vector2.Distance(TargetPos, transform.position) > AtkRange;
                 if (AtkRange < 0) return false;
-                return Vector2.Distance(targetTrans.position, transform.position) > AtkRange;
+                return Vector2.Distance(TargetPos, transform.position) > AtkRange;
             }
         }
-        public void FlipX() => FlipX(targetTrans.position.x - transform.position.x > 0 ? false : true);
+        public void FlipX() => FlipX(TargetPos.x - transform.position.x > 0 ? false : true);
         public void ChaseToTarget()
         {
             FlipX();
-            Move((targetTrans.position - transform.position).normalized);
+            Move((TargetPos - (Vector2)transform.position).normalized);
         }
 
         public abstract void ReturnMonster();
@@ -51,6 +76,7 @@ namespace LMS.Enemy
         protected virtual void OnEnable()
         {
             InitSO();
+            isAtkCool = true;
             isAtk = false;
             SetCollider(true);
         }
@@ -58,11 +84,18 @@ namespace LMS.Enemy
         public override void Initialized()
         {
             base.Initialized();
+            if (!MonsterInfo.mCoolTimes.TryGetValue(ObjectName, out atkCoolTime))
+            {
+                Debug.Log($"{ObjectName} is not exist in MonsterName");
+                atkCoolTime = 0f;
+            }
+            cc.ExecuteCoroutine(AttackCoolTime(), "AttackCoolTime");
         }
         protected override void InitCoroutine()
         {
             base.InitCoroutine();
             cc.AddCoroutine("Attack");
+            cc.AddCoroutine("AttackCoolTime");
         }
         protected override void InitComponent()
         {

@@ -19,7 +19,7 @@ namespace LMS.Enemy
             var hit = Physics2D.OverlapCircle(transform.position, 0.8f, LayerMask.GetMask(User.PlayerInfo.playerLayer));
             if (hit != null) 
             { 
-                if (hit.TryGetComponent<IDamageable>(out var obj)) obj.TakeDamage(atk);
+                if (hit.TryGetComponent<IDamageable>(out var obj)) obj.TakeDamage(Atk);
             }
             EndAtk();
             Hp = 0;

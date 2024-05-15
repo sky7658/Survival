@@ -8,28 +8,6 @@ namespace LMS.Enemy
     public abstract class CommonMonster : Monster
     {
         private MonsterStateMachine stateM;
-
-        public override bool IsAttackAble { get { return base.IsAttackAble && isAtkCool; } } // 공격이 가능한지
-        public override void EndAtk()
-        {
-            base.EndAtk();
-            isAtkCool = false;
-        }
-
-        private float atkCoolTime;
-        private bool isAtkCool; // 쿨타임이 찼는가
-        private IEnumerator AttackCoolTime()
-        {
-            while (true)
-            {
-                if (!isAtkCool)
-                {
-                    yield return UtilFunctions.WaitForSeconds(atkCoolTime);
-                    isAtkCool = true;
-                }
-                yield return null;
-            }
-        }
         protected override void Attack(Vector2 targetPos) => cc.ExecuteCoroutine(AttackMotion(targetPos), "Attack");
         protected abstract IEnumerator AttackMotion(Vector2 targetPos);
 
@@ -66,7 +44,6 @@ namespace LMS.Enemy
         protected override void OnEnable()
         {
             stateM.Initailized();
-            isAtkCool = true;
             hit = false;
             base.OnEnable();
         }
@@ -83,11 +60,6 @@ namespace LMS.Enemy
                 atkRange = 0f;
             }
             else AtkRange = atkRange;
-            if (!MonsterInfo.mCoolTimes.TryGetValue(ObjectName, out atkCoolTime))
-            {
-                Debug.Log($"{ObjectName} is not exist in MonsterName");
-                atkCoolTime = 0f;
-            }
             if (!MonsterInfo.mAtkTimes.TryGetValue(ObjectName, out var atkTime))
             {
                 Debug.Log($"{ObjectName} is not exist in MonsterName");
@@ -95,13 +67,11 @@ namespace LMS.Enemy
             }
             else AtkTime = atkTime;
 
-            cc.ExecuteCoroutine(AttackCoolTime(), "AttackCoolTime");
         }
         protected override void InitCoroutine()
         {
             base.InitCoroutine();
             cc.AddCoroutine("Hit");
-            cc.AddCoroutine("AttackCoolTime");
         }
 
         void Update()

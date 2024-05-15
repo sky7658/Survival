@@ -40,7 +40,7 @@ namespace LMS.Enemy
                 {
                     if (!_flag && hit.TryGetComponent<IDamageable>(out var obj))
                     {
-                        obj.TakeDamage(atk);
+                        obj.TakeDamage(Atk);
                         _flag = true;
                     }
                 }

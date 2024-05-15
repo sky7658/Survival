@@ -6,8 +6,8 @@ namespace LMS.Enemy.Boss
     public class AttackState : IState<BossMonster>
     {
         public bool Idle(BossMonster obj) => true;
-        public bool Move(BossMonster obj) => obj.IsChaseAble;
-        public bool Attack(BossMonster obj) => obj.IsAttackAble && obj.IsAtk;
+        public bool Move(BossMonster obj) => obj.IsChaseAble && !obj.IsAtk && !obj.SpecialAttackMode;
+        public bool Attack(BossMonster obj) => obj.IsAttackAble || obj.IsAtk;
         public bool Hit(BossMonster obj) => false;
         public bool Dead(BossMonster obj) => obj.Hp <= 0;
 

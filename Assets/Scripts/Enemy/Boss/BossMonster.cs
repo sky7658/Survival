@@ -6,12 +6,40 @@ namespace LMS.Enemy
 
     public abstract class BossMonster : Monster
     {
+        public override float Speed
+        {
+            get
+            {
+                if (isAtkCool)
+                {
+                    base.Speed = 10f;
+                    return base.Speed;
+                }
+                else
+                {
+                    base.Speed = 0f;
+                    return base.Speed;
+                }
+            }
+        }
+
         private BossStateMachine stateM;
 
         protected bool transformMode;
         public bool TransformMode { get { return transformMode; } }
-        protected bool transition;
-        public bool IsTransition { get { return transition; } }
+        
+        protected bool specialAtkMode;
+        public bool SpecialAttackMode
+        {
+            get
+            {
+                return specialAtkMode;
+            }
+        }
+        protected bool transforming;
+        public bool IsTrans { get { return transforming; } }
+        public bool StartTrans() => transforming = true;
+        public bool CompleteTrans() => transforming = false;
 
         protected AttackType<BossMonster> atkTypes;
         protected AttackTypeDelegate<BossMonster> atkDelegate;
@@ -65,15 +93,26 @@ namespace LMS.Enemy
                 }
             }
         }
+        protected virtual AttackTypeDelegate<BossMonster> GetAtkType() => atkTypes.GetAttackType();
         protected override void Attack(Vector2 targetPos)
         {
-            var nextAtk = atkTypes.GetAttackType();
+            var nextAtk = GetAtkType();
+
 
             if (atkDelegate != null) cc.ExecuteCoroutine(atkDelegate(this, targetPos, AtkTime), "Attack");
             else Debug.Log($"{ObjectName}의 atkDelegate가 Null 입니다.");
 
             if (nextAtk != null) atkDelegate = nextAtk;
             else Debug.Log($"{ObjectName}의 nextAtk가 Null 입니다.");
+        }
+
+        public override bool IsChaseAble
+        {
+            get
+            {
+                if (!isAtkCool) return Vector2.Distance(TargetPos, transform.position) > 1f;
+                return base.IsChaseAble;
+            }
         }
 
         public override void Initialized()
@@ -84,8 +123,16 @@ namespace LMS.Enemy
         protected override void OnEnable()
         {
             base.OnEnable();
+            atkDelegate = GetAtkType();
             stateM.Initailized();
-            atkDelegate = atkTypes.GetAttackType();
+        }
+        public void TransformInit()
+        {
+            StartTrans();
+            transformMode = true;
+            atkDelegate = GetAtkType();
+            Hp = MaxHp;
+            Atk *= 1.5f;
         }
 
         void Update()

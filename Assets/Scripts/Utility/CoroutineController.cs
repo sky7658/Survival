@@ -19,14 +19,14 @@ namespace LMS.Utility
 
         public void ExecuteCoroutine(in IEnumerator startCor, string name)
         {
-            if (!coroutines.TryGetValue(name, out var coroutine)) Debug.Log("존재하지 않은 코루틴");
-            coroutine = UtilCoroutine.ExecuteCoroutine(startCor, coroutine);
+            if (coroutines.TryGetValue(name, out var coroutine)) coroutine = UtilCoroutine.ExecuteCoroutine(startCor, coroutine);
+            else Debug.Log($"{name} is not exist in index of coroutines");
         }
 
         public void OffCoroutine(string name)
         {
-            if (!coroutines.TryGetValue(name, out var corutine)) Debug.Log("존재하지 않은 코루틴");
-            UtilCoroutine.OffCoroutine(ref corutine);
+            if (coroutines.TryGetValue(name, out var corutine)) UtilCoroutine.OffCoroutine(ref corutine);
+            else Debug.Log($"{name} is not exist in index of coroutines");
         }
 
         public void OffAllCoroutines() => UtilCoroutine.OffAllCoroutines(ref coroutines);

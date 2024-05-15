@@ -59,8 +59,8 @@ namespace LMS.State
 
         public void UpdateState()
         {
-            ChangeState(CheckTransState());
             curState.Action(obj);
+            ChangeState(CheckTransState());
         }
     }
 
@@ -106,7 +106,7 @@ namespace LMS.State
             statecache.Add("Move", new Enemy.Boss.MoveState());
             statecache.Add("Attack", new Enemy.Boss.AttackState());
             statecache.Add("Dead", new Enemy.Boss.DeadState());
-            Initailized();
+            //Initailized();
         }
 
         public override void Initailized()
