@@ -13,7 +13,7 @@ namespace LMS.Enemy.Boss
 
         public void Enter(BossMonster obj)
         {
-            obj.SetAnimation(MonsterInfo.bossMoveAnimName, false);
+            obj.SetAnimation(MonsterInfo.bossMoveAnimName, true);
         }
         public void Action(BossMonster obj)
         {

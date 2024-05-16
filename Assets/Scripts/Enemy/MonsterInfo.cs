@@ -58,13 +58,15 @@ namespace LMS.Enemy
 
         public static readonly Dictionary<string, Dictionary<string, float>> bossAtkTimes = new Dictionary<string, Dictionary<string, float>>()
         {
-            { "Golem", new Dictionary<string, float>() { { "Rush", 1f }, { "Punch", 1.2f }, { "MagicAttack", 1.5f }, { "Laser", 1.2f } } }
+            { "Golem", new Dictionary<string, float>() { { "Rush", 1f }, { "Punch", 1.2f }, { "MagicAttack", 1.5f }, { "Laser", 1.2f }, { "Defense", 3.5f } } }
         };
 
         public static readonly Dictionary<string, Dictionary<string, float>> bossAtkRanges = new Dictionary<string, Dictionary<string, float>>()
         {
-            { "Golem", new Dictionary<string, float>() { { "Rush", 5f }, { "Punch", 1.5f }, { "MagicAttack", 6f }, { "Laser", 10f } } }
+            { "Golem", new Dictionary<string, float>() { { "Rush", 5f }, { "Punch", 1.5f }, { "MagicAttack", 6f }, { "Laser", 10f }, { "Defense", -1f } } }
         };
+
+        public static readonly string laserName = "Laser";
     }
 
 }

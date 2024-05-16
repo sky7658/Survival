@@ -77,7 +77,8 @@ namespace LMS.General
 
         public virtual void TakeDamage(float value, Vector2 vec = default)
         {
-            cc.ExecuteCoroutine(SRUtilFunction.KeepSpriteColorTime(spr, EntityInfo.originColor, EntityInfo.hitColor, EntityInfo.keepHitTime), "HitColor");
+            if (value > 0)
+                cc.ExecuteCoroutine(SRUtilFunction.KeepSpriteColorTime(spr, EntityInfo.originColor, EntityInfo.hitColor, EntityInfo.keepHitTime), "HitColor");
             Hp -= (value - value / 100 * defense);
         }
         

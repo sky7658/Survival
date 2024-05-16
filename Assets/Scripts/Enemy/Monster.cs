@@ -15,8 +15,9 @@ namespace LMS.Enemy
         public float Atk 
         { 
             get 
-            { 
-                return atk; 
+            {
+                var _range = atk * 0.3f;
+                return atk + Random.Range(atk - _range, atk + _range); 
             }
             protected set { atk = value; }
         }
@@ -51,6 +52,17 @@ namespace LMS.Enemy
             Attack(targetTrans.position);
         }
         protected abstract void Attack(Vector2 targetPos);
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            if (IsAtk) return;
+            if (collision.tag.Equals(User.PlayerInfo.playerTag))
+            {
+                if (collision.TryGetComponent<IDamageable>(out var obj))
+                {
+                    obj.TakeDamage(Atk);
+                }
+            }
+        }
 
         public virtual bool IsChaseAble
         {
@@ -90,6 +102,8 @@ namespace LMS.Enemy
                 atkCoolTime = 0f;
             }
             cc.ExecuteCoroutine(AttackCoolTime(), "AttackCoolTime");
+
+            Atk = 1f; // 수정해주세용
         }
         protected override void InitCoroutine()
         {

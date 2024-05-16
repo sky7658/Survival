@@ -1,3 +1,4 @@
+using LMS.Enemy.Boss;
 using LMS.General;
 using System.Collections;
 using System.Collections.Generic;
@@ -24,17 +25,22 @@ namespace LMS.Enemy
         public GolemAttackType() : base()
         {
             delegateList.Add(Rush);
-            //delegateList.Add(Punch);
+            delegateList.Add(Punch);
             delegateList.Add(MagicAttack);
+            delegateList.Add(Laser);
+            delegateList.Add(Defense);
         }
 
         private IEnumerator Rush(BossMonster obj, Vector2 targetPos, float atkTime)
         {
+            Vector2 _hitBoxPos = new Vector2(0.9f, -0.4f);
+            Vector2 _hitSize = new Vector2(4f, 2.7f);
             Vector2 _originPos = obj.transform.position;
             Vector2 _rushPos = new Vector2(targetPos.x - obj.transform.position.x, 0f).normalized * 5f;
             float _elapsed = 0f;
             float _atkTime = 0.2f;
             float _waitTIme = 0.6f;
+            bool _flag = false;
 
             while (_elapsed < _waitTIme)
             {
@@ -54,7 +60,16 @@ namespace LMS.Enemy
                     obj.EndAtk();
                     yield break;
                 }
-
+                var hit = Physics2D.OverlapBox((Vector2)obj.transform.position + _hitBoxPos, _hitSize, 0f, 
+                    LayerMask.GetMask(User.PlayerInfo.playerLayer));
+                if (hit != null)
+                {
+                    if (!_flag && hit.TryGetComponent<IDamageable>(out var _obj))
+                    {
+                        _obj.TakeDamage(obj.Atk);
+                        _flag = true;
+                    }
+                }
                 obj.transform.position = Vector2.Lerp(_originPos, _originPos + _rushPos, (_elapsed += Time.deltaTime) / _atkTime);
                 yield return null;
             }
@@ -183,6 +198,7 @@ namespace LMS.Enemy
 
         private IEnumerator Laser(BossMonster obj, Vector2 targetPos, float atkTime)
         {
+            Vector2 _arrow = new Vector2(targetPos.x - obj.transform.position.x, 0f);
             float _elapsed = 0f;
             float _waitTime = 0.7f;
 
@@ -197,6 +213,8 @@ namespace LMS.Enemy
                 yield return null;
             }
             _elapsed = 0f;
+            var _laser = Utility.ObjectPool.Instance.GetObject<Laser>(MonsterInfo.laserName);
+            _laser.Initialized(obj.transform.position, _arrow.normalized, obj.Atk);
             
             while (_elapsed < atkTime - _waitTime)
             {
@@ -211,5 +229,24 @@ namespace LMS.Enemy
             obj.EndAtk();
             yield break;
         }
+
+        private IEnumerator Defense(BossMonster obj, Vector2 targetPos, float atkTime)
+        {
+            float _elapsed = 0f;
+            while (_elapsed < atkTime)
+            {
+                if (obj.Hp <= 0f)
+                {
+                    obj.EndAtk();
+                    yield break;
+                }
+                _elapsed += Time.deltaTime;
+                yield return null;
+            }
+            obj.EndAtk();
+            yield break;
+        }
     }
 }
+
+

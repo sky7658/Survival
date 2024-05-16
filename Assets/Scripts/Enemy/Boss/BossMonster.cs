@@ -98,7 +98,6 @@ namespace LMS.Enemy
         {
             var nextAtk = GetAtkType();
 
-
             if (atkDelegate != null) cc.ExecuteCoroutine(atkDelegate(this, targetPos, AtkTime), "Attack");
             else Debug.Log($"{ObjectName}의 atkDelegate가 Null 입니다.");
 

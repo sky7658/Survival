@@ -7,12 +7,18 @@ namespace LMS.Enemy
 {
     public class Golem : BossMonster
     {
+        private bool defenseMode;
+        public override void EndAtk()
+        {
+            base.EndAtk();
+            defenseMode = false;
+        }
         public override bool IsChaseAble
         {
             get
             {
                 bool _flag = Mathf.Abs(TargetPos.y - transform.position.y) < 1f;
-                if (atkDelegate.Method.Name.Equals("Rush"))
+                if (atkDelegate.Method.Name.Equals("Rush") || atkDelegate.Method.Name.Equals("Laser"))
                     return !(_flag) || base.IsChaseAble;
                 return base.IsChaseAble;
             }
@@ -36,10 +42,7 @@ namespace LMS.Enemy
                     break;
                 }
                 else if (!TransformMode && newAtk.Method.Name.Equals("Punch")) break;
-                else if (TransformMode)
-                {
-                    break;
-                }
+                else if (TransformMode && (newAtk.Method.Name.Equals("Laser") || newAtk.Method.Name.Equals("Defense"))) break;
             }
             return newAtk;
         }
@@ -51,13 +54,25 @@ namespace LMS.Enemy
             {
                 if (atkDelegate.Method.Name.Equals("Rush")) newAnimName += "1";
                 else if (atkDelegate.Method.Name.Equals("Punch") || atkDelegate.Method.Name.Equals("MagicAttack")) newAnimName += "2";
+                else if (atkDelegate.Method.Name.Equals("Laser")) newAnimName += "3";
+                else if (atkDelegate.Method.Name.Equals("Defense"))
+                {
+                    defenseMode = true;
+                    newAnimName += "4";
+                }
             }
             base.SetAnimation(newAnimName);
+        }
+        public override void TakeDamage(float value, Vector2 vec = default)
+        {
+            if (defenseMode) value = 0f;
+            base.TakeDamage(value, vec);
         }
         public override void Initialized()
         {
             base.Initialized();
             atkTypes = new GolemAttackType();
+            Atk = 1f;
         }
         public override void ReturnMonster() => Utility.ObjectPool.Instance.ReturnObject(this, ObjectName);
     }

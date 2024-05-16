@@ -1,3 +1,4 @@
+using LMS.General;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -13,6 +14,7 @@ namespace LMS.Enemy
             float _elapsed = 0f;
             float _waitTime = AtkTime / 5f;
             float _rushTime = AtkTime / 5f;
+            bool _flag = false;
 
             yield return Utility.UtilFunctions.WaitForSeconds(_waitTime);
 
@@ -36,9 +38,16 @@ namespace LMS.Enemy
                     EndAtk();
                     yield break;
                 }
-
-                _elapsed += Time.deltaTime;
-                transform.position = Vector2.Lerp(targetPos, _originPos, _elapsed / _rushTime);
+                var hit = Physics2D.OverlapCircle(transform.position, 0.4f, LayerMask.GetMask(User.PlayerInfo.playerLayer));
+                if (hit != null)
+                {
+                    if (!_flag && hit.TryGetComponent<IDamageable>(out var _obj))
+                    {
+                        _obj.TakeDamage(Atk);
+                        _flag = true;
+                    }
+                }
+                transform.position = Vector2.Lerp(targetPos, _originPos, (_elapsed += Time.deltaTime) / _rushTime);
                 yield return null;
             }
             transform.position = _originPos;
