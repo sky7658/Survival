@@ -63,6 +63,11 @@ namespace LMS.Enemy
                 }
             }
         }
+        public virtual bool AttackOut()
+        {
+            if (Hp <= 0) return true;
+            return false;
+        }
 
         public virtual bool IsChaseAble
         {
@@ -88,7 +93,7 @@ namespace LMS.Enemy
         protected virtual void OnEnable()
         {
             InitSO();
-            isAtkCool = true;
+            isAtkCool = false;
             isAtk = false;
             SetCollider(true);
         }

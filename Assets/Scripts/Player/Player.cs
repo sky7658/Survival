@@ -10,7 +10,6 @@ namespace LMS.User
     {
         private PlayerStateMachine stateM;
         private WeaponController wController;
-        private Weapon w; // 테스트용
 
         public override void Dead()
         {
@@ -25,10 +24,8 @@ namespace LMS.User
             wController = new WeaponController(transform);
             stateM = new PlayerStateMachine(this);
 
-            w = new Bow(transform);
-
             //wController.AddWeapon(Base.WeaponInfo.wnameSO.Bow);
-            //wController.AddWeapon(Base.WeaponInfo.wnameSO.Ring);
+            wController.AddWeapon(Base.WeaponInfo.wnameSO.Ring);
             //wController.AddWeapon(Base.WeaponInfo.wnameSO.WizardBook);
         }
         protected override void InitCoroutine()
@@ -46,13 +43,10 @@ namespace LMS.User
         }
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.K))
             {
-                //wController.AllWeaponLevelUp();
-                var obj = ObjectPool.Instance.GetObject<Enemy.Pebble>("Pebble");
-                obj.transform.position = Vector2.zero;
+                wController.AllWeaponLevelUp();
             }
-            if (Input.GetMouseButtonDown(0)) w.Attack();
             stateM.UpdateState();
         }
     }

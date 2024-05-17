@@ -16,5 +16,5 @@ MonoBehaviour:
   atk: 1
   penetrationCnt: -1
   coolTime: 5
-  speed: 50
-  objectCount: 1
+  speed: 100
+  objectCount: 15

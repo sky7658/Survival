@@ -2,7 +2,6 @@ using LMS.Enemy.Boss;
 using LMS.General;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace LMS.Enemy
@@ -30,13 +29,12 @@ namespace LMS.Enemy
             delegateList.Add(Laser);
             delegateList.Add(Defense);
         }
-
+        private Vector2[] hitBoxPos = new Vector2[2] { new Vector2(-0.9f, -0.4f), new Vector2(0.9f, -0.4f) };
         private IEnumerator Rush(BossMonster obj, Vector2 targetPos, float atkTime)
         {
-            Vector2 _hitBoxPos = new Vector2(0.9f, -0.4f);
+            Vector2 _hitBoxPos = obj.GetFlipX ? hitBoxPos[0] : hitBoxPos[1];
             Vector2 _hitSize = new Vector2(4f, 2.7f);
-            Vector2 _originPos = obj.transform.position;
-            Vector2 _rushPos = new Vector2(targetPos.x - obj.transform.position.x, 0f).normalized * 5f;
+            Vector2 _rushArrow = new Vector2(targetPos.x - obj.transform.position.x, 0f).normalized * 5f;
             float _elapsed = 0f;
             float _atkTime = 0.2f;
             float _waitTIme = 0.6f;
@@ -44,7 +42,7 @@ namespace LMS.Enemy
 
             while (_elapsed < _waitTIme)
             {
-                if (obj.Hp <= 0f)
+                if (obj.AttackOut())
                 {
                     obj.EndAtk();
                     yield break;
@@ -53,11 +51,13 @@ namespace LMS.Enemy
                 yield return null;
             }
             _elapsed = 0f;
+            obj.Move(_rushArrow);
             while (_elapsed < _atkTime)
             {
-                if (obj.Hp <= 0f)
+                if (obj.AttackOut())
                 {
                     obj.EndAtk();
+                    obj.Move(Vector2.zero);
                     yield break;
                 }
                 var hit = Physics2D.OverlapBox((Vector2)obj.transform.position + _hitBoxPos, _hitSize, 0f, 
@@ -70,13 +70,14 @@ namespace LMS.Enemy
                         _flag = true;
                     }
                 }
-                obj.transform.position = Vector2.Lerp(_originPos, _originPos + _rushPos, (_elapsed += Time.deltaTime) / _atkTime);
+                _elapsed += Time.deltaTime;
                 yield return null;
             }
+            obj.Move(Vector2.zero);
             _elapsed = 0f;
             while (_elapsed < atkTime - _waitTIme - _atkTime)
             {
-                if (obj.Hp <= 0f)
+                if (obj.AttackOut())
                 {
                     obj.EndAtk();
                     yield break;
@@ -97,7 +98,7 @@ namespace LMS.Enemy
 
             while (_elapsed < _waitTime)
             {
-                if (obj.Hp <= 0f)
+                if (obj.AttackOut())
                 {
                     obj.EndAtk();
                     yield break;
@@ -108,7 +109,7 @@ namespace LMS.Enemy
             _elapsed = 0f;
             while (_elapsed < _atkTime)
             {
-                if (obj.Hp <= 0f)
+                if (obj.AttackOut())
                 {
                     obj.EndAtk();
                     yield break;
@@ -130,7 +131,7 @@ namespace LMS.Enemy
             _elapsed = 0f;
             while (_elapsed < atkTime - _waitTime - _atkTime)
             {
-                if (obj.Hp <= 0f)
+                if (obj.AttackOut())
                 {
                     obj.EndAtk();
                     yield break;
@@ -151,7 +152,7 @@ namespace LMS.Enemy
 
             while (_elapsed < _waitTime)
             {
-                if (obj.Hp <= 0f)
+                if (obj.AttackOut())
                 {
                     obj.EndAtk();
                     yield break;
@@ -162,7 +163,7 @@ namespace LMS.Enemy
             _elapsed = 0f;
             while (_elapsed < _atkTime)
             {
-                if (obj.Hp <= 0f)
+                if (obj.AttackOut())
                 {
                     obj.EndAtk();
                     yield break;
@@ -184,7 +185,7 @@ namespace LMS.Enemy
             _elapsed = 0f;
             while (_elapsed < atkTime - _waitTime - _atkTime)
             {
-                if (obj.Hp <= 0f)
+                if (obj.AttackOut())
                 {
                     obj.EndAtk();
                     yield break;
@@ -204,7 +205,7 @@ namespace LMS.Enemy
 
             while (_elapsed < _waitTime)
             {
-                if (obj.Hp <= 0f)
+                if (obj.AttackOut())
                 {
                     obj.EndAtk();
                     yield break;
@@ -218,7 +219,7 @@ namespace LMS.Enemy
             
             while (_elapsed < atkTime - _waitTime)
             {
-                if (obj.Hp <= 0f)
+                if (obj.AttackOut())
                 {
                     obj.EndAtk();
                     yield break;
@@ -235,7 +236,7 @@ namespace LMS.Enemy
             float _elapsed = 0f;
             while (_elapsed < atkTime)
             {
-                if (obj.Hp <= 0f)
+                if (obj.AttackOut())
                 {
                     obj.EndAtk();
                     yield break;

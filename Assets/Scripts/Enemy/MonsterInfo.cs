@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Numerics;
 using LMS.Manager;
 
 namespace LMS.Enemy
@@ -6,6 +7,8 @@ namespace LMS.Enemy
     public static class MonsterInfo
     {
         public static readonly MonsterNameSO mnameSO = ResourceManager.Instance.GetSO<MonsterNameSO>("MonsterNameSO");
+        public static readonly int commonMonsterTypeCount = 4;
+        public static readonly int bossMonsterTypeCount = 1;
 
         public static readonly string monsterTag = "Enemy";
         public static readonly string monsterLayer = "Enemy";

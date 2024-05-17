@@ -49,10 +49,6 @@ namespace LMS.Enemy
             EndAtk();
             yield break;
         }
-        private void OnDrawGizmos()
-        {
-            Gizmos.DrawWireSphere((Vector2)transform.position + GetColliderCenter(), 1f);
-        }
         public override void ReturnMonster() => Utility.ObjectPool.Instance.ReturnObject(this, ObjectName);
     }
 }

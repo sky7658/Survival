@@ -10,6 +10,11 @@ namespace LMS.Enemy
         private MonsterStateMachine stateM;
         protected override void Attack(Vector2 targetPos) => cc.ExecuteCoroutine(AttackMotion(targetPos), "Attack");
         protected abstract IEnumerator AttackMotion(Vector2 targetPos);
+        public override bool AttackOut()
+        {
+            if (IsHit || base.AttackOut()) return true;
+            return base.AttackOut();
+        }
 
         private bool hit;
         public bool IsHit { get { return hit; } }
@@ -27,8 +32,15 @@ namespace LMS.Enemy
                 Debug.Log($"{ObjectName} is not exist in MonsterNames");
                 yield break;
             }
-
             Move(vec);
+            //AddForce(vec, ForceMode2D.Impulse);
+            //float _elasped = 0f;
+            //while (_elasped < _knockBackTime)
+            //{
+            //    Move(vec * 3f);
+            //    _elasped += Time.deltaTime;
+            //    yield return null;
+            //}
             yield return UtilFunctions.WaitForSeconds(_knockBackTime);
             Move(Vector2.zero);
             hit = false;
@@ -79,5 +91,4 @@ namespace LMS.Enemy
             stateM.UpdateState();
         }
     }
-
 }

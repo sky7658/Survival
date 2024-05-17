@@ -10,47 +10,46 @@ namespace LMS.Enemy
     {
         protected override IEnumerator AttackMotion(Vector2 targetPos)
         {
-            Vector2 _originPos = transform.position;
             float _elapsed = 0f;
             float _waitTime = AtkTime / 5f;
             float _rushTime = AtkTime / 5f;
             bool _flag = false;
 
-            yield return Utility.UtilFunctions.WaitForSeconds(_waitTime);
-
-            while (_elapsed < _rushTime)
+            while (_elapsed < _waitTime)
             {
-                if (IsHit)
+                if (AttackOut())
                 {
                     EndAtk();
                     yield break;
                 }
 
                 _elapsed += Time.deltaTime;
-                transform.position = Vector2.Lerp(_originPos, targetPos, _elapsed / _rushTime);
                 yield return null;
             }
             _elapsed = 0f;
+            Move((TargetPos - (Vector2)transform.position).normalized * 3f);
             while (_elapsed < _rushTime)
             {
-                if (IsHit)
+                if (AttackOut())
                 {
                     EndAtk();
-                    yield break;
+                    break;
                 }
+
                 var hit = Physics2D.OverlapCircle(transform.position, 0.4f, LayerMask.GetMask(User.PlayerInfo.playerLayer));
                 if (hit != null)
                 {
-                    if (!_flag && hit.TryGetComponent<IDamageable>(out var _obj))
+                    if (!_flag && hit.TryGetComponent<IDamageable>(out var obj))
                     {
-                        _obj.TakeDamage(Atk);
+                        obj.TakeDamage(Atk);
                         _flag = true;
                     }
                 }
-                transform.position = Vector2.Lerp(targetPos, _originPos, (_elapsed += Time.deltaTime) / _rushTime);
+
+                _elapsed += Time.deltaTime;
                 yield return null;
             }
-            transform.position = _originPos;
+            Move(Vector2.zero);
             EndAtk();
             yield break;
         }

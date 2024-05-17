@@ -30,7 +30,7 @@ namespace LMS.User
             var rad = Mathf.Deg2Rad * deg;
             var y = circleR * Mathf.Cos(rad);
             var x = circleR * Mathf.Sin(rad);
-            transform.localPosition = pos + new Vector2(x, y);
+            transform.position = pos + new Vector2(x, y);
         }
         private void Release()
         {

@@ -43,6 +43,10 @@ namespace LMS.General
         {
             rb.velocity = vec * Speed;
         }
+        public void AddForce(Vector2 vec, ForceMode2D mode)
+        {
+            rb.AddForce(vec * Speed, mode);
+        }
         private SpriteRenderer spr;
         protected SpriteRenderer GetSpr { get { return spr; } }
         public void FlipX(bool set) => spr.flipX = set;

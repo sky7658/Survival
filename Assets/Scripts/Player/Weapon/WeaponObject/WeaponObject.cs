@@ -6,6 +6,7 @@ namespace LMS.User
 {
     public abstract class WeaponObject : MonoBehaviour
     {
+        Transform t;
         protected WeaponInfo wInfo;
         protected float keepTime;
         private string woName;
@@ -23,6 +24,7 @@ namespace LMS.User
                 Debug.Log($"{woName} is not exist in WeaponObjectNames");
                 keepTime = 0f;
             }
+            t = GameObject.Find("Player").GetComponent<Transform>(); // 없애주세용
         }
         public virtual void Initialized(WeaponInfo wInfo, Vector2 pos)
         {
@@ -41,7 +43,7 @@ namespace LMS.User
                 {
                     if (wInfo.penetrationCnt == 0) return;
                     --wInfo.penetrationCnt;
-                    var _knockBackV = collision.transform.position - transform.position;
+                    var _knockBackV = collision.transform.position - t.position; // 수정해주세용
                     enemy.TakeDamage(wInfo.atk, _knockBackV.normalized);
                 }
 
@@ -49,6 +51,7 @@ namespace LMS.User
                 if (wInfo.penetrationCnt == 0)
                 {
                     ReturnObject();
+                    return;
                 }
             }
             //if (collision.CompareTag("Out")) 

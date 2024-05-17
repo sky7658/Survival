@@ -34,7 +34,7 @@ namespace LMS.General
     
     public abstract class Weapon
     {
-        private bool wActive = true; // 기본 값 false
+        private bool wActive = false; // 기본 값 false
         public bool WeaponActive
         {
             get { return wActive; }
@@ -43,8 +43,8 @@ namespace LMS.General
                 if (wActive != value)
                 {
                     wActive = value;
-                    //if (wActive) cc.ExecuteCoroutine(AutoAttack(), "AutoAttack");
-                    //else cc.OffAllCoroutines();
+                    if (wActive) cc.ExecuteCoroutine(AutoAttack(), "AutoAttack");
+                    else cc.OffAllCoroutines();
                 }
             }
         }
@@ -109,7 +109,7 @@ namespace LMS.General
             cc.AddCoroutine("AutoAttack");
             cc.AddCoroutine("Attack");
         }
-        public void Attack() => cc.ExecuteCoroutine(Attack(pTrans), "Attack"); //실험용 삭제할거
+        //public void Attack() => cc.ExecuteCoroutine(Attack(pTrans), "Attack"); //실험용 삭제할거
         public abstract IEnumerator Attack(Transform pTrans);
         public virtual void LevelUp()
         {
