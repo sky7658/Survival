@@ -24,7 +24,7 @@ namespace LMS.User
                 Debug.Log($"{woName} is not exist in WeaponObjectNames");
                 keepTime = 0f;
             }
-            t = GameObject.Find("Player").GetComponent<Transform>(); // 绝局林技侩
+            t = GameObject.Find("Player").GetComponent<Transform>(); // 绝局林技侩x
         }
         public virtual void Initialized(WeaponInfo wInfo, Vector2 pos)
         {

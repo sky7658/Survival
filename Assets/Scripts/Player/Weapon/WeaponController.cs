@@ -10,7 +10,7 @@ namespace LMS.User
         private List<Weapon> weapons = new List<Weapon>();
         private Dictionary<string, Weapon> weaponCaches = new Dictionary<string, Weapon>();
 
-        public WeaponController(Transform pTrans) 
+        public WeaponController(Transform pTrans)
         {
             weaponCaches.Add(Base.WeaponInfo.wnameSO.Bow, new Bow(pTrans));
             weaponCaches.Add(Base.WeaponInfo.wnameSO.WizardBook, new WizardBook(pTrans));
@@ -19,10 +19,11 @@ namespace LMS.User
 
         public void AddWeapon(string wName)
         {
-            if(weaponCaches.TryGetValue(wName, out var weapon))
+            if (WeaponLevelUp(wName)) return;
+            if (weaponCaches.TryGetValue(wName, out var _weapon))
             {
-                weapons.Add(weapon);
-                weapon.WeaponActive = true;
+                weapons.Add(_weapon);
+                _weapon.WeaponActive = true;
                 return;
             }
             Debug.Log("존재하지 않은 Weapon 이름입니다.");
@@ -44,15 +45,26 @@ namespace LMS.User
 
         private Weapon GetWeapon(string wName)
         {
-            foreach (var weapon in weapons) 
+            foreach (var weapon in weapons)
             {
                 if (weapon.GetwName.Equals(wName)) return weapon;
             }
             Debug.Log("존재하지 않은 Weapon 이름입니다.");
             return null;
         }
-
-        public void WeaponLevelUp(string wName) => GetWeapon(wName).LevelUp();
+        public int GetWeaponLevel(string wName)
+        {
+            var _weapon = GetWeapon(wName);
+            if (_weapon == null) return -1;
+            return _weapon.GetWeaponLevel;
+        }
+        private bool WeaponLevelUp(string wName)
+        {
+            var _weapon = GetWeapon(wName);
+            if (_weapon == null) return false;
+            _weapon.LevelUp();
+            return true;
+        }
         public void AllWeaponLevelUp() => weapons.ForEach(weapon => weapon.LevelUp());
     }
 }

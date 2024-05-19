@@ -61,6 +61,7 @@ namespace LMS.General
         }
         protected WeaponInfo WInfo => wInfos.wInfo;
         private int weaponLevel;
+        public int GetWeaponLevel { get { return weaponLevel; } }
         protected int ObjectCount => wInfos.objectCount;
         protected float keepTime;
 

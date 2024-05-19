@@ -86,7 +86,7 @@ namespace LMS.General
             Hp -= (value - value / 100 * defense);
         }
         
-        public void Recovery(float value)
+        public virtual void Recovery(float value)
         {
             Hp += value;
         }

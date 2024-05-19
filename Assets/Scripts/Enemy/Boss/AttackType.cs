@@ -161,6 +161,7 @@ namespace LMS.Enemy
                 yield return null;
             }
             _elapsed = 0f;
+            Manager.PlayManager.Instance.ShakeCamera(_atkTime);
             while (_elapsed < _atkTime)
             {
                 if (obj.AttackOut())

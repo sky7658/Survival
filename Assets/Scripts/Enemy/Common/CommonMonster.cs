@@ -63,7 +63,6 @@ namespace LMS.Enemy
         public override void Initialized()
         {
             base.Initialized();
-
             stateM = new MonsterStateMachine(this);
 
             if (!MonsterInfo.monsterAtkRanges.TryGetValue(ObjectName, out var atkRange))
@@ -85,7 +84,6 @@ namespace LMS.Enemy
             base.InitCoroutine();
             cc.AddCoroutine("Hit");
         }
-
         void Update()
         {
             stateM.UpdateState();

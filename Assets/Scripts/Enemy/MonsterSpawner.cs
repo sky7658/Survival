@@ -11,7 +11,7 @@ namespace LMS.Enemy
         {
             get
             {
-                return 10;
+                return 1;
             }
         }
         public MonsterSpawner(Transform pTrans) { this.pTrans = pTrans; }
@@ -20,7 +20,7 @@ namespace LMS.Enemy
         public void Spawn()
         {
             int _allRatio = 10;
-            int[] _ratios = new int[/*MonsterInfo.commonMonsterTypeCount*/1];
+            int[] _ratios = new int[MonsterInfo.commonMonsterTypeCount];
 
             for (int _index = 0; _index < _ratios.Length - 1; _index++)
             {
@@ -29,12 +29,12 @@ namespace LMS.Enemy
                 _ratios[_index] = _ratio;
                 _allRatio -= _ratio;
 
-                CreateMonster(_ratio, _index + 1);
+                CreateCommonMonster(_ratio, _index + 1);
             }
-            CreateMonster(_allRatio * CountMultiply, _ratios.Length);
+            CreateCommonMonster(_allRatio * CountMultiply, _ratios.Length);
         }
 
-        private void CreateMonster(int count, int index)
+        private void CreateCommonMonster(int count, int index)
         {
             if (count == 0) return;
             for (int i = 0; i < count; i++)
@@ -43,12 +43,11 @@ namespace LMS.Enemy
                 var _x = Mathf.Cos(_deg) * _radius;
                 var _y = Mathf.Sin(_deg) * _radius;
 
-                CommonMonster _monster = GetMonster(index);
+                Monster _monster = GetMonster(index);
                 if (_monster != null) _monster.transform.position = (Vector2)pTrans.position + new Vector2(_x, _y);
             }
         }
-
-        private CommonMonster GetMonster(int index)
+        private Monster GetMonster(int index)
         {
             switch (index)
             {
@@ -60,6 +59,8 @@ namespace LMS.Enemy
                     return Utility.ObjectPool.Instance.GetObject<Pebble>(MonsterInfo.mnameSO.Pebble);
                 case 4:
                     return Utility.ObjectPool.Instance.GetObject<Slime>(MonsterInfo.mnameSO.Slime);
+                case 5:
+                    return Utility.ObjectPool.Instance.GetObject<Golem>(MonsterInfo.mnameSO.Golem);
             }
 
             return null;

@@ -16,16 +16,18 @@ namespace LMS.Utility
                 coroutines.Add(name, null);
             }
         }
-
         public void ExecuteCoroutine(in IEnumerator startCor, string name)
         {
-            if (coroutines.TryGetValue(name, out var coroutine)) coroutine = UtilCoroutine.ExecuteCoroutine(startCor, coroutine);
+            if (coroutines.TryGetValue(name, out var coroutine)) coroutines[name] = UtilCoroutine.ExecuteCoroutine(startCor, coroutine);
             else Debug.Log($"{name} is not exist in index of coroutines");
         }
-
         public void OffCoroutine(string name)
         {
-            if (coroutines.TryGetValue(name, out var corutine)) UtilCoroutine.OffCoroutine(ref corutine);
+            if (coroutines.TryGetValue(name, out var _coroutine))
+            {
+                UtilCoroutine.OffCoroutine(ref _coroutine);
+                coroutines[name] = _coroutine;
+            }
             else Debug.Log($"{name} is not exist in index of coroutines");
         }
 
@@ -39,7 +41,6 @@ namespace LMS.Utility
             if (endCor != null) OffCoroutine(ref endCor);
             return CoroutineManager.Instance.ExecuteCoroutine(startCor);
         }
-
         public static void OffCoroutine(ref Coroutine coroutine)
         {
             if (coroutine != null)
@@ -48,20 +49,20 @@ namespace LMS.Utility
                 coroutine = null;
             }
         }
-
         public static void OffAllCoroutines(ref List<Coroutine> coroutines)
         {
             coroutines.ForEach(coroutine => OffCoroutine(ref coroutine));
         }
-
         public static void OffAllCoroutines(ref Dictionary<string, Coroutine> coroutines)
         {
             if (coroutines == null || coroutines.Count == 0) return;
-            foreach (var keyname in coroutines.Keys)
+            List<string> strings = new List<string>(coroutines.Keys);
+            foreach (var keyname in strings)
             {
-                if (coroutines.TryGetValue(keyname, out var coroutine))
+                if (coroutines.TryGetValue(keyname, out var _coroutine))
                 {
-                    OffCoroutine(ref coroutine);
+                    OffCoroutine(ref _coroutine);
+                    coroutines[keyname] = _coroutine;
                 }
             }
         }
