@@ -22,14 +22,12 @@ namespace LMS.User
         public override void TakeDamage(float value, Vector2 vec = default)
         {
             base.TakeDamage(value, vec);
-            hpBar.UpdateGaugeBar(-value);
+            hpBar.UpdateGaugeBar(Hp);
         }
         public override void Recovery(float value)
         {
-            float _value = value;
-            if (Hp + value > MaxHp) _value = Hp + value - MaxHp;
             base.Recovery(value);
-            hpBar.UpdateGaugeBar(_value);
+            hpBar.UpdateGaugeBar(Hp);
         }
         public void Initialized(string startWeapon)
         {
@@ -39,8 +37,6 @@ namespace LMS.User
             stateM = new PlayerStateMachine(this);
 
             LevelUp(startWeapon);
-            //wController.AddWeapon(Base.WeaponInfo.wnameSO.Ring);
-            //wController.AddWeapon(Base.WeaponInfo.wnameSO.WizardBook);
         }
         protected override void InitCoroutine()
         {

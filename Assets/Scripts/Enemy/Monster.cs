@@ -11,7 +11,7 @@ namespace LMS.Enemy
         [SerializeField] private Transform targetTrans;
         protected Vector2 TargetPos { get { return targetTrans.position; } }
 
-        private float atk;
+        [SerializeField] private float atk;
         public float Atk 
         { 
             get 
@@ -86,10 +86,6 @@ namespace LMS.Enemy
         }
 
         public abstract void ReturnMonster();
-        public override void Dead()
-        {
-            base.Dead();
-        }
         protected virtual void OnEnable()
         {
             InitSO();
@@ -97,7 +93,6 @@ namespace LMS.Enemy
             isAtk = false;
             SetCollider(true);
         }
-
         public override void Initialized()
         {
             base.Initialized();

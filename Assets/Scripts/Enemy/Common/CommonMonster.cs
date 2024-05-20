@@ -33,14 +33,6 @@ namespace LMS.Enemy
                 yield break;
             }
             Move(vec);
-            //AddForce(vec, ForceMode2D.Impulse);
-            //float _elasped = 0f;
-            //while (_elasped < _knockBackTime)
-            //{
-            //    Move(vec * 3f);
-            //    _elasped += Time.deltaTime;
-            //    yield return null;
-            //}
             yield return UtilFunctions.WaitForSeconds(_knockBackTime);
             Move(Vector2.zero);
             hit = false;
@@ -53,13 +45,20 @@ namespace LMS.Enemy
             knockBackV = vec;
             base.TakeDamage(value, vec);
         }
+        public override void Dead()
+        {
+            var _item = ObjectPool.Instance.GetObject<ItemObject.ExpBall>(ItemObject.ItemInfo.expBallName);
+            _item.transform.position = transform.position;
+            // 여기 코드 좀 이쁘게 정리해볼게요 죽을 때 아이템 생성하는거임
+
+            base.Dead();
+        }
         protected override void OnEnable()
         {
             stateM.Initailized();
             hit = false;
             base.OnEnable();
         }
-
         public override void Initialized()
         {
             base.Initialized();

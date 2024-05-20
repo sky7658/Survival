@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using LMS.Utility;
+using TMPro;
 
 namespace LMS.Manager
 {
@@ -9,6 +10,7 @@ namespace LMS.Manager
     {
         private ScriptableObject[] scriptableObjects = Resources.LoadAll<ScriptableObject>("Scriptable Object");
         private GameObject[] prefabs = Resources.LoadAll<GameObject>("Prefabs");
+        private Sprite[] sprites = Resources.LoadAll<Sprite>("Images/Weapon");
 
         public T GetSO<T>(string soName) where T : ScriptableObject
         {
@@ -17,7 +19,7 @@ namespace LMS.Manager
                 if (so.name.Equals(soName))
                     return (T)so;
             }
-            Debug.Log(soName + " is Not exist to ScriptableObject");
+            Debug.Log($"{soName} is Not exist in ScriptableObjects");
             return null;
         }
 
@@ -28,7 +30,18 @@ namespace LMS.Manager
                 if (obj.name.Equals(objName))
                     return obj.GetComponent<T>();
             }
+            Debug.Log($"{objName} is not exist in Prefabs");
+            return null;
+        }
 
+        public Sprite GetSprite(string sprName)
+        {
+            foreach (var obj in sprites)
+            {
+                if (obj.name.Equals(sprName))
+                    return obj;
+            }
+            Debug.Log($"{sprName} is not exist in Sprites");
             return null;
         }
     }

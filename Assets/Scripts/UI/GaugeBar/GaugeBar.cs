@@ -6,32 +6,16 @@ using UnityEngine.UI;
 
 namespace LMS.UI
 {
-    public class GaugeBar : MonoBehaviour
+    public abstract class GaugeBar : MonoBehaviour
     {
         private Image frontBar;
+        protected Image GetfrontBar { get { return frontBar; } }
         private Image backBar;
+        protected Image GetbackBar { get { return backBar; } }
 
-        [SerializeField] private float maxGaugeValue;
-        [SerializeField] private float gaugeValue;
-        protected float GaugeValue
-        {
-            get { return gaugeValue; }
-            set
-            {
-                float _value = value;
-                if (set)
-                {
-                    if (value >= maxGaugeValue)
-                    {
-                        frontBar.fillAmount = 0f;
-                        backBar.fillAmount = 0f;
-                        _value = value - maxGaugeValue;
-                    }
-                }
-                gaugeValue = Mathf.Clamp(_value, 0, maxGaugeValue);
-            }
-        }
-        private bool set;
+        [SerializeField] protected float maxGaugeValue;
+        [SerializeField] protected float gaugeValue;
+        
         private Utility.CoroutineController cc;
 
         private void Awake()
@@ -39,43 +23,22 @@ namespace LMS.UI
             backBar = transform.GetChild(0).GetComponent<Image>();
             frontBar = transform.GetChild(1).GetComponent<Image>();
         }
-        public void Initialized(float maxValue, bool set = false)
+        public virtual void Initialized(float maxValue)
         {
             cc = new Utility.CoroutineController();
-
             maxGaugeValue = maxValue;
-            if (set) GaugeValue = 0f;
-            else GaugeValue = maxValue;
-            this.set = set;
-
             cc.AddCoroutine("UpdateGaugeBar");
         }
         public void SetMaxGaugeValue(float value)
         {
             maxGaugeValue = value;
         }
-        public virtual void UpdateGaugeBar(float value)
+        public abstract void UpdateGaugeBar(float value);
+        protected void UpdateGaugeBar(Image first, Image second)
         {
-            GaugeValue += value;
-
-            Image _first;
-            Image _second;
-
-            if (value > 0)
-            {
-                _first = backBar;
-                _second = frontBar;
-            }
-            else
-            {
-                _first = frontBar;
-                _second = backBar;
-            }
-
-            _first.fillAmount = GaugeValue / maxGaugeValue;
-            cc.ExecuteCoroutine(GaugeUpdate(_first, _second), "UpdateGaugeBar");
+            first.fillAmount = gaugeValue / maxGaugeValue;
+            cc.ExecuteCoroutine(GaugeUpdate(first, second), "UpdateGaugeBar");
         }
-
         private IEnumerator GaugeUpdate(Image first, Image second)
         {
             float _orginValue = second.fillAmount;

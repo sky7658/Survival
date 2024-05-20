@@ -1,10 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using LMS.Utility;
 using LMS.Enemy;
 using LMS.User;
 using LMS.UI;
+using LMS.ItemObject;
 
 namespace LMS.Manager
 {
@@ -12,9 +11,9 @@ namespace LMS.Manager
     {
         [SerializeField] private GaugeBar expBar;
         [SerializeField] private Player player;
-        private int playerLevel;
-        private float maxExp;
-        private float exp;
+        [SerializeField] private int playerLevel;
+        [SerializeField] private float maxExp;
+        [SerializeField] private float exp;
         private float Exp
         {
             get { return exp; }
@@ -22,8 +21,8 @@ namespace LMS.Manager
             {
                 if (value >= maxExp)
                 {
-                    LevelUp();
                     exp = value - maxExp;
+                    LevelUp();
                 }
                 else exp = value;
             }
@@ -33,8 +32,9 @@ namespace LMS.Manager
         [SerializeField] private CameraController mCamera;
 
         private MonsterSpawner monsterSpawner;
-        
-        private float elapsedTime
+
+        private float elapsedTime;
+        private float ElapsedTime
         {
             get { return elapsedTime += Time.deltaTime; }
             set { elapsedTime = value; }
@@ -47,14 +47,15 @@ namespace LMS.Manager
         #region 게임 플레이 셋팅
         private void InitGameSetting()
         {
+            monsterSpawner = new MonsterSpawner(player.transform);
+
             playerLevel = 1;
-            elapsedTime = 0;
+            ElapsedTime = 0;
             player.Initialized(Base.WeaponInfo.wnameSO.Bow);
 
             exp = 0f;
             maxExp = 100f;
-            expBar.Initialized(maxExp, true);
-
+            expBar.Initialized(maxExp);
             // 몬스터스포너 작동
             // 또 뭐가 필요할까?
         }
@@ -64,13 +65,14 @@ namespace LMS.Manager
         private void LevelUp()
         {
             ++playerLevel;
-            expBar.SetMaxGaugeValue(maxExp);
+            expBar.SetMaxGaugeValue(maxExp += maxExp * 0.5f);
             // 두 가지 선택지 제공
             // 레벨업을 통한 무기 추가 or 무기 업그레이드
         }
         public void UpdateExp(float value)
         {
-            expBar.UpdateGaugeBar(value);
+            Exp += value;
+            expBar.UpdateGaugeBar(Exp);
         }
         #endregion
 
@@ -95,10 +97,17 @@ namespace LMS.Manager
         private void Start()
         {
             monsterSpawner = new MonsterSpawner(player.transform);
+
+            exp = 0f;
+            maxExp = 100f;
+            expBar.Initialized(maxExp);
+
+            playerLevel = 1;
+            ElapsedTime = 0;
         }
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Space)) monsterSpawner.Spawn();
+            if (Input.GetKeyDown(KeyCode.Space)) ObjectPool.Instance.GetObject<ExpBall>("ExpBall").transform.position = Vector2.zero;//monsterSpawner.Spawn();
             MapSet();
         }
     }
