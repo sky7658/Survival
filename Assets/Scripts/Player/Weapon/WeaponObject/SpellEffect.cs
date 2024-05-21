@@ -7,7 +7,7 @@ namespace LMS.User
 {
     public class SpellEffect : MonoBehaviour
     {
-        private static Vector2 range = new Vector2(18, 10);
+        private static Vector2 range = new Vector2(15, 8);
         public void Initialized(WeaponInfo wInfo, Vector2 pos, int objCnt)
         {
             transform.position = pos;

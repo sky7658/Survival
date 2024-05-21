@@ -39,13 +39,10 @@ namespace LMS.General
         }
 
         private Rigidbody2D rb;
+        public void SetBodyType(RigidbodyType2D type) => rb.bodyType = type;
         public void Move(Vector2 vec)
         {
             rb.velocity = vec * Speed;
-        }
-        public void AddForce(Vector2 vec, ForceMode2D mode)
-        {
-            rb.AddForce(vec * Speed, mode);
         }
         private SpriteRenderer spr;
         protected SpriteRenderer GetSpr { get { return spr; } }
@@ -77,20 +74,18 @@ namespace LMS.General
         {
             InitSO();
             InitCoroutine();
+            rb.collisionDetectionMode = CollisionDetectionMode2D.Discrete;
         }
-
         public virtual void TakeDamage(float value, Vector2 vec = default)
         {
             if (value > 0)
                 cc.ExecuteCoroutine(SRUtilFunction.KeepSpriteColorTime(spr, EntityInfo.originColor, EntityInfo.hitColor, EntityInfo.keepHitTime), "HitColor");
             Hp -= (value - value / 100 * defense);
         }
-        
         public virtual void Recovery(float value)
         {
             Hp += value;
         }
-
         protected CoroutineController cc = new CoroutineController();
         protected virtual void InitCoroutine()
         {

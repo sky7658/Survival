@@ -47,6 +47,7 @@ namespace LMS.State
         private IState<T> CheckTransState()
         {
             IState<T> _state = null;
+
             if (curState.Dead(obj)) if (statecache.TryGetValue("Dead", out _state)) return _state;
             if (curState.Hit(obj)) if (statecache.TryGetValue("Hit", out _state)) return _state;
             if (curState.Attack(obj)) if (statecache.TryGetValue("Attack", out _state)) return _state;

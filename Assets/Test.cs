@@ -10,6 +10,7 @@ public class Test : MonoBehaviour
     Rigidbody2D rig;
     private void Awake()
     {
+        //Physics2D.IgnoreCollision(etComponent<Collider2D>(), GetComponentInChildren<Collider2D>());
         rig = GetComponent<Rigidbody2D>();
         rig.velocity = new Vector2(x, 0f);
     }
@@ -20,7 +21,5 @@ public class Test : MonoBehaviour
         //    multi += 1f;
         //    rig.velocity = new Vector2(x, 0f) * multi;
         //}
-
-        Debug.Log(name + rig.velocity);
     }
 }

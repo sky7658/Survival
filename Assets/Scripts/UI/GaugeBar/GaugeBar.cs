@@ -47,7 +47,7 @@ namespace LMS.UI
 
             while (_elapsed < _fillTime)
             {
-                second.fillAmount = Mathf.Lerp(_orginValue, first.fillAmount, (_elapsed += Time.deltaTime) / _fillTime);
+                second.fillAmount = Mathf.Lerp(_orginValue, first.fillAmount, (_elapsed += Time.unscaledDeltaTime) / _fillTime);
                 yield return null;
             }
             second.fillAmount = first.fillAmount;

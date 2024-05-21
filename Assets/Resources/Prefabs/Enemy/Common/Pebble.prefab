@@ -189,6 +189,7 @@ MonoBehaviour:
   speed: 0
   defense: 0
   targetTrans: {fileID: 0}
+  atk: 0
 --- !u!1 &8399846829107895201
 GameObject:
   m_ObjectHideFlags: 0

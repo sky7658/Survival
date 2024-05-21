@@ -13,6 +13,7 @@ namespace LMS.Enemy.Common
 
         public void Enter(CommonMonster obj)
         {
+            obj.SetBodyType(RigidbodyType2D.Dynamic);
             obj.SetAnimation(MonsterInfo.commonMoveAnimName, true);
         }
         public void Action(CommonMonster obj)
@@ -21,6 +22,7 @@ namespace LMS.Enemy.Common
         }
         public void Exit(CommonMonster obj)
         {
+            obj.SetBodyType(RigidbodyType2D.Kinematic);
             obj.Move(Vector2.zero);
         }
     }

@@ -1,3 +1,4 @@
+using LMS.Manager;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,33 +8,44 @@ namespace LMS.Enemy
     public class MonsterSpawner
     {
         private Transform pTrans;
-        private int CountMultiply
+        private Coroutine coroutine;
+        private int maxCommonMonsterCount = 100;
+        public MonsterSpawner(Transform pTrans) 
         {
-            get
-            {
-                return 1;
-            }
-        }
-        public MonsterSpawner(Transform pTrans) { this.pTrans = pTrans; }
-
-        private float _radius = 5f;
-        public void Spawn()
-        {
-            int _allRatio = 10;
-            int[] _ratios = new int[MonsterInfo.commonMonsterTypeCount];
-
-            for (int _index = 0; _index < _ratios.Length - 1; _index++)
-            {
-                var _ratio = Random.Range(0, _allRatio + 1);
-
-                _ratios[_index] = _ratio;
-                _allRatio -= _ratio;
-
-                CreateCommonMonster(_ratio, _index + 1);
-            }
-            CreateCommonMonster(_allRatio * CountMultiply, _ratios.Length);
+            this.pTrans = pTrans;
+            //coroutine = CoroutineManager.Instance.ExecuteCoroutine(AutoSpawn());
         }
 
+        private IEnumerator AutoSpawn()
+        {
+            int _count = 0;
+            int _mounsterCount = (int)(maxCommonMonsterCount * 0.1f);
+            while (true)
+            {
+                if (++_count > 10)
+                {
+                    _count = 1;
+                    maxCommonMonsterCount += (int)(maxCommonMonsterCount * 0.5f);
+                    _mounsterCount = (int)(maxCommonMonsterCount * 0.1f);
+                }
+                int _mCount = maxCommonMonsterCount - CommonMonster.aliveMonsterCount;
+                _mounsterCount =  _mCount > _mounsterCount ? _mounsterCount : _mCount;
+                Spawn(_mounsterCount);
+                yield return Utility.UtilFunctions.WaitForSeconds(3f);
+            }
+        }
+        private float _radius = 10f;
+        public void Spawn(int count)
+        {
+            //for (int _index = 0; _index < MonsterInfo.commonMonsterTypeCount; _index++)
+            //{
+            //    var _count = Random.Range(0, count + 1);
+
+            //    count -= _count;
+            //    CreateCommonMonster(_count, _index);
+            //}
+            CreateCommonMonster(count, /*MonsterInfo.commonMonsterTypeCount - 1*/0);
+        }
         private void CreateCommonMonster(int count, int index)
         {
             if (count == 0) return;
@@ -51,18 +63,17 @@ namespace LMS.Enemy
         {
             switch (index)
             {
-                case 1:
+                case 0:
                     return Utility.ObjectPool.Instance.GetObject<Bat>(MonsterInfo.mnameSO.Bat);
-                case 2:
+                case 1:
                     return Utility.ObjectPool.Instance.GetObject<Crab>(MonsterInfo.mnameSO.Crab);
-                case 3:
+                case 2:
                     return Utility.ObjectPool.Instance.GetObject<Pebble>(MonsterInfo.mnameSO.Pebble);
-                case 4:
+                case 3:
                     return Utility.ObjectPool.Instance.GetObject<Slime>(MonsterInfo.mnameSO.Slime);
-                case 5:
+                case 4:
                     return Utility.ObjectPool.Instance.GetObject<Golem>(MonsterInfo.mnameSO.Golem);
             }
-
             return null;
         }
     }

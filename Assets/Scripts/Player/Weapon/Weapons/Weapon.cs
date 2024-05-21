@@ -31,9 +31,16 @@ namespace LMS.General
             return a;
         }
     }
-    
     public abstract class Weapon
     {
+        private CoroutineController cc;
+        private readonly Transform pTrans;
+        private WeaponInfos wInfos;
+        protected WeaponInfo WInfo => wInfos.wInfo;
+        public string GetwName => wInfos.wInfo.wName;
+        protected int ObjectCount => wInfos.objectCount;
+        protected float keepTime;
+
         private bool wActive = false; // 기본 값 false
         public bool WeaponActive
         {
@@ -49,33 +56,36 @@ namespace LMS.General
             }
         }
 
-        private CoroutineController cc;
-        private readonly Transform pTrans;
-        private WeaponInfos wInfos;
-        public string GetwName => wInfos.wInfo.wName;
-
         public float Atk
         {
             get { return wInfos.wInfo.atk; }
             set { wInfos.wInfo.atk = value; }
         }
-        protected WeaponInfo WInfo => wInfos.wInfo;
+        public abstract IEnumerator Attack(Transform pTrans);
+
+        private IEnumerator AutoAttack()
+        {
+            while (true)
+            {
+                if (!WeaponActive) yield break;
+                cc.ExecuteCoroutine(Attack(pTrans), "Attack");
+                yield return UtilFunctions.WaitForSeconds(wInfos.coolTime + keepTime);
+            }
+        }
+
         private int weaponLevel;
         public int GetWeaponLevel { get { return weaponLevel; } }
-        protected int ObjectCount => wInfos.objectCount;
-        protected float keepTime;
-
-        private Sprite spr;
-        private void SetSprite(Sprite sprite)
+        public virtual void LevelUp()
         {
-            if(sprite == null)
+            if (weaponLevel == Base.WeaponInfo.MaxLevel || weaponLevel < 1) return;
+            if (!Base.WeaponInfo.wlevelInfo.TryGetValue(GetwName, out var _info))
             {
-                Debug.Log("Sprite Null Exception");
+                Debug.Log($"{GetwName} is not exist in WeaponNames");
                 return;
             }
-            spr = sprite;
+            wInfos += _info[++weaponLevel];
         }
-        public Sprite GetSprite() => spr;
+
         public Weapon(Transform pTrans, WeaponSO wso)
         {
             if (wso == null) return;
@@ -111,25 +121,5 @@ namespace LMS.General
             cc.AddCoroutine("Attack");
         }
         //public void Attack() => cc.ExecuteCoroutine(Attack(pTrans), "Attack"); //실험용 삭제할거
-        public abstract IEnumerator Attack(Transform pTrans);
-        public virtual void LevelUp()
-        {
-            if (weaponLevel == Base.WeaponInfo.MaxLevel || weaponLevel < 1) return;
-            if (!Base.WeaponInfo.wlevelInfo.TryGetValue(GetwName, out var _info))
-            {
-                Debug.Log($"{GetwName} is not exist in WeaponNames");
-                return;
-            }
-            wInfos += _info[++weaponLevel];
-        }
-        private IEnumerator AutoAttack()
-        {
-            while (true)
-            {
-                if (!WeaponActive) yield break;
-                cc.ExecuteCoroutine(Attack(pTrans), "Attack");
-                yield return UtilFunctions.WaitForSeconds(wInfos.coolTime + keepTime);
-            }
-        }
     }
 }

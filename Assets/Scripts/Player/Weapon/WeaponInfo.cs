@@ -13,6 +13,13 @@ namespace LMS.Base
 
         public static readonly WeaponNameSO wnameSO = ResourceManager.Instance.GetSO<WeaponNameSO>("WeaponNameSO");
 
+        public static readonly Dictionary<string, string> WeaponDescriptions = new Dictionary<string, string>()
+        {
+            { wnameSO.Bow, "바라보는 방향을 향해 투사체를 발사합니다." },
+            { wnameSO.WizardBook, "일정 범위 내에 있는 적에게 검을 떨어트려 피해를 줍니다." },
+            { wnameSO.Ring, "주변을 맴도는 오브젝트를 생성합니다." }
+        };
+
         public static readonly string spellEffectName = "SpellEffect";
 
         public static readonly Dictionary<string, string> wonames = new Dictionary<string, string>()

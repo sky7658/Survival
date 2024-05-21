@@ -73,7 +73,6 @@ namespace LMS.Enemy
         {
             get
             {
-                bool _flag = Vector2.Distance(TargetPos, transform.position) > AtkRange;
                 if (AtkRange < 0) return false;
                 return Vector2.Distance(TargetPos, transform.position) > AtkRange;
             }
@@ -117,7 +116,7 @@ namespace LMS.Enemy
             targetTrans = GameObject.Find("Player").GetComponent<Transform>(); // 이거 수정해야함
             target = targetTrans.GetComponent<IDamageable>();
         }
-        private void Awake()
+        protected void Awake()
         {
             InitComponent();
             Initialized();

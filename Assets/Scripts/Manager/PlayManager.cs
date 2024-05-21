@@ -9,8 +9,20 @@ namespace LMS.Manager
 {
     public class PlayManager : MonoSingleton<PlayManager>
     {
+        #region 카메라 기능
+        [SerializeField] private CameraController mCamera;
+        public void ShakeCamera(float durateTime) => mCamera.ShakeCamera(durateTime);
+        #endregion
+
+        #region 인 게임 필요 변수 및 메소드, 맵 관련 메소드
+        [SerializeField] private GameObject rewardsButton;
         [SerializeField] private GaugeBar expBar;
+
+        private MonsterSpawner monsterSpawner;
+
         [SerializeField] private Player player;
+        private WeaponController wController;
+        public Vector2 GetPlayerPos { get { return player.transform.position; } }
         [SerializeField] private int playerLevel;
         [SerializeField] private float maxExp;
         [SerializeField] private float exp;
@@ -27,56 +39,29 @@ namespace LMS.Manager
                 else exp = value;
             }
         }
-
-        public Vector2 GetPlayerPos { get { return player.transform.position; } }
-        [SerializeField] private CameraController mCamera;
-
-        private MonsterSpawner monsterSpawner;
-
         private float elapsedTime;
-        private float ElapsedTime
+        public float ElapsedTime
         {
-            get { return elapsedTime += Time.deltaTime; }
+            get { return elapsedTime; }
             set { elapsedTime = value; }
         }
 
-        #region 카메라 기능
-        public void ShakeCamera(float durateTime) => mCamera.ShakeCamera(durateTime);
-        #endregion
-
-        #region 게임 플레이 셋팅
         private void InitGameSetting()
         {
             monsterSpawner = new MonsterSpawner(player.transform);
+            wController = new WeaponController(player.transform);
 
             playerLevel = 1;
             ElapsedTime = 0;
-            player.Initialized(Base.WeaponInfo.wnameSO.Bow);
+            player.Initialized();
+            rewardsButton.SetActive(true);
 
             exp = 0f;
-            maxExp = 100f;
+            maxExp = 10000000f;
             expBar.Initialized(maxExp);
             // 몬스터스포너 작동
             // 또 뭐가 필요할까?
         }
-        #endregion
-
-        #region 플레이어와 상호작용
-        private void LevelUp()
-        {
-            ++playerLevel;
-            expBar.SetMaxGaugeValue(maxExp += maxExp * 0.5f);
-            // 두 가지 선택지 제공
-            // 레벨업을 통한 무기 추가 or 무기 업그레이드
-        }
-        public void UpdateExp(float value)
-        {
-            Exp += value;
-            expBar.UpdateGaugeBar(Exp);
-        }
-        #endregion
-
-
         private void MapSet()
         {
             Vector2 _pos = transform.position;
@@ -90,24 +75,41 @@ namespace LMS.Manager
 
             transform.position = _pos;
         }
+        #endregion
+
+        #region 외부 상호작용 메소드
+        public void WeaponLevelUp(string wName) => wController.AddWeapon(wName);
+        public int GetWeaponLevel(string wName) => wController.GetWeaponLevel(wName);
+        private void LevelUp()
+        {
+            ++playerLevel;
+            expBar.SetMaxGaugeValue(maxExp += maxExp * 0.5f);
+            rewardsButton.SetActive(true);
+            // 두 가지 선택지 제공
+            // 레벨업을 통한 무기 추가 or 무기 업그레이드
+        }
+        public void UpdateExp(float value)
+        {
+            Exp += value;
+            expBar.UpdateGaugeBar(Exp);
+        }
+        #endregion
+
+        
         protected override void Awake()
         {
-            
         }
         private void Start()
         {
-            monsterSpawner = new MonsterSpawner(player.transform);
-
-            exp = 0f;
-            maxExp = 100f;
-            expBar.Initialized(maxExp);
-
-            playerLevel = 1;
-            ElapsedTime = 0;
+            InitGameSetting();
         }
+        [SerializeField] private UnityEngine.UI.Text text;
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Space)) ObjectPool.Instance.GetObject<ExpBall>("ExpBall").transform.position = Vector2.zero;//monsterSpawner.Spawn();
+            text.text = $"몬스터 갯수 : {CommonMonster.aliveMonsterCount}\nTIme Scale : {Time.timeScale}";
+            if (Input.GetKeyDown(KeyCode.Space)) monsterSpawner.Spawn(100);
+            if (Input.GetKeyDown(KeyCode.J)) Time.timeScale += 0.1f;
+            if (Input.GetKeyDown(KeyCode.H)) Time.timeScale -= 0.1f;
             MapSet();
         }
     }

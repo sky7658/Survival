@@ -7,6 +7,7 @@ namespace LMS.Enemy
 {
     public abstract class CommonMonster : Monster
     {
+        public static int aliveMonsterCount = 0;
         private MonsterStateMachine stateM;
         protected override void Attack(Vector2 targetPos) => cc.ExecuteCoroutine(AttackMotion(targetPos), "Attack");
         protected abstract IEnumerator AttackMotion(Vector2 targetPos);
@@ -32,9 +33,11 @@ namespace LMS.Enemy
                 Debug.Log($"{ObjectName} is not exist in MonsterNames");
                 yield break;
             }
+            //SetBodyType(RigidbodyType2D.Kinematic);
             Move(vec);
             yield return UtilFunctions.WaitForSeconds(_knockBackTime);
             Move(Vector2.zero);
+            //SetBodyType(RigidbodyType2D.Dynamic);
             hit = false;
             yield break;
         }
@@ -55,13 +58,19 @@ namespace LMS.Enemy
         }
         protected override void OnEnable()
         {
+            aliveMonsterCount++;
             stateM.Initailized();
             hit = false;
             base.OnEnable();
         }
+        private void OnDisable()
+        {
+            aliveMonsterCount--;
+        }
         public override void Initialized()
         {
             base.Initialized();
+
             stateM = new MonsterStateMachine(this);
 
             if (!MonsterInfo.monsterAtkRanges.TryGetValue(ObjectName, out var atkRange))

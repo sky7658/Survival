@@ -10,10 +10,7 @@ namespace LMS.User
     public class Player : Entity
     {
         private PlayerStateMachine stateM;
-        private WeaponController wController;
         [SerializeField] private GaugeBar hpBar;
-
-        public void LevelUp(string wName) => wController.AddWeapon(wName);
         public override void Dead()
         {
             base.Dead();
@@ -29,34 +26,22 @@ namespace LMS.User
             base.Recovery(value);
             hpBar.UpdateGaugeBar(Hp);
         }
-        public void Initialized(string startWeapon)
+        public override void Initialized()
         {
-            Initialized();
+            base.Initialized();
             hpBar.Initialized(MaxHp);
-            wController = new WeaponController(transform);
             stateM = new PlayerStateMachine(this);
-
-            LevelUp(startWeapon);
         }
         protected override void InitCoroutine()
         {
             base.InitCoroutine(); // 별 다른 내용 추가할거 없으면 삭제할겁니다.
         }
-        private void Start()
-        {
-            Initialized("Bow"); // 삭제할겁니다
-        }
-        private void Awake() // 얘도요 ㅎㅎ
+        private void Awake()
         {
             InitComponent();
         }
-        public void UpdateState() => stateM.UpdateState();
-        private void Update() // 요것두?~~~ 삭제
+        private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.K))
-            {
-                wController.AllWeaponLevelUp();
-            }
             stateM.UpdateState();
         }
     }

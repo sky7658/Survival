@@ -188,3 +188,4 @@ MonoBehaviour:
   speed: 0
   defense: 0
   targetTrans: {fileID: 0}
+  atk: 0
