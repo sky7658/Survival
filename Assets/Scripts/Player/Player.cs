@@ -42,6 +42,10 @@ namespace LMS.User
         }
         private void Update()
         {
+            stateM.ChangeState();
+        }
+        private void FixedUpdate()
+        {
             stateM.UpdateState();
         }
     }

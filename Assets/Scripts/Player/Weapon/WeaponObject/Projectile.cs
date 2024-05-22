@@ -8,7 +8,7 @@ namespace LMS.User
     public abstract class Projectile : WeaponObject
     {
         private Rigidbody2D rig;
-        protected void SetVelocity(Vector2 dir) => rig.velocity = dir * wInfo.speed;
+        protected void SetVelocity(Vector2 dir) => rig.velocity = dir * wInfo.speed * Time.fixedDeltaTime;
         private Collider2D col;
         public override void Initialized(General.WeaponInfo wInfo, Vector2 pos)
         {

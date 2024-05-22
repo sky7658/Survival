@@ -42,7 +42,7 @@ namespace LMS.General
         public void SetBodyType(RigidbodyType2D type) => rb.bodyType = type;
         public void Move(Vector2 vec)
         {
-            rb.velocity = vec * Speed;
+            rb.velocity = vec * Speed * Time.fixedDeltaTime;
         }
         private SpriteRenderer spr;
         protected SpriteRenderer GetSpr { get { return spr; } }

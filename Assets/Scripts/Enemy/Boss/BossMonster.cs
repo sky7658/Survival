@@ -133,8 +133,11 @@ namespace LMS.Enemy
             Hp = MaxHp;
             Atk *= 1.5f;
         }
-
         void Update()
+        {
+            stateM.ChangeState();
+        }
+        private void FixedUpdate()
         {
             stateM.UpdateState();
         }

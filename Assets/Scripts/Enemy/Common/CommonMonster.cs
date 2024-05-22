@@ -94,6 +94,10 @@ namespace LMS.Enemy
         }
         void Update()
         {
+            stateM.ChangeState();
+        }
+        private void FixedUpdate()
+        {
             stateM.UpdateState();
         }
     }

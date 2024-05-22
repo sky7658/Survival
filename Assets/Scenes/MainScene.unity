@@ -4166,6 +4166,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   x: -1
   multi: 1
+  flag: 1
+  target: {fileID: 992267300}
 --- !u!212 &244541570
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4260,7 +4262,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!58 &244541573
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -5761,6 +5763,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   x: 1
   multi: 1
+  flag: 0
+  target: {fileID: 244541568}
 --- !u!212 &992267302
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -5855,7 +5859,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!58 &992267305
 CircleCollider2D:
   m_ObjectHideFlags: 0

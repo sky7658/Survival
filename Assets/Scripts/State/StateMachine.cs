@@ -25,11 +25,12 @@ namespace LMS.State
                 Debug.Log("Don't Exist StateName");
                 return;
             }
-            ChangeState(initState);
+            ChangeState();
         }
 
-        protected void ChangeState(IState<T> newState)
+        public void ChangeState()
         {
+            var newState = CheckTransState();
             if (newState == null) return;
             if (curState == null)
             {
@@ -48,6 +49,8 @@ namespace LMS.State
         {
             IState<T> _state = null;
 
+            if (curState == null) if (statecache.TryGetValue("Idle", out _state)) return _state;
+
             if (curState.Dead(obj)) if (statecache.TryGetValue("Dead", out _state)) return _state;
             if (curState.Hit(obj)) if (statecache.TryGetValue("Hit", out _state)) return _state;
             if (curState.Attack(obj)) if (statecache.TryGetValue("Attack", out _state)) return _state;
@@ -61,7 +64,6 @@ namespace LMS.State
         public void UpdateState()
         {
             curState.Action(obj);
-            ChangeState(CheckTransState());
         }
     }
 

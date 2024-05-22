@@ -8,18 +8,23 @@ public class Test : MonoBehaviour
     public int x;
     public float multi;
     Rigidbody2D rig;
+    public bool flag;
+    public GameObject target;
     private void Awake()
     {
-        //Physics2D.IgnoreCollision(etComponent<Collider2D>(), GetComponentInChildren<Collider2D>());
         rig = GetComponent<Rigidbody2D>();
-        rig.velocity = new Vector2(x, 0f);
+        
     }
     void Update()
     {
-        //if (rig.velocity == Vector2.zero)
-        //{
-        //    multi += 1f;
-        //    rig.velocity = new Vector2(x, 0f) * multi;
-        //}
+        if (flag && Input.GetKeyDown(KeyCode.L))
+        {
+            rig.AddForce(new Vector2(x, 0f), ForceMode2D.Impulse);
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (!flag) rig.MovePosition(rig.position + ((Vector2)target.transform.position - rig.position).normalized * Time.deltaTime);
     }
 }
