@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PebbleSO
   m_EditorClassIdentifier: 
   objectName: Pebble
-  maxHp: 10
-  basicSpeed: 7
-  maxSpeed: 10
+  maxHp: 15
+  basicSpeed: 200
+  maxSpeed: 200
   basicDefense: 0

@@ -5,7 +5,6 @@ using UnityEngine;
 
 namespace LMS.Controller
 {
-    public enum GameState { PLAY, STOP, UI };
     public class InputManager
     {
 #if UNITY_ANDROID && !UNITY_EDITOR
@@ -13,7 +12,6 @@ namespace LMS.Controller
 #else 
         private static InputBase m_InputHandler = new MouseHandler();
 #endif
-        private static GameState g_State = GameState.STOP;
         public static bool isClick => m_InputHandler.isClick;
         public static bool isMoveKeyDown()
         {

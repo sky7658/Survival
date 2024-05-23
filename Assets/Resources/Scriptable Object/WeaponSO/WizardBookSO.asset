@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: WizardBookSO
   m_EditorClassIdentifier: Assembly-CSharp:LMS.User:WeaponSO
   objName: WizardBook
-  atk: 1
+  atk: 70
   penetrationCnt: 1
   coolTime: 1
   speed: 1

@@ -57,9 +57,8 @@ namespace LMS.Manager
             rewardsButton.SetActive(true);
 
             exp = 0f;
-            maxExp = 10000000f;
+            maxExp = 100f;
             expBar.Initialized(maxExp);
-            // 몬스터스포너 작동
             // 또 뭐가 필요할까?
         }
         private void MapSet()
@@ -102,12 +101,15 @@ namespace LMS.Manager
         private void Start()
         {
             InitGameSetting();
+            Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Enemy"), LayerMask.NameToLayer("Item"));
+            Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Item"), LayerMask.NameToLayer("Item"));
+            Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Item"), LayerMask.NameToLayer("WeaponObject"));
         }
         [SerializeField] private UnityEngine.UI.Text text;
         void Update()
         {
             text.text = $"몬스터 갯수 : {CommonMonster.aliveMonsterCount}\nTIme Scale : {Time.timeScale}";
-            if (Input.GetKeyDown(KeyCode.Space)) monsterSpawner.Spawn(100);
+            if (Input.GetKeyDown(KeyCode.Space)) Time.timeScale = 1f;
             if (Input.GetKeyDown(KeyCode.J)) Time.timeScale += 0.1f;
             if (Input.GetKeyDown(KeyCode.H)) Time.timeScale -= 0.1f;
             MapSet();

@@ -84,6 +84,7 @@ namespace LMS.General
                 return;
             }
             wInfos += _info[++weaponLevel];
+            Debug.Log(WInfo.wName + " : " + weaponLevel);
         }
 
         public Weapon(Transform pTrans, WeaponSO wso)

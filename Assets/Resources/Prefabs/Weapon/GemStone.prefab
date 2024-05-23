@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 1632840261121943987}
   - component: {fileID: 6721353905026164045}
   - component: {fileID: 8793310477045259111}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: GemStone
-  m_TagString: Untagged
+  m_TagString: WeaponObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

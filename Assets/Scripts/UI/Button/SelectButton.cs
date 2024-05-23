@@ -13,8 +13,11 @@ namespace LMS.UI
 
         private static readonly int rewardsCount = 2;
         private int[] selectIndexs = new int[rewardsCount];
+        private float[] startX = new float[2] { 0.1f, -110.1f };
+        private int intervalX = 220;
 
-        private List<List<int>> rewardsIndex = new List<List<int>>();
+        //private List<List<int>> rewardsIndex = new List<List<int>>();
+        private List<int> indexofWeaponTypes = new List<int>();
         private readonly Dictionary<int, string> wnameofIndex = new Dictionary<int, string>()
         {
             { 0, "Bow" },
@@ -29,47 +32,54 @@ namespace LMS.UI
         {
             for (int i = 0; i < rewardsCount; i++)
             {
-                imgs[i] = transform.GetChild(i).transform.GetChild(1).GetComponent<Image>();
-                texts[i] = transform.GetChild(i).transform.GetChild(3).GetComponent<Text>();
+                imgs[i] = btns[i].transform.GetChild(1).GetComponent<Image>();
+                texts[i] = btns[i].transform.GetChild(3).GetComponent<Text>();
 
                 int index = i;
                 btns[i].onClick.AddListener(() =>
                 {
                     PlayManager.Instance.WeaponLevelUp(wnameofIndex[selectIndexs[index]]);
+                    if (PlayManager.Instance.GetWeaponLevel(wnameofIndex[selectIndexs[index]]) == Base.WeaponInfo.MaxLevel)
+                        indexofWeaponTypes.Remove(selectIndexs[index]);
                     Time.timeScale = 1f;
+                    btns.ForEach(btn => btn.gameObject.SetActive(false));
                     gameObject.SetActive(false);
                 });
             }
-            InitRewardsIndex(new List<int>(), new bool[wnameofIndex.Count]);
+
+            for (int i = 0; i < wnameofIndex.Count; i++) indexofWeaponTypes.Add(i);
         }
         private void OnEnable()
         {
-            Time.timeScale = 0f;
-            SetRewards();
-        }
-        private void InitRewardsIndex(List<int> ints, bool[] visit, int n = 0)
-        {
-            if (ints.Count == rewardsCount)
+            if (indexofWeaponTypes.Count > 0)
             {
-                rewardsIndex.Add(new List<int>(ints.ToList()));
-                return;
-            }
-            for (int i = 0; i < wnameofIndex.Count; i++)
-            {
-                if ((n == i && ints.Count > 0) || visit[i]) continue;
-                ints.Add(i);
-                visit[i] = true;
-                InitRewardsIndex(ints, visit, i);
-                visit[i] = false;
-                ints.RemoveAt(ints.Count - 1);
-            }
+                Time.timeScale = 0f;
+                SetRewards();
+            } else gameObject.SetActive(false);
         }
-        private void SetRewards()
+        private List<int> InitReardsIndexs()
         {
-            var _list = rewardsIndex[Random.Range(0, rewardsIndex.Count)];
+            List<int> _rewards = new List<int>();
+            List<int> _rewardsList = new List<int>(indexofWeaponTypes.ToList());
 
             for (int i = 0; i < rewardsCount; i++)
             {
+                var _choice = Random.Range(0, _rewardsList.Count);
+                _rewards.Add(_rewardsList[_choice]);
+                _rewardsList.RemoveAt(_choice);
+                if (_rewardsList.Count == 0) break;
+            }
+            return _rewards;
+        }
+
+        private void SetRewards()
+        {
+            List<int> _list = InitReardsIndexs();
+
+            for (int i = 0; i < _list.Count; i++)
+            {
+                btns[i].gameObject.SetActive(true);
+                btns[i].transform.localPosition = new Vector2(startX[_list.Count - 1] + intervalX * i, 0f);
                 selectIndexs[i] = _list[i];
                 if (!wnameofIndex.TryGetValue(_list[i], out var _name))
                 {
@@ -86,8 +96,8 @@ namespace LMS.UI
         }
         private string SetText(string wName)
         {
-            var _nextLevel = PlayManager.Instance.GetWeaponLevel(wName) + 2;
-            if (_nextLevel == 1)
+            var _weaponLevel = PlayManager.Instance.GetWeaponLevel(wName);
+            if (_weaponLevel == -1)
             {
                 if (!Base.WeaponInfo.WeaponDescriptions.TryGetValue(wName, out var _text))
                 {
@@ -102,7 +112,7 @@ namespace LMS.UI
                 return "";
             }
 
-            return GetNextLevelDescription(_infos[_nextLevel]);
+            return GetNextLevelDescription(_infos[_weaponLevel + 1]);
         }
         private string GetNextLevelDescription(General.WeaponInfos infos)
         {

@@ -13,9 +13,10 @@ namespace LMS.Enemy
         public MonsterSpawner(Transform pTrans) 
         {
             this.pTrans = pTrans;
-            //coroutine = CoroutineManager.Instance.ExecuteCoroutine(AutoSpawn());
+            coroutine = CoroutineManager.Instance.ExecuteCoroutine(AutoSpawn());
         }
 
+        public void StopCommonMonsterSpawn() => CoroutineManager.Instance.QuitCoroutine(coroutine);
         private IEnumerator AutoSpawn()
         {
             int _count = 0;
@@ -26,7 +27,7 @@ namespace LMS.Enemy
                 {
                     _count = 1;
                     maxCommonMonsterCount += (int)(maxCommonMonsterCount * 0.5f);
-                    _mounsterCount = (int)(maxCommonMonsterCount * 0.1f);
+                    _mounsterCount = (int)(maxCommonMonsterCount * 0.05f);
                 }
                 int _mCount = maxCommonMonsterCount - CommonMonster.aliveMonsterCount;
                 _mounsterCount =  _mCount > _mounsterCount ? _mounsterCount : _mCount;
@@ -37,14 +38,14 @@ namespace LMS.Enemy
         private float _radius = 10f;
         public void Spawn(int count)
         {
-            //for (int _index = 0; _index < MonsterInfo.commonMonsterTypeCount; _index++)
-            //{
-            //    var _count = Random.Range(0, count + 1);
+            for (int _index = 0; _index < MonsterInfo.commonMonsterTypeCount; _index++)
+            {
+                var _count = Random.Range(0, count + 1);
 
-            //    count -= _count;
-            //    CreateCommonMonster(_count, _index);
-            //}
-            CreateCommonMonster(count, /*MonsterInfo.commonMonsterTypeCount - 1*/0);
+                count -= _count;
+                CreateCommonMonster(_count, _index);
+            }
+            CreateCommonMonster(count, MonsterInfo.commonMonsterTypeCount - 1);
         }
         private void CreateCommonMonster(int count, int index)
         {

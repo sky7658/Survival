@@ -19,7 +19,6 @@ namespace LMS.Enemy.Boss
         }
         public void Action(BossMonster obj)
         {
-            obj.FlipX();
         }
         public void Exit(BossMonster obj)
         {

@@ -35,7 +35,7 @@ namespace LMS.User
                 _elapsed += Time.deltaTime;
                 _deg += Time.deltaTime * WInfo.speed;
                 _deg %= 360f;
-                for (int i = 0; i < stones.Count; i++) stones[i].Spin(pTrans.position, _deg + i * 360 / stones.Count, 3f);
+                for (int i = 0; i < stones.Count; i++) stones[i].Spin(pTrans.position, _deg + i * 360 / stones.Count, 2f);
                 yield return null;
             }
             yield break;

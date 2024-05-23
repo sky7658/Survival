@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: RingSO
   m_EditorClassIdentifier: Assembly-CSharp:LMS.User:WeaponSO
   objName: Ring
-  atk: 1
+  atk: 15
   penetrationCnt: -1
   coolTime: 5
   speed: 100
-  objectCount: 15
+  objectCount: 1

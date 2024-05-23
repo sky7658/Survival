@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: CrabSO
   m_EditorClassIdentifier: 
   objectName: Crab
-  maxHp: 100
-  basicSpeed: 1
-  maxSpeed: 1
+  maxHp: 50
+  basicSpeed: 70
+  maxSpeed: 70
   basicDefense: 0

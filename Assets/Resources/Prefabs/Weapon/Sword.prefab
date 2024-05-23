@@ -118,9 +118,9 @@ GameObject:
   - component: {fileID: 6818959905657534911}
   - component: {fileID: 3070308253615117432}
   - component: {fileID: 4009296158187631127}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Sword
-  m_TagString: Untagged
+  m_TagString: WeaponObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

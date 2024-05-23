@@ -68,13 +68,13 @@ namespace LMS.Base
         {
             { 2, new General.WeaponInfos { wInfo =  new General.WeaponInfo { wName = wnameSO.Ring, atk = 0f, penetrationCnt = 0, speed = 0f },
                                           coolTime = 0f, objectCount = 1 } },
-            { 3, new General.WeaponInfos { wInfo =  new General.WeaponInfo { wName = wnameSO.Ring, atk = 0f, penetrationCnt = 0, speed = 0f },
+            { 3, new General.WeaponInfos { wInfo =  new General.WeaponInfo { wName = wnameSO.Ring, atk = 0f, penetrationCnt = 0, speed = 50f },
                                           coolTime = 0f, objectCount = 1 } },
             { 4, new General.WeaponInfos { wInfo =  new General.WeaponInfo { wName = wnameSO.Ring, atk = 0f, penetrationCnt = 0, speed = 0f },
                                           coolTime = 0f, objectCount = 1 } },
-            { 5, new General.WeaponInfos { wInfo =  new General.WeaponInfo { wName = wnameSO.Ring, atk = 0f, penetrationCnt = 0, speed = 0f },
+            { 5, new General.WeaponInfos { wInfo =  new General.WeaponInfo { wName = wnameSO.Ring, atk = 0f, penetrationCnt = 0, speed = 50f },
                                           coolTime = 0f, objectCount = 1 } },
-            { 6, new General.WeaponInfos { wInfo =  new General.WeaponInfo { wName = wnameSO.Ring, atk = 0f, penetrationCnt = 0, speed = 0f },
+            { 6, new General.WeaponInfos { wInfo =  new General.WeaponInfo { wName = wnameSO.Ring, atk = 0f, penetrationCnt = 0, speed = 100f },
                                           coolTime = 0f, objectCount = 1 } }
         };
 

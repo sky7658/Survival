@@ -16,7 +16,6 @@ namespace LMS.Enemy.Common
         }
         public void Action(CommonMonster obj)
         {
-            obj.FlipX();
         }
         public void Exit(CommonMonster obj)
         {

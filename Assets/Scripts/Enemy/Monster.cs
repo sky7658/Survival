@@ -77,11 +77,12 @@ namespace LMS.Enemy
                 return Vector2.Distance(TargetPos, transform.position) > AtkRange;
             }
         }
-        public void FlipX() => FlipX(TargetPos.x - transform.position.x > 0 ? false : true);
+        public void FlipX(float x) => FlipX(TargetPos.x - transform.position.x > 0 ? false : true);
         public void ChaseToTarget()
         {
-            FlipX();
-            Move((TargetPos - (Vector2)transform.position).normalized);
+            var _vec = TargetPos - (Vector2)transform.position;
+            FlipX(_vec.x);
+            Move(_vec.normalized);
         }
 
         public abstract void ReturnMonster();

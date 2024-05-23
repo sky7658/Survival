@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: BowSO
   m_EditorClassIdentifier: Assembly-CSharp:LMS.User:WeaponSO
   objName: Bow
-  atk: 1
+  atk: 30
   penetrationCnt: 1
   coolTime: 1
-  speed: 10
+  speed: 500
   objectCount: 1

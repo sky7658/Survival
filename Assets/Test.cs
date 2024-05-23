@@ -17,14 +17,10 @@ public class Test : MonoBehaviour
     }
     void Update()
     {
-        if (flag && Input.GetKeyDown(KeyCode.L))
-        {
-            rig.AddForce(new Vector2(x, 0f), ForceMode2D.Impulse);
-        }
+        
     }
-
+    float t = 0;
     private void FixedUpdate()
     {
-        if (!flag) rig.MovePosition(rig.position + ((Vector2)target.transform.position - rig.position).normalized * Time.deltaTime);
     }
 }

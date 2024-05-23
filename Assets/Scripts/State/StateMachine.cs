@@ -6,7 +6,6 @@ using LMS.Enemy;
 
 namespace LMS.State
 {
-
     public abstract class StateMachine<T> where T : Entity
     {
         private T obj;
@@ -25,7 +24,8 @@ namespace LMS.State
                 Debug.Log("Don't Exist StateName");
                 return;
             }
-            ChangeState();
+            curState = initState;
+            curState.Enter(obj);
         }
 
         public void ChangeState()

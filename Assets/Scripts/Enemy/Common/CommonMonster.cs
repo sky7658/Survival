@@ -33,11 +33,9 @@ namespace LMS.Enemy
                 Debug.Log($"{ObjectName} is not exist in MonsterNames");
                 yield break;
             }
-            //SetBodyType(RigidbodyType2D.Kinematic);
             Move(vec);
             yield return UtilFunctions.WaitForSeconds(_knockBackTime);
             Move(Vector2.zero);
-            //SetBodyType(RigidbodyType2D.Dynamic);
             hit = false;
             yield break;
         }
@@ -76,7 +74,7 @@ namespace LMS.Enemy
             if (!MonsterInfo.monsterAtkRanges.TryGetValue(ObjectName, out var atkRange))
             {
                 Debug.Log($"{ObjectName} is not exist in MonsterName");
-                atkRange = 0f;
+                AtkRange = 0f;
             }
             else AtkRange = atkRange;
             if (!MonsterInfo.mAtkTimes.TryGetValue(ObjectName, out var atkTime))

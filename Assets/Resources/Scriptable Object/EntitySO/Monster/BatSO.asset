@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BatSO
   m_EditorClassIdentifier: 
   objectName: Bat
-  maxHp: 100
-  basicSpeed: 1
-  maxSpeed: 5
+  maxHp: 30
+  basicSpeed: 100
+  maxSpeed: 100
   basicDefense: 0
