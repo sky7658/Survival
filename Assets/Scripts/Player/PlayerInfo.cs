@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace LMS.User
 {
     public static class PlayerInfo

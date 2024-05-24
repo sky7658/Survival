@@ -2,8 +2,6 @@ using System.Collections;
 using UnityEngine;
 using LMS.User;
 using LMS.Utility;
-using Unity.Collections;
-using LMS.Enemy;
 
 namespace LMS.General
 {
@@ -25,7 +23,7 @@ namespace LMS.General
             a.wInfo.atk += b.wInfo.atk;
             a.wInfo.penetrationCnt += b.wInfo.penetrationCnt;
             a.wInfo.speed += b.wInfo.speed;
-            a.coolTime -= b.coolTime; // 수정
+            a.coolTime -= b.coolTime;
             a.objectCount += b.objectCount;
 
             return a;
@@ -84,7 +82,6 @@ namespace LMS.General
                 return;
             }
             wInfos += _info[++weaponLevel];
-            Debug.Log(WInfo.wName + " : " + weaponLevel);
         }
 
         public Weapon(Transform pTrans, WeaponSO wso)
@@ -121,6 +118,5 @@ namespace LMS.General
             cc.AddCoroutine("AutoAttack");
             cc.AddCoroutine("Attack");
         }
-        //public void Attack() => cc.ExecuteCoroutine(Attack(pTrans), "Attack"); //실험용 삭제할거
     }
 }

@@ -15,6 +15,6 @@ MonoBehaviour:
   objName: Ring
   atk: 15
   penetrationCnt: -1
-  coolTime: 5
+  coolTime: 3
   speed: 100
   objectCount: 1

@@ -3,7 +3,6 @@ using LMS.Utility;
 using LMS.Enemy;
 using LMS.User;
 using LMS.UI;
-using LMS.ItemObject;
 
 namespace LMS.Manager
 {

@@ -2,7 +2,6 @@ using UnityEngine;
 using LMS.General;
 using System.Collections;
 using System.Collections.Generic;
-using LMS.Manager;
 
 namespace LMS.User
 {

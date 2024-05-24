@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using LMS.General;
 using LMS.Utility;
+using LMS.UI;
 
 namespace LMS.Enemy
 {
@@ -86,6 +87,11 @@ namespace LMS.Enemy
         }
 
         public abstract void ReturnMonster();
+        public override void TakeDamage(float value, Vector2 vec = default)
+        {
+            base.TakeDamage(value, vec);
+            ObjectPool.Instance.GetObject<DamageText>("DamageText").Initialized(value, transform.localPosition);
+        }
         protected virtual void OnEnable()
         {
             InitSO();

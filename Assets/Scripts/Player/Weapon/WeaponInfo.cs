@@ -36,20 +36,26 @@ namespace LMS.Base
             { wnameSO.GemStone, 5f }
         };
 
-        public static readonly int MaxLevel = 6;
+        public static readonly int MaxLevel = 9;
 
         public static readonly Dictionary<int, General.WeaponInfos> bowLevelInfo = new Dictionary<int, General.WeaponInfos>()
         {
             { 2, new General.WeaponInfos { wInfo =  new General.WeaponInfo { wName = wnameSO.Bow, atk = 0f, penetrationCnt = 0, speed = 0f },
                                           coolTime = 0f, objectCount = 1 } },
-            { 3, new General.WeaponInfos { wInfo =  new General.WeaponInfo { wName = wnameSO.Bow, atk = 0f, penetrationCnt = 0, speed = 0f },
+            { 3, new General.WeaponInfos { wInfo =  new General.WeaponInfo { wName = wnameSO.Bow, atk = 5f, penetrationCnt = 0, speed = 0f },
                                           coolTime = 0f, objectCount = 1 } },
-            { 4, new General.WeaponInfos { wInfo =  new General.WeaponInfo { wName = wnameSO.Bow, atk = 0f, penetrationCnt = 0, speed = 0f },
-                                          coolTime = 0f, objectCount = 1 } },
+            { 4, new General.WeaponInfos { wInfo =  new General.WeaponInfo { wName = wnameSO.Bow, atk = 0f, penetrationCnt = 1, speed = 50f },
+                                          coolTime = 0f, objectCount = 0 } },
             { 5, new General.WeaponInfos { wInfo =  new General.WeaponInfo { wName = wnameSO.Bow, atk = 0f, penetrationCnt = 0, speed = 0f },
-                                          coolTime = 0f, objectCount = 1 } },
+                                          coolTime = 0.2f, objectCount = 0 } },
             { 6, new General.WeaponInfos { wInfo =  new General.WeaponInfo { wName = wnameSO.Bow, atk = 0f, penetrationCnt = 0, speed = 0f },
-                                          coolTime = 0f, objectCount = 1 } }
+                                          coolTime = 0f, objectCount = 1 } },
+            { 7, new General.WeaponInfos { wInfo =  new General.WeaponInfo { wName = wnameSO.Bow, atk = 0f, penetrationCnt = 0, speed = 0f },
+                                          coolTime = 0.2f, objectCount = 0 } },
+            { 8, new General.WeaponInfos { wInfo =  new General.WeaponInfo { wName = wnameSO.Bow, atk = 0f, penetrationCnt = 0, speed = 0f },
+                                          coolTime = 0f, objectCount = 1 } },
+            { 9, new General.WeaponInfos { wInfo =  new General.WeaponInfo { wName = wnameSO.Bow, atk = 5f, penetrationCnt = 1, speed = 0f },
+                                          coolTime = 0.2f, objectCount = 1 } }
         };
         public static readonly Dictionary<int, General.WeaponInfos> wizardBookLevelInfo = new Dictionary<int, General.WeaponInfos>()
         {
@@ -58,24 +64,36 @@ namespace LMS.Base
             { 3, new General.WeaponInfos { wInfo =  new General.WeaponInfo { wName = wnameSO.WizardBook, atk = 0f, penetrationCnt = 0, speed = 0f },
                                           coolTime = 0f, objectCount = 1 } },
             { 4, new General.WeaponInfos { wInfo =  new General.WeaponInfo { wName = wnameSO.WizardBook, atk = 0f, penetrationCnt = 0, speed = 0f },
-                                          coolTime = 0f, objectCount = 1 } },
+                                          coolTime = 0.5f, objectCount = 0 } },
             { 5, new General.WeaponInfos { wInfo =  new General.WeaponInfo { wName = wnameSO.WizardBook, atk = 0f, penetrationCnt = 0, speed = 0f },
                                           coolTime = 0f, objectCount = 1 } },
-            { 6, new General.WeaponInfos { wInfo =  new General.WeaponInfo { wName = wnameSO.WizardBook, atk = 0f, penetrationCnt = 0, speed = 0f },
-                                          coolTime = 0f, objectCount = 1 } }
+            { 6, new General.WeaponInfos { wInfo =  new General.WeaponInfo { wName = wnameSO.WizardBook, atk = 10f, penetrationCnt = 0, speed = 0f },
+                                          coolTime = 0f, objectCount = 1 } },
+            { 7, new General.WeaponInfos { wInfo =  new General.WeaponInfo { wName = wnameSO.WizardBook, atk = 0f, penetrationCnt = 0, speed = 0f },
+                                          coolTime = 0.5f, objectCount = 0 } },
+            { 8, new General.WeaponInfos { wInfo =  new General.WeaponInfo { wName = wnameSO.WizardBook, atk = 0f, penetrationCnt = 0, speed = 0f },
+                                          coolTime = 0.5f, objectCount = 1 } },
+            { 9, new General.WeaponInfos { wInfo =  new General.WeaponInfo { wName = wnameSO.WizardBook, atk = 0f, penetrationCnt = 0, speed = 0f },
+                                          coolTime = 0.5f, objectCount = 1 } }
         };
         public static readonly Dictionary<int, General.WeaponInfos> ringLevelInfo = new Dictionary<int, General.WeaponInfos>()
         {
             { 2, new General.WeaponInfos { wInfo =  new General.WeaponInfo { wName = wnameSO.Ring, atk = 0f, penetrationCnt = 0, speed = 0f },
                                           coolTime = 0f, objectCount = 1 } },
-            { 3, new General.WeaponInfos { wInfo =  new General.WeaponInfo { wName = wnameSO.Ring, atk = 0f, penetrationCnt = 0, speed = 50f },
+            { 3, new General.WeaponInfos { wInfo =  new General.WeaponInfo { wName = wnameSO.Ring, atk = 0f, penetrationCnt = 0, speed = 0f },
+                                          coolTime = 0.2f, objectCount = 0 } },
+            { 4, new General.WeaponInfos { wInfo =  new General.WeaponInfo { wName = wnameSO.Ring, atk = 0f, penetrationCnt = 0, speed = 50f },
                                           coolTime = 0f, objectCount = 1 } },
-            { 4, new General.WeaponInfos { wInfo =  new General.WeaponInfo { wName = wnameSO.Ring, atk = 0f, penetrationCnt = 0, speed = 0f },
+            { 5, new General.WeaponInfos { wInfo =  new General.WeaponInfo { wName = wnameSO.Ring, atk = 5f, penetrationCnt = 0, speed = 50f },
+                                          coolTime = 0.3f, objectCount = 0 } },
+            { 6, new General.WeaponInfos { wInfo =  new General.WeaponInfo { wName = wnameSO.Ring, atk = 0f, penetrationCnt = 0, speed = 0f },
                                           coolTime = 0f, objectCount = 1 } },
-            { 5, new General.WeaponInfos { wInfo =  new General.WeaponInfo { wName = wnameSO.Ring, atk = 0f, penetrationCnt = 0, speed = 50f },
+            { 7, new General.WeaponInfos { wInfo =  new General.WeaponInfo { wName = wnameSO.Ring, atk = 0f, penetrationCnt = 0, speed = 50f },
+                                          coolTime = 0.5f, objectCount = 0 } },
+            { 8, new General.WeaponInfos { wInfo =  new General.WeaponInfo { wName = wnameSO.Ring, atk = 0f, penetrationCnt = 0, speed = 50f },
                                           coolTime = 0f, objectCount = 1 } },
-            { 6, new General.WeaponInfos { wInfo =  new General.WeaponInfo { wName = wnameSO.Ring, atk = 0f, penetrationCnt = 0, speed = 100f },
-                                          coolTime = 0f, objectCount = 1 } }
+            { 9, new General.WeaponInfos { wInfo =  new General.WeaponInfo { wName = wnameSO.Ring, atk = 0f, penetrationCnt = 0, speed = 0f },
+                                          coolTime = 0.5f, objectCount = 1 } }
         };
 
         public static readonly Dictionary<string, Dictionary<int, General.WeaponInfos>> wlevelInfo 

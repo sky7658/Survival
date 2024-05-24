@@ -1,11 +1,14 @@
 using UnityEngine;
 using LMS.State;
+using LMS.UI;
 
 namespace LMS.Enemy
 {
 
     public abstract class BossMonster : Monster
     {
+        private GaugeBar hpBar;
+
         public override float Speed
         {
             get
@@ -113,9 +116,21 @@ namespace LMS.Enemy
                 return base.IsChaseAble;
             }
         }
+        public override void TakeDamage(float value, Vector2 vec = default)
+        {
+            base.TakeDamage(value, vec);
+            hpBar.UpdateGaugeBar(Hp);
+        }
+        public override void Recovery(float value)
+        {
+            base.Recovery(value);
+            hpBar.UpdateGaugeBar(Hp);
+        }
 
         public override void Initialized()
         {
+            hpBar = GameObject.Find("BossHpBar").GetComponent<HpBar>();
+
             base.Initialized();
             stateM = new BossStateMachine(this);
         }
@@ -124,6 +139,13 @@ namespace LMS.Enemy
             base.OnEnable();
             atkDelegate = GetAtkType();
             stateM.Initailized();
+
+            hpBar.gameObject.SetActive(true);
+            //hpBar.Initialized(MaxHp);
+        }
+        private void OnDisable()
+        {
+            hpBar.gameObject.SetActive(false);
         }
         public void TransformInit()
         {

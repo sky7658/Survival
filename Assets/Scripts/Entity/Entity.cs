@@ -1,7 +1,6 @@
 using UnityEngine;
 using LMS.Manager;
 using LMS.Utility;
-using System.Collections;
 
 namespace LMS.General
 {

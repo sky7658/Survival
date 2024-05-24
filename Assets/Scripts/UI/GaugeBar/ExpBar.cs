@@ -8,6 +8,8 @@ namespace LMS.UI
         {
             base.Initialized(maxValue);
             gaugeValue = 0f;
+            GetfrontBar.fillAmount = 0f;
+            GetbackBar.fillAmount = 0f;
         }
         public override void UpdateGaugeBar(float value)
         {
