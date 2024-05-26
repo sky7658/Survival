@@ -8,7 +8,6 @@ namespace LMS.Enemy
 {
     public abstract class Monster : Entity
     {
-        public IDamageable target;
         [SerializeField] private Transform targetTrans;
         protected Vector2 TargetPos { get { return targetTrans.position; } }
 
@@ -90,7 +89,7 @@ namespace LMS.Enemy
         public override void TakeDamage(float value, Vector2 vec = default)
         {
             base.TakeDamage(value, vec);
-            ObjectPool.Instance.GetObject<DamageText>("DamageText").Initialized(value, transform.localPosition);
+            ObjectPool.Instance.GetObject<DamageText>("DamageText").Initialized(value, transform.position);        
         }
         protected virtual void OnEnable()
         {
@@ -120,8 +119,7 @@ namespace LMS.Enemy
         protected override void InitComponent()
         {
             base.InitComponent();
-            targetTrans = GameObject.Find("Player").GetComponent<Transform>(); // 이거 수정해야함
-            target = targetTrans.GetComponent<IDamageable>();
+            targetTrans = Manager.PlayManager.Instance.pTrans;
         }
         protected void Awake()
         {

@@ -14,15 +14,15 @@ namespace LMS.User
 
         public void Enter(Player obj)
         {
-            obj.SetAnimation(PlayerInfo.deadAnimName);
             obj.Dead();
+            obj.SetAnimation(PlayerInfo.deadAnimName);
         }
         public void Action(Player obj)
         {
         }
         public void Exit(Player obj)
         {
-            obj.SetOriginColor();
+            obj.SetAnimation(PlayerInfo.reviveAnimName);
         }
     }
 }

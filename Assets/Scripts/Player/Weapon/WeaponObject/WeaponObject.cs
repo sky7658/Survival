@@ -44,7 +44,9 @@ namespace LMS.User
                     if (wInfo.penetrationCnt == 0) return;
                     --wInfo.penetrationCnt;
                     var _knockBackV = collision.transform.position - t.position; // 수정해주세용
-                    enemy.TakeDamage(wInfo.atk, _knockBackV.normalized);
+                    var _range = wInfo.atk * 0.2f;
+                    var _atk = Random.Range(wInfo.atk - _range, wInfo.atk + _range + 1);
+                    enemy.TakeDamage(_atk, _knockBackV.normalized);
                 }
 
                 if (wInfo.penetrationCnt == -1) return;

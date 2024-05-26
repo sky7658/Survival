@@ -49,7 +49,6 @@ namespace LMS.User
             {
                 if (weapon.GetwName.Equals(wName)) return weapon;
             }
-            Debug.Log("존재하지 않은 Weapon 이름입니다.");
             return null;
         }
         public int GetWeaponLevel(string wName)

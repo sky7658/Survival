@@ -22,13 +22,13 @@ namespace LMS.UI
         public void AddWeaponUI(string name)
         {
             var _weaponLevel = PlayManager.Instance.GetWeaponLevel(name);
-            if (_weaponLevel == 1)
+            if (_weaponLevel == 1) // 새로운 무기가 추가된 상태
             {
                 Image _img = transform.GetChild(weaponBoxes.Count).transform.GetChild(0).GetComponent<Image>();
                 _img.sprite = ResourceManager.Instance.GetSprite(name);
 
-                weaponBoxes.Add(name, _img.transform);
-                coroutine = Utility.UtilCoroutine.ExecuteCoroutine(UpdateUI(), coroutine);
+                weaponBoxes.Add(name, _img.transform); // 현재 가지고 있는 Weapon의 UI 정보를 추가
+                coroutine = Utility.UtilCoroutine.ExecuteCoroutine(UpdateUI(), coroutine); // 새로운 무기 추가에 대한 UI 애니메이션
                 return;
             }
 

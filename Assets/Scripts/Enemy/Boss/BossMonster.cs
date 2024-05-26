@@ -15,7 +15,7 @@ namespace LMS.Enemy
             {
                 if (isAtkCool)
                 {
-                    base.Speed = 10f;
+                    base.Speed = 500f;
                     return base.Speed;
                 }
                 else
@@ -118,6 +118,7 @@ namespace LMS.Enemy
         }
         public override void TakeDamage(float value, Vector2 vec = default)
         {
+            
             base.TakeDamage(value, vec);
             hpBar.UpdateGaugeBar(Hp);
         }
@@ -141,15 +142,19 @@ namespace LMS.Enemy
             stateM.Initailized();
 
             hpBar.gameObject.SetActive(true);
-            //hpBar.Initialized(MaxHp);
         }
         private void OnDisable()
         {
             hpBar.gameObject.SetActive(false);
         }
+        private void Start()
+        {
+            hpBar.Initialized(MaxHp);
+        }
         public void TransformInit()
         {
             StartTrans();
+            hpBar.Initialized(MaxHp);
             transformMode = true;
             atkDelegate = GetAtkType();
             Hp = MaxHp;

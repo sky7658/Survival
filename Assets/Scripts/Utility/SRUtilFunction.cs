@@ -6,22 +6,25 @@ namespace LMS.Utility
 {
     public static class SRUtilFunction
     {
-        public static IEnumerator SetSpriteColorTime(SpriteRenderer sr, Color32 endColor, float t)
+        public static void SetColor(SpriteRenderer sr, Color transColor) => sr.color = transColor;
+        public static void SetColor(SpriteRenderer sr, float a) => sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, a);
+        public static IEnumerator SetSpriteColorTime(SpriteRenderer sr, Color endColor, float t, bool unScaleMode = false)
         {
             float _elapsed = 0f;
-            Color32 startColor = sr.color;
+            Color startColor = sr.color;
 
             while (_elapsed < t)
             {
                 sr.color = Color.Lerp(startColor, endColor, _elapsed / t);
-                _elapsed += Time.deltaTime;
+                if (unScaleMode) _elapsed += Time.unscaledDeltaTime;
+                else _elapsed += Time.deltaTime;
                 yield return null;
             }
             sr.color = endColor;
             yield break;
         }
 
-        public static IEnumerator KeepSpriteColorTime(SpriteRenderer sr, Color32 originColor, Color32 keepColor, float t)
+        public static IEnumerator KeepSpriteColorTime(SpriteRenderer sr, Color originColor, Color keepColor, float t)
         {
             sr.color = keepColor;
             yield return UtilFunctions.WaitForSeconds(t);

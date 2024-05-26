@@ -51,6 +51,7 @@ namespace LMS.General
         public void SetColor(Color32 color) => spr.color = color;
 
         private Animator anim;
+        protected void SetAnimatorMode(AnimatorUpdateMode mode) => anim.updateMode = mode;
         public virtual void SetAnimation(string animName, bool set) => anim.SetBool(animName, set);
         public virtual void SetAnimation(string animName) => anim.SetTrigger(animName);
 
@@ -77,7 +78,7 @@ namespace LMS.General
         }
         public virtual void TakeDamage(float value, Vector2 vec = default)
         {
-            if (value > 0)
+            if (value > 0 && Hp > value)
                 cc.ExecuteCoroutine(SRUtilFunction.KeepSpriteColorTime(spr, EntityInfo.originColor, EntityInfo.hitColor, EntityInfo.keepHitTime), "HitColor");
             Hp -= (value - value / 100 * defense);
         }

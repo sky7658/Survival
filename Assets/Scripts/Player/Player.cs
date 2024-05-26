@@ -3,6 +3,8 @@ using LMS.General;
 using LMS.State;
 using LMS.Utility;
 using LMS.UI;
+using System.Collections;
+using LMS.Manager;
 
 namespace LMS.User
 {
@@ -10,13 +12,32 @@ namespace LMS.User
     {
         private PlayerStateMachine stateM;
         [SerializeField] private GaugeBar hpBar;
+        private bool invincible = false;
         public override void Dead()
         {
             base.Dead();
-            cc.ExecuteCoroutine(SRUtilFunction.SetSpriteColorTime(GetSpr, new Color32(0, 0, 0, 0), EntityInfo.deadTime), "Dead");
+            cc.OffCoroutine("HitColor");
+            PlayManager.Instance.SlowPauseGame();
+            SetAnimatorMode(AnimatorUpdateMode.UnscaledTime);
+        }
+        public void Revive()
+        {
+            PlayManager.Instance.PlayGame();
+            Recovery(MaxHp);
+            SetCollider(true);
+            SetAnimatorMode(AnimatorUpdateMode.Normal);
+            cc.ExecuteCoroutine(Invincible(), "Invincible");
+        }
+        private IEnumerator Invincible()
+        {
+            invincible = true;
+            yield return UtilFunctions.WaitForSeconds(1f);
+            invincible = false;
+            yield break;
         }
         public override void TakeDamage(float value, Vector2 vec = default)
         {
+            if (invincible) return;
             base.TakeDamage(value, vec);
             hpBar.UpdateGaugeBar(Hp);
         }
@@ -34,6 +55,7 @@ namespace LMS.User
         protected override void InitCoroutine()
         {
             base.InitCoroutine(); // 별 다른 내용 추가할거 없으면 삭제할겁니다.
+            cc.AddCoroutine("Invincible");
         }
         private void Awake()
         {
@@ -42,6 +64,10 @@ namespace LMS.User
         private void Update()
         {
             stateM.ChangeState();
+        }
+        private void LateUpdate()
+        {
+            if (invincible) SRUtilFunction.SetColor(GetSpr, 0.5f);
         }
         private void FixedUpdate()
         {

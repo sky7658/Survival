@@ -25,9 +25,12 @@ namespace LMS.UI
         }
         public virtual void Initialized(float maxValue)
         {
-            cc = new Utility.CoroutineController();
+            if (cc == null)
+            {
+                cc = new Utility.CoroutineController();
+                cc.AddCoroutine("UpdateGaugeBar");
+            }
             maxGaugeValue = maxValue;
-            cc.AddCoroutine("UpdateGaugeBar");
         }
         public void SetMaxGaugeValue(float value)
         {

@@ -3,6 +3,8 @@ using LMS.Utility;
 using LMS.Enemy;
 using LMS.User;
 using LMS.UI;
+using System.Runtime.CompilerServices;
+using System.Collections;
 
 namespace LMS.Manager
 {
@@ -21,6 +23,7 @@ namespace LMS.Manager
 
         [SerializeField] private Player player;
         private WeaponController wController;
+        public Transform pTrans { get { return player.transform; } }
         public Vector2 GetPlayerPos { get { return player.transform.position; } }
         [SerializeField] private int playerLevel;
         [SerializeField] private float maxExp;
@@ -44,22 +47,6 @@ namespace LMS.Manager
             get { return elapsedTime; }
             set { elapsedTime = value; }
         }
-
-        private void InitGameSetting()
-        {
-            monsterSpawner = new MonsterSpawner(player.transform);
-            wController = new WeaponController(player.transform);
-
-            playerLevel = 1;
-            ElapsedTime = 0;
-            player.Initialized();
-            rewardsButton.SetActive(true);
-
-            exp = 0f;
-            maxExp = 100f;
-            expBar.Initialized(maxExp);
-            // 또 뭐가 필요할까?
-        }
         private void MapSet()
         {
             Vector2 _pos = transform.position;
@@ -76,6 +63,20 @@ namespace LMS.Manager
         #endregion
 
         #region 외부 상호작용 메소드
+        public void PauseGame() => Time.timeScale = 0f;
+        public void SlowPauseGame() => StartCoroutine(SlowPauseGameCoroutine());
+        private IEnumerator SlowPauseGameCoroutine()
+        {
+            float _elapsed = 2f;
+            while (_elapsed > 0.01f)
+            {
+                Time.timeScale = Mathf.Clamp((_elapsed -= Time.unscaledDeltaTime) / 2f, 0f, 1f);
+                yield return null;
+            }
+            PauseGame();
+            yield break;
+        }
+        public void PlayGame() => Time.timeScale = 1f;
         public void WeaponLevelUp(string wName) => wController.AddWeapon(wName);
         public int GetWeaponLevel(string wName) => wController.GetWeaponLevel(wName);
         private void LevelUp()
@@ -93,24 +94,48 @@ namespace LMS.Manager
         }
         #endregion
 
-        
+        #region Init
+        private void InitGameSetting()
+        {
+            monsterSpawner = new MonsterSpawner(player.transform);
+            wController = new WeaponController(player.transform);
+
+            playerLevel = 1;
+            ElapsedTime = 0;
+            player.Initialized();
+            rewardsButton.SetActive(true);
+
+            exp = 0f;
+            maxExp = 100f;
+            expBar.Initialized(maxExp);
+
+            SetIgnoreCollision();
+            // 또 뭐가 필요할까?
+        }
+        private void SetIgnoreCollision()
+        {
+            Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Enemy"), LayerMask.NameToLayer("Item"));
+            Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Item"), LayerMask.NameToLayer("Item"));
+            Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Item"), LayerMask.NameToLayer("WeaponObject"));
+        }
         protected override void Awake()
         {
         }
         private void Start()
         {
             InitGameSetting();
-            Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Enemy"), LayerMask.NameToLayer("Item"));
-            Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Item"), LayerMask.NameToLayer("Item"));
-            Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Item"), LayerMask.NameToLayer("WeaponObject"));
         }
+        #endregion
+
+
         [SerializeField] private UnityEngine.UI.Text text;
         void Update()
         {
             text.text = $"몬스터 갯수 : {CommonMonster.aliveMonsterCount}\nTIme Scale : {Time.timeScale}";
-            if (Input.GetKeyDown(KeyCode.Space)) Time.timeScale = 1f;
-            if (Input.GetKeyDown(KeyCode.J)) Time.timeScale += 0.1f;
-            if (Input.GetKeyDown(KeyCode.H)) Time.timeScale -= 0.1f;
+            if (Input.GetKeyDown(KeyCode.G)) player.Revive();
+            if (Input.GetKeyDown(KeyCode.Space)) /*Time.timeScale = 1f;*/ Exp += maxExp;
+            //if (Input.GetKeyDown(KeyCode.J)) Time.timeScale += 0.1f;
+            //if (Input.GetKeyDown(KeyCode.H)) Time.timeScale -= 0.1f;
             MapSet();
         }
     }
