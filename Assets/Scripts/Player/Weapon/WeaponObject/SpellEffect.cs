@@ -1,7 +1,6 @@
 using UnityEngine;
 using LMS.Enemy;
 using LMS.General;
-using static UnityEngine.GraphicsBuffer;
 
 namespace LMS.User
 {
@@ -25,8 +24,10 @@ namespace LMS.User
                 if (targets[_rand].TryGetComponent<IDamageable>(out var monster))
                 {
                     var _knockBackV = targets[_rand].transform.position - transform.position;
+                    var _range = wInfo.atk * 0.2f;
+                    var _atk = Random.Range(wInfo.atk - _range, wInfo.atk + _range + 1);
+                    monster.TakeDamage(_atk, _knockBackV.normalized);
 
-                    monster.TakeDamage(wInfo.atk, _knockBackV.normalized);
                     var _sword = Utility.ObjectPool.Instance.GetObject<Sword>(Base.WeaponInfo.wonames[wInfo.wName]);
                     _sword.Initialized(wInfo, targets[_rand].transform);
                 }

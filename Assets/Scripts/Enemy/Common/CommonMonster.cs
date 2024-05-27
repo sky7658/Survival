@@ -48,9 +48,11 @@ namespace LMS.Enemy
         }
         public override void Dead()
         {
+            // 보스가 생겨서 죽은 몬스터들은 아이템이 생기지 않도록
             var _item = ObjectPool.Instance.GetObject<ItemObject.ExpBall>(ItemObject.ItemInfo.expBallName);
             _item.transform.position = transform.position;
-            // 여기 코드 좀 이쁘게 정리해볼게요 죽을 때 아이템 생성하는거임
+
+            ObjectPool.Instance.GetObject<UI.Coin>(UI.Coin.coinName).Initialized(transform.position, 10);
 
             base.Dead();
         }
@@ -83,7 +85,6 @@ namespace LMS.Enemy
                 AtkTime = 0f;
             }
             else AtkTime = atkTime;
-
         }
         protected override void InitCoroutine()
         {

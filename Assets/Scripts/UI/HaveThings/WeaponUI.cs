@@ -13,7 +13,7 @@ namespace LMS.UI
 
         [SerializeField] private float speed;
 
-        private float currentPosY = -660f;
+        private float currentPosY = -150f;
         private float intervalY = 100f;
         private Vector3 velocity = Vector3.zero;
 

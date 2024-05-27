@@ -3,8 +3,9 @@ using LMS.Utility;
 using LMS.Enemy;
 using LMS.User;
 using LMS.UI;
-using System.Runtime.CompilerServices;
 using System.Collections;
+using LMS.ItemObject;
+using System.Collections.Generic;
 
 namespace LMS.Manager
 {
@@ -16,15 +17,19 @@ namespace LMS.Manager
         #endregion
 
         #region 인 게임 필요 변수 및 메소드, 맵 관련 메소드
+        [Header("# Play UI")]
         [SerializeField] private GameObject rewardsButton;
         [SerializeField] private GaugeBar expBar;
+        [SerializeField] private MoneyUI moneyUI;
+        [SerializeField] private int myMoney;
 
         private MonsterSpawner monsterSpawner;
-
+        [Header("# Player")]
         [SerializeField] private Player player;
         private WeaponController wController;
         public Transform pTrans { get { return player.transform; } }
         public Vector2 GetPlayerPos { get { return player.transform.position; } }
+        [Header("# Player Level")]
         [SerializeField] private int playerLevel;
         [SerializeField] private float maxExp;
         [SerializeField] private float exp;
@@ -63,6 +68,7 @@ namespace LMS.Manager
         #endregion
 
         #region 외부 상호작용 메소드
+        // 게임 설정 메소드-----------------------------------------------------------------------------------------------------
         public void PauseGame() => Time.timeScale = 0f;
         public void SlowPauseGame() => StartCoroutine(SlowPauseGameCoroutine());
         private IEnumerator SlowPauseGameCoroutine()
@@ -77,6 +83,8 @@ namespace LMS.Manager
             yield break;
         }
         public void PlayGame() => Time.timeScale = 1f;
+        //----------------------------------------------------------------------------------------------------------------------
+        // 플레이어 레벨--------------------------------------------------------------------------------------------------------
         public void WeaponLevelUp(string wName) => wController.AddWeapon(wName);
         public int GetWeaponLevel(string wName) => wController.GetWeaponLevel(wName);
         private void LevelUp()
@@ -84,14 +92,29 @@ namespace LMS.Manager
             ++playerLevel;
             expBar.SetMaxGaugeValue(maxExp += maxExp * 0.5f);
             rewardsButton.SetActive(true);
-            // 두 가지 선택지 제공
-            // 레벨업을 통한 무기 추가 or 무기 업그레이드
         }
         public void UpdateExp(float value)
         {
             Exp += value;
             expBar.UpdateGaugeBar(Exp);
         }
+        //----------------------------------------------------------------------------------------------------------------------
+        // 플레이어 돈----------------------------------------------------------------------------------------------------------
+        //public Vector2 GetMoneyUIPos => moneyUI.transform.position;
+        public Transform GetMoneyUIPos => moneyUI.transform;
+        public void UpdateMoney(int amount)
+        {
+            myMoney += amount;
+            moneyUI.UpdateMoney(myMoney);
+        }
+        //----------------------------------------------------------------------------------------------------------------------
+        #endregion
+
+        #region Item 상호작용
+        private List<ExpBall> expBalls = new List<ExpBall>();
+        public void AddExpBall(ExpBall expBall) => expBalls.Add(expBall);
+        public void DeleteExpBall(ExpBall expBall) => expBalls.Remove(expBall);
+        public void GetExpBalls() => expBalls.ForEach(expBall => expBall.AutoGet());
         #endregion
 
         #region Init
@@ -100,14 +123,17 @@ namespace LMS.Manager
             monsterSpawner = new MonsterSpawner(player.transform);
             wController = new WeaponController(player.transform);
 
-            playerLevel = 1;
             ElapsedTime = 0;
             player.Initialized();
             rewardsButton.SetActive(true);
 
+            playerLevel = 1;
             exp = 0f;
             maxExp = 100f;
             expBar.Initialized(maxExp);
+
+            myMoney = 0;
+            moneyUI.UpdateMoney(myMoney);
 
             SetIgnoreCollision();
             // 또 뭐가 필요할까?
@@ -128,14 +154,17 @@ namespace LMS.Manager
         #endregion
 
 
-        [SerializeField] private UnityEngine.UI.Text text;
+        [SerializeField] private UnityEngine.UI.Text text; // TEST
         void Update()
         {
+            //TEST-------------------------------------------------------------------------------------------------
             text.text = $"몬스터 갯수 : {CommonMonster.aliveMonsterCount}\nTIme Scale : {Time.timeScale}";
-            if (Input.GetKeyDown(KeyCode.G)) player.Revive();
-            if (Input.GetKeyDown(KeyCode.Space)) /*Time.timeScale = 1f;*/ Exp += maxExp;
+            if (Input.GetKeyDown(KeyCode.G)) /*GetExpBalls();*/Time.timeScale = 0f;
+            if (Input.GetKeyDown(KeyCode.Space)) Time.timeScale = 1f; /*Exp += maxExp;*/
             //if (Input.GetKeyDown(KeyCode.J)) Time.timeScale += 0.1f;
             //if (Input.GetKeyDown(KeyCode.H)) Time.timeScale -= 0.1f;
+            //TEST-------------------------------------------------------------------------------------------------
+
             MapSet();
         }
     }
