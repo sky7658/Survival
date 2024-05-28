@@ -1,5 +1,6 @@
 using LMS.Manager;
 using System.Collections;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace LMS.Enemy
@@ -19,10 +20,10 @@ namespace LMS.Enemy
         private IEnumerator AutoSpawn()
         {
             int _count = 0;
-            int _mounsterCount = (int)(maxCommonMonsterCount * 0.1f);
+            int _mounsterCount = (int)(maxCommonMonsterCount * 0.05f);
             while (true)
             {
-                if (++_count > 10)
+                if (++_count > 20)
                 {
                     _count = 1;
                     maxCommonMonsterCount += (int)(maxCommonMonsterCount * 0.5f);
@@ -51,13 +52,26 @@ namespace LMS.Enemy
             if (count == 0) return;
             for (int i = 0; i < count; i++)
             {
-                var _deg = Random.Range(0, 360);
-                var _x = Mathf.Cos(_deg) * _radius;
-                var _y = Mathf.Sin(_deg) * _radius;
+                var _range = StartDegree();
+                float _deg;
+
+                if (_range == default(float))
+                    _deg = Random.Range(0, 360);
+                else
+                    _deg = Random.Range(_range - 45, _range + 45);
+
+                var _x = Mathf.Cos(_deg * Mathf.Deg2Rad) * _radius;
+                var _y = Mathf.Sin(_deg * Mathf.Deg2Rad) * _radius;
 
                 Monster _monster = GetMonster(index);
                 if (_monster != null) _monster.transform.position = (Vector2)pTrans.position + new Vector2(_x, _y);
             }
+        }
+        private float StartDegree()
+        {
+            if (!Controller.InputManager.isMoveKeyDown()) return default(float);
+            Vector2 _moveV = Controller.InputManager.moveVector.normalized;
+            return Mathf.Atan2(_moveV.y, _moveV.x) * Mathf.Rad2Deg;
         }
         private Monster GetMonster(int index)
         {

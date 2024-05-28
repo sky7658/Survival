@@ -52,7 +52,7 @@ namespace LMS.Enemy
             var _item = ObjectPool.Instance.GetObject<ItemObject.ExpBall>(ItemObject.ItemInfo.expBallName);
             _item.transform.position = transform.position;
 
-            ObjectPool.Instance.GetObject<UI.Coin>(UI.Coin.coinName).Initialized(transform.position, 10);
+            ObjectPool.Instance.GetObject<UI.Coin>(UI.Coin.coinName).Initialized(transform.position);
 
             base.Dead();
         }

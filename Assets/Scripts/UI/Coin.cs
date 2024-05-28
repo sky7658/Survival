@@ -17,12 +17,13 @@ namespace LMS.UI
         {
             img = GetComponent<Image>();
         }
-        public void Initialized(Vector2 pos, int amount)
+        public void Initialized(Vector2 pos)
         {
+            int _amount = GetMoneyAmount();
             transform.position = pos;
 
-            img.sprite = GetMoneySprite(amount);
-            coroutine = UtilCoroutine.ExecuteCoroutine(ChaseTarget(amount), coroutine);
+            img.sprite = GetMoneySprite(_amount);
+            coroutine = UtilCoroutine.ExecuteCoroutine(ChaseTarget(_amount), coroutine);
         }
 
         private IEnumerator ChaseTarget(int amount)
@@ -46,6 +47,21 @@ namespace LMS.UI
             if (amount > 100) return ResourceManager.Instance.GetSprite("Money3");
             if (amount > 10) return ResourceManager.Instance.GetSprite("Money2");
             return ResourceManager.Instance.GetSprite("Money1");
+        }
+
+        private int GetMoneyAmount()
+        {
+            int _range = 10;
+            int _amount = 0;
+
+            for (int i = 0; i < 2; i++)
+            {
+                _amount = Random.Range(_range / 10, _range + 1);
+                if (_amount != _range) return _amount;
+                _range *= 10;
+            }
+
+            return _amount;
         }
     }
 }

@@ -20,6 +20,7 @@ namespace LMS.Manager
         [Header("# Play UI")]
         [SerializeField] private GameObject rewardsButton;
         [SerializeField] private GaugeBar expBar;
+        [SerializeField] private UnityEngine.UI.Text playerLevelText;
         [SerializeField] private MoneyUI moneyUI;
         [SerializeField] private int myMoney;
 
@@ -70,8 +71,8 @@ namespace LMS.Manager
         #region 외부 상호작용 메소드
         // 게임 설정 메소드-----------------------------------------------------------------------------------------------------
         public void PauseGame() => Time.timeScale = 0f;
-        public void SlowPauseGame() => StartCoroutine(SlowPauseGameCoroutine());
-        private IEnumerator SlowPauseGameCoroutine()
+        public void SlowPauseGame(System.Action action = null) => StartCoroutine(SlowPauseGameCoroutine(action));
+        private IEnumerator SlowPauseGameCoroutine(System.Action action)
         {
             float _elapsed = 2f;
             while (_elapsed > 0.01f)
@@ -80,6 +81,7 @@ namespace LMS.Manager
                 yield return null;
             }
             PauseGame();
+            if (action != null) action();
             yield break;
         }
         public void PlayGame() => Time.timeScale = 1f;
@@ -89,9 +91,11 @@ namespace LMS.Manager
         public int GetWeaponLevel(string wName) => wController.GetWeaponLevel(wName);
         private void LevelUp()
         {
-            ++playerLevel;
-            expBar.SetMaxGaugeValue(maxExp += maxExp * 0.5f);
-            rewardsButton.SetActive(true);
+            //playerLevelText.text = $"Lv : {++playerLevel}"; // Player Level Text 업데이트
+            ++playerLevel; // 위에 코드로 수정할 예정
+
+            expBar.SetMaxGaugeValue(maxExp += Mathf.FloorToInt(maxExp * 0.25f)); // Max Exp 연산
+            rewardsButton.SetActive(true); // Rewards 선택
         }
         public void UpdateExp(float value)
         {
@@ -100,8 +104,6 @@ namespace LMS.Manager
         }
         //----------------------------------------------------------------------------------------------------------------------
         // 플레이어 돈----------------------------------------------------------------------------------------------------------
-        //public Vector2 GetMoneyUIPos => moneyUI.transform.position;
-        public Transform GetMoneyUIPos => moneyUI.transform;
         public void UpdateMoney(int amount)
         {
             myMoney += amount;
@@ -154,13 +156,12 @@ namespace LMS.Manager
         #endregion
 
 
-        [SerializeField] private UnityEngine.UI.Text text; // TEST
         void Update()
         {
             //TEST-------------------------------------------------------------------------------------------------
-            text.text = $"몬스터 갯수 : {CommonMonster.aliveMonsterCount}\nTIme Scale : {Time.timeScale}";
+            playerLevelText.text = $"Lv : {playerLevel}\n몬스터 갯수 : {CommonMonster.aliveMonsterCount}\nTIme Scale : {Time.timeScale}";
             if (Input.GetKeyDown(KeyCode.G)) /*GetExpBalls();*/Time.timeScale = 0f;
-            if (Input.GetKeyDown(KeyCode.Space)) Time.timeScale = 1f; /*Exp += maxExp;*/
+            if (Input.GetKeyDown(KeyCode.Space)) /*Time.timeScale = 1f;*/ Exp += maxExp;
             //if (Input.GetKeyDown(KeyCode.J)) Time.timeScale += 0.1f;
             //if (Input.GetKeyDown(KeyCode.H)) Time.timeScale -= 0.1f;
             //TEST-------------------------------------------------------------------------------------------------
