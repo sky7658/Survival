@@ -1,7 +1,7 @@
-using System.Collections;
-using UnityEngine;
 using LMS.State;
 using LMS.Utility;
+using System.Collections;
+using UnityEngine;
 
 namespace LMS.Enemy
 {
@@ -16,7 +16,42 @@ namespace LMS.Enemy
             if (IsHit || base.AttackOut()) return true;
             return base.AttackOut();
         }
+        public override bool IsChaseAble
+        {
+            get
+            {
+                var _dis = Vector2.Distance(TargetPos, transform.position);
+                if (_dis > MonsterSpawner._radius + 2f) // Monster와 player의 거리가 일정 범위 이상이 될 경우
+                {                                       // player가 이동하는 방향으로 position 값 변경
+                    float _newX = transform.position.x;
+                    float _newY = transform.position.y;
+                    var _moveV = Controller.InputManager.GetMoveVector();
+                    if (_moveV.x > 0f) // x축 대칭이동
+                    {
+                        if (TargetPos.x > transform.position.x)
+                            _newX = TargetPos.x * 1.5f - transform.position.x;
+                    }
+                    else
+                    {
+                        if (TargetPos.x < transform.position.x)
+                            _newX = TargetPos.x * 1.5f - transform.position.x;
+                    }
 
+                    if (_moveV.y > 0f) // y축 대칭이동
+                    {
+                        if (TargetPos.y > transform.position.y)
+                            _newY = TargetPos.y * 1.5f - transform.position.y;
+                    }
+                    else
+                    {
+                        if (TargetPos.y < transform.position.y)
+                            _newY = TargetPos.y * 1.5f - transform.position.y;
+                    }
+                    transform.position = new Vector2(_newX, _newY);
+                }
+                return _dis > AtkRange;
+            }
+        }
         private bool hit;
         public bool IsHit { get { return hit; } }
         public void EndHit() => hit = false;

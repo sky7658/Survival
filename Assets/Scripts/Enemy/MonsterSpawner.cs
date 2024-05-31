@@ -1,6 +1,5 @@
 using LMS.Manager;
 using System.Collections;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace LMS.Enemy
@@ -10,6 +9,8 @@ namespace LMS.Enemy
         private Transform pTrans;
         private Coroutine coroutine;
         private int maxCommonMonsterCount = 100;
+        public static readonly float _radius = 10f;
+
         public MonsterSpawner(Transform pTrans) 
         {
             this.pTrans = pTrans;
@@ -35,7 +36,6 @@ namespace LMS.Enemy
                 yield return Utility.UtilFunctions.WaitForSeconds(3f);
             }
         }
-        private float _radius = 10f;
         public void Spawn(int count)
         {
             for (int _index = 0; _index < MonsterInfo.commonMonsterTypeCount; _index++)
