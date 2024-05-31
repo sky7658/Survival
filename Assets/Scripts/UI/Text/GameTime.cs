@@ -20,6 +20,7 @@ namespace LMS.UI
             string _sec = "";
             while (true)
             {
+                if (!PlayManager.Instance.IsGamePlay) yield return null;
                 var gameTime = PlayManager.Instance.ElapsedTime += Time.deltaTime;
 
                 if (gameTime % 60 < 10)

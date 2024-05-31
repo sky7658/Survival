@@ -27,6 +27,8 @@ namespace LMS.Controller
         public static Vector2 moveVector = new Vector2(1, 0);
         public static Vector2 GetMoveVector()
         {
+            if (!Manager.PlayManager.Instance.IsGamePlay) return Vector2.zero;
+
             var v = new Vector2(m_InputHandler.x, m_InputHandler.y).normalized;
             moveVector = v != Vector2.zero ? v : moveVector;
             return moveVector;

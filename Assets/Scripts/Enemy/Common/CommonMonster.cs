@@ -83,12 +83,13 @@ namespace LMS.Enemy
         }
         public override void Dead()
         {
-            // 보스가 생겨서 죽은 몬스터들은 아이템이 생기지 않도록
-            var _item = ObjectPool.Instance.GetObject<ItemObject.ExpBall>(ItemObject.ItemInfo.expBallName);
-            _item.transform.position = transform.position;
+            if (!Manager.PlayManager.Instance.BossStage)
+            {
+                var _item = ObjectPool.Instance.GetObject<ItemObject.ExpBall>(ItemObject.ItemInfo.expBallName);
+                _item.transform.position = transform.position;
 
-            ObjectPool.Instance.GetObject<UI.Coin>(UI.Coin.coinName).Initialized(transform.position);
-
+                ObjectPool.Instance.GetObject<UI.Coin>(UI.Coin.coinName).Initialized(transform.position);
+            }
             base.Dead();
         }
         protected override void OnEnable()
@@ -128,6 +129,7 @@ namespace LMS.Enemy
         }
         void Update()
         {
+            if (Manager.PlayManager.Instance.BossStage) Hp = 0f;
             stateM.ChangeState();
         }
         private void FixedUpdate()

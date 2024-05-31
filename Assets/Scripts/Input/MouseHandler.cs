@@ -13,7 +13,6 @@ namespace LMS.Controller
         {
             get
             {
-                if (Time.timeScale == 0f) return 0f;
                 if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow)) return -1;
                 if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow)) return 1;
                 else return 0;

@@ -73,5 +73,10 @@ namespace LMS.User
         {
             stateM.UpdateState();
         }
+
+        private void OnDrawGizmos()
+        {
+            Gizmos.DrawWireSphere(transform.position, 12f);
+        }
     }
 }

@@ -47,7 +47,6 @@ namespace LMS.UI
 
                     weaponUI.AddWeaponUI(wnameofIndex[selectIndexs[index]]); // Player가 가지고 있는 Weapon UI 업데이트
 
-                    Time.timeScale = 1f;
                     btns.ForEach(btn => btn.gameObject.SetActive(false));
                     gameObject.SetActive(false);
                 });
@@ -59,9 +58,13 @@ namespace LMS.UI
         {
             if (indexofWeaponTypes.Count > 0)
             {
-                Time.timeScale = 0f;
+                PlayManager.Instance.PauseGame();
                 SetRewards();
             } else gameObject.SetActive(false);
+        }
+        private void OnDisable()
+        {
+            PlayManager.Instance.PlayGame();
         }
         private List<int> InitReardsIndexs()
         {

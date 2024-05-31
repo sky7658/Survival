@@ -66,6 +66,7 @@ namespace LMS.General
             while (true)
             {
                 if (!WeaponActive) yield break;
+                if (!Manager.PlayManager.Instance.IsGamePlay) yield return null;
                 cc.ExecuteCoroutine(Attack(pTrans), "Attack");
                 yield return UtilFunctions.WaitForSeconds(wInfos.coolTime + keepTime);
             }

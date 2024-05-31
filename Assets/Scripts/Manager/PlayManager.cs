@@ -1,14 +1,15 @@
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 using LMS.Utility;
 using LMS.Enemy;
 using LMS.User;
 using LMS.UI;
-using System.Collections;
 using LMS.ItemObject;
-using System.Collections.Generic;
 
 namespace LMS.Manager
 {
+    public enum PlayState { PLAY, PAUSE };
     public class PlayManager : MonoSingleton<PlayManager>
     {
         #region 카메라 기능
@@ -30,10 +31,19 @@ namespace LMS.Manager
         private WeaponController wController;
         public Transform pTrans { get { return player.transform; } }
         public Vector2 GetPlayerPos { get { return player.transform.position; } }
+
         [Header("# Player Level")]
         [SerializeField] private int playerLevel;
         [SerializeField] private float maxExp;
         [SerializeField] private float exp;
+
+        [Header("# PlayState")]
+        [SerializeField] private PlayState pState;
+        public PlayState PState
+        {
+            get{ return pState; }
+            set { pState = value; }
+        }
         private float Exp
         {
             get { return exp; }
@@ -53,6 +63,15 @@ namespace LMS.Manager
             get { return elapsedTime; }
             set { elapsedTime = value; }
         }
+        //[HideInInspector]
+        public bool BossStage
+        {
+            get
+            {
+                if (ElapsedTime >= PlayInfo.BossSpawnTime) return true;
+                return false;
+            }
+        }
         private void MapSet()
         {
             Vector2 _pos = transform.position;
@@ -70,7 +89,11 @@ namespace LMS.Manager
 
         #region 외부 상호작용 메소드
         // 게임 설정 메소드-----------------------------------------------------------------------------------------------------
-        public void PauseGame() => Time.timeScale = 0f;
+        public void PauseGame()
+        {
+            PState = PlayState.PAUSE;
+            Time.timeScale = 0f;
+        }
         public void SlowPauseGame(System.Action action = null) => StartCoroutine(SlowPauseGameCoroutine(action));
         private IEnumerator SlowPauseGameCoroutine(System.Action action)
         {
@@ -84,7 +107,12 @@ namespace LMS.Manager
             if (action != null) action();
             yield break;
         }
-        public void PlayGame() => Time.timeScale = 1f;
+        public void PlayGame()
+        {
+            PState = PlayState.PLAY;
+            Time.timeScale = 1f;
+        }
+        public bool IsGamePlay => PState == PlayState.PLAY;
         //----------------------------------------------------------------------------------------------------------------------
         // 플레이어 레벨--------------------------------------------------------------------------------------------------------
         public void WeaponLevelUp(string wName) => wController.AddWeapon(wName);
