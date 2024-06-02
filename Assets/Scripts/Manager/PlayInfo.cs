@@ -11,6 +11,6 @@ namespace LMS.Manager
         public static readonly float mapEndY = 2f;
 
         // Boss
-        public static readonly float BossSpawnTime = 2.9f; // seconds
+        public static readonly float BossSpawnTime = 3f; // seconds
     }
 }
