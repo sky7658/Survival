@@ -15,6 +15,8 @@ namespace LMS.Manager
         #region 카메라 기능
         [SerializeField] private CameraController mCamera;
         public void ShakeCamera(float durateTime) => mCamera.ShakeCamera(durateTime);
+        public void ZoomInOutCamera(float durateTime, System.Action action = null) => mCamera.CameraZoomInOut(durateTime, action);
+        public void ShowTargetCamera(Vector2 pos, float durateTime, System.Action action = null) => mCamera.ShowTarget(pos, durateTime, action);
         #endregion
 
         #region 인 게임 필요 변수 및 메소드, 맵 관련 메소드
@@ -189,6 +191,7 @@ namespace LMS.Manager
             //TEST-------------------------------------------------------------------------------------------------
             playerLevelText.text = $"Lv : {playerLevel}\n몬스터 갯수 : {CommonMonster.aliveMonsterCount}\nTIme Scale : {Time.timeScale}";
             if (Input.GetKeyDown(KeyCode.G)) /*GetExpBalls();*/Time.timeScale = 0f;
+            if (Input.GetKeyDown(KeyCode.F)) player.Revive();
             if (Input.GetKeyDown(KeyCode.Space)) /*Time.timeScale = 1f;*/ Exp += maxExp;
             //if (Input.GetKeyDown(KeyCode.J)) Time.timeScale += 0.1f;
             //if (Input.GetKeyDown(KeyCode.H)) Time.timeScale -= 0.1f;

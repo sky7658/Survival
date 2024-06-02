@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace LMS.Manager
@@ -12,6 +11,6 @@ namespace LMS.Manager
         public static readonly float mapEndY = 2f;
 
         // Boss
-        public static readonly float BossSpawnTime = 60f; // seconds
+        public static readonly float BossSpawnTime = 2.9f; // seconds
     }
 }

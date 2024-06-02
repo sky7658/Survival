@@ -25,21 +25,29 @@ namespace LMS.Enemy
             while (true)
             {
                 if (!PlayManager.Instance.IsGamePlay) yield return null;
-                if (PlayManager.Instance.BossStage)
+                else
                 {
-                    CreateMonster(1, 4);
-                    yield break;
+                    if (PlayManager.Instance.BossStage)
+                    {
+                        var _deg = Random.Range(0, 360);
+                        var _boss = GetMonster(4);
+                        _boss.transform.position = (Vector2)pTrans.position 
+                            + new Vector2(Mathf.Cos(_deg * Mathf.Deg2Rad) * (_radius + 2f), Mathf.Sin(_deg * Mathf.Deg2Rad) * (_radius + 2f));
+
+                        CutSceneManager.Instance.StartBossModeCutScene(_boss.transform.position - pTrans.position);
+                        yield break;
+                    }
+                    if (++_count > 20)
+                    {
+                        _count = 1;
+                        maxCommonMonsterCount += (int)(maxCommonMonsterCount * 0.5f);
+                        _mounsterCount = (int)(maxCommonMonsterCount * 0.05f);
+                    }
+                    int _mCount = maxCommonMonsterCount - CommonMonster.aliveMonsterCount;
+                    _mounsterCount = _mCount > _mounsterCount ? _mounsterCount : _mCount;
+                    Spawn(_mounsterCount);
+                    yield return Utility.UtilFunctions.WaitForSeconds(3f);
                 }
-                if (++_count > 20)
-                {
-                    _count = 1;
-                    maxCommonMonsterCount += (int)(maxCommonMonsterCount * 0.5f);
-                    _mounsterCount = (int)(maxCommonMonsterCount * 0.05f);
-                }
-                int _mCount = maxCommonMonsterCount - CommonMonster.aliveMonsterCount;
-                _mounsterCount =  _mCount > _mounsterCount ? _mounsterCount : _mCount;
-                Spawn(_mounsterCount);
-                yield return Utility.UtilFunctions.WaitForSeconds(3f);
             }
         }
         public void Spawn(int count)

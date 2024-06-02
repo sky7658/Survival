@@ -20,21 +20,25 @@ namespace LMS.UI
             string _sec = "";
             while (true)
             {
-                if (!PlayManager.Instance.IsGamePlay) yield return null;
-                var gameTime = PlayManager.Instance.ElapsedTime += Time.deltaTime;
-
-                if (gameTime % 60 < 10)
-                    _sec = string.Format("0{0}", (int)gameTime % 60);
+                if (!PlayManager.Instance.IsGamePlay) 
+                    yield return null;
                 else
-                    _sec = string.Format("{0}", (int)gameTime % 60);
+                {
+                    var gameTime = PlayManager.Instance.ElapsedTime += Time.deltaTime;
 
-                if (gameTime / 60 < 10)
-                    _min = string.Format("0{0}", (int)gameTime / 60);
-                else
-                    _min = string.Format("{0}", (int)gameTime / 60);
+                    if (gameTime % 60 < 10)
+                        _sec = string.Format("0{0}", (int)gameTime % 60);
+                    else
+                        _sec = string.Format("{0}", (int)gameTime % 60);
 
-                timeText.text = _min + " : " + _sec;
-                yield return null;
+                    if (gameTime / 60 < 10)
+                        _min = string.Format("0{0}", (int)gameTime / 60);
+                    else
+                        _min = string.Format("{0}", (int)gameTime / 60);
+
+                    timeText.text = _min + " : " + _sec;
+                    yield return null;
+                }
             }
         }
     }

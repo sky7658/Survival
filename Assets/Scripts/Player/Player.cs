@@ -17,6 +17,7 @@ namespace LMS.User
         {
             base.Dead();
             cc.OffCoroutine("HitColor");
+            SetOriginColor();
             PlayManager.Instance.SlowPauseGame();
             SetAnimatorMode(AnimatorUpdateMode.UnscaledTime);
         }
@@ -61,6 +62,10 @@ namespace LMS.User
         {
             InitComponent();
         }
+        private void FixedUpdate()
+        {
+            stateM.UpdateState();
+        }
         private void Update()
         {
             stateM.ChangeState();
@@ -69,14 +74,9 @@ namespace LMS.User
         {
             if (invincible) SRUtilFunction.SetColor(GetSpr, 0.5f);
         }
-        private void FixedUpdate()
-        {
-            stateM.UpdateState();
-        }
-
         private void OnDrawGizmos()
         {
-            Gizmos.DrawWireSphere(transform.position, 12f);
+            Gizmos.DrawWireSphere(transform.position, 10f);
         }
     }
 }

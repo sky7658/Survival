@@ -67,8 +67,11 @@ namespace LMS.General
             {
                 if (!WeaponActive) yield break;
                 if (!Manager.PlayManager.Instance.IsGamePlay) yield return null;
-                cc.ExecuteCoroutine(Attack(pTrans), "Attack");
-                yield return UtilFunctions.WaitForSeconds(wInfos.coolTime + keepTime);
+                else
+                {
+                    cc.ExecuteCoroutine(Attack(pTrans), "Attack");
+                    yield return UtilFunctions.WaitForSeconds(wInfos.coolTime + keepTime);
+                }
             }
         }
 

@@ -49,6 +49,7 @@ namespace LMS.State
         {
             IState<T> _state = null;
 
+            if (Time.timeScale == 0f) return curState;
             if (curState == null || !Manager.PlayManager.Instance.IsGamePlay) if (statecache.TryGetValue("Idle", out _state)) return _state;
 
             if (curState.Dead(obj)) if (statecache.TryGetValue("Dead", out _state)) return _state;
