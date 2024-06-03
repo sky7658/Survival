@@ -55,7 +55,7 @@ namespace LMS.User
         }
         protected override void InitCoroutine()
         {
-            base.InitCoroutine(); // 별 다른 내용 추가할거 없으면 삭제할겁니다.
+            base.InitCoroutine();
             cc.AddCoroutine("Invincible");
         }
         private void Awake()
@@ -73,10 +73,6 @@ namespace LMS.User
         private void LateUpdate()
         {
             if (invincible) SRUtilFunction.SetColor(GetSpr, 0.5f);
-        }
-        private void OnDrawGizmos()
-        {
-            Gizmos.DrawWireSphere(transform.position, 10f);
         }
     }
 }

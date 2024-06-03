@@ -20,7 +20,7 @@ namespace LMS.Enemy
             while (_elapsed < _waitTime)
             {
                 _elapsed += Time.deltaTime;
-                if (IsHit)
+                if (AttackOut())
                 {
                     EndAtk();
                     yield break;
@@ -30,7 +30,7 @@ namespace LMS.Enemy
             _elapsed = 0f;
             while (_elapsed < _atkTime)
             {
-                if (IsHit)
+                if (AttackOut())
                 {
                     EndAtk();
                     yield break;

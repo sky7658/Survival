@@ -58,6 +58,15 @@ namespace LMS.Enemy
             { mnameSO.Slime, 0.2f }
         };
 
+        public static readonly Dictionary<string, float> deadTime = new Dictionary<string, float>()
+        {
+            { mnameSO.Bat, 0.8f },
+            { mnameSO.Crab, 0.4f },
+            { mnameSO.Pebble, 0.6f },
+            { mnameSO.Slime, 0.5f },
+            { mnameSO.Golem, 1f }
+        };
+
         public static readonly Dictionary<string, Dictionary<string, float>> bossAtkTimes = new Dictionary<string, Dictionary<string, float>>()
         {
             { "Golem", new Dictionary<string, float>() { { "Rush", 1f }, { "Punch", 1.2f }, { "MagicAttack", 1.5f }, { "Laser", 1.2f }, { "Defense", 3.5f } } }

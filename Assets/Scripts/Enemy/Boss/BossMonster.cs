@@ -138,7 +138,7 @@ namespace LMS.Enemy
         protected override void OnEnable()
         {
             base.OnEnable();
-            atkDelegate = GetAtkType();
+            if (atkDelegate == null) atkDelegate = GetAtkType();
             stateM.Initailized();
 
             hpBar.gameObject.SetActive(true);

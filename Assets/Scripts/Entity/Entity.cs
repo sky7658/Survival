@@ -15,7 +15,6 @@ namespace LMS.General
             speed = entitySO.BasicSpeed;
             defense = entitySO.BasicDefense;
         }
-
         public string ObjectName { get { return entitySO.ObjectName; } }
         public float MaxHp { get { return entitySO.MaxHp; } }
         [SerializeField] private float hp;

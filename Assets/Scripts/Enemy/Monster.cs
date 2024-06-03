@@ -77,15 +77,29 @@ namespace LMS.Enemy
                 return Vector2.Distance(TargetPos, transform.position) > AtkRange;
             }
         }
-        public void FlipX(float x) => FlipX(TargetPos.x - transform.position.x > 0 ? false : true);
+        public void FlipX() => FlipX(TargetPos.x - transform.position.x > 0 ? false : true);
         public void ChaseToTarget()
         {
             var _vec = TargetPos - (Vector2)transform.position;
-            FlipX(_vec.x);
+            FlipX();
             Move(_vec.normalized);
         }
-
         public abstract void ReturnMonster();
+        public override void Dead()
+        {
+            base.Dead();
+            cc.ExecuteCoroutine(AfterExecute(), "Dead");
+        }
+        private IEnumerator AfterExecute()
+        {
+            if (!MonsterInfo.deadTime.TryGetValue(ObjectName, out var _deadTime))
+            {
+                Debug.Log($"{ObjectName} is not exist in MonsterNames");
+                _deadTime = 0f;
+            }
+            yield return UtilFunctions.WaitForSeconds(_deadTime);
+            ReturnMonster();
+        }
         public override void TakeDamage(float value, Vector2 vec = default)
         {
             base.TakeDamage(value, vec);

@@ -56,10 +56,10 @@ namespace LMS.User
                     return;
                 }
             }
-            //if (collision.CompareTag("Out")) 
-            //{
-            //    ReturnObject();
-            //}
+            if (collision.CompareTag(Manager.PlayInfo.outRangeTag))
+            {
+                ReturnObject();
+            }
         }
 
         protected abstract void ReturnObject();

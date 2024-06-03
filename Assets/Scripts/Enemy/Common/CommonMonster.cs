@@ -92,6 +92,7 @@ namespace LMS.Enemy
             }
             base.Dead();
         }
+        
         protected override void OnEnable()
         {
             aliveMonsterCount++;
@@ -132,7 +133,7 @@ namespace LMS.Enemy
             if (Manager.PlayManager.Instance.BossStage) Hp = 0f;
             stateM.ChangeState();
         }
-        private void FixedUpdate()
+    private void FixedUpdate()
         {
             stateM.UpdateState();
         }

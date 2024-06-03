@@ -23,26 +23,26 @@ namespace LMS.Enemy
         }
         protected override AttackTypeDelegate<BossMonster> GetAtkType()
         {
-            AttackTypeDelegate<BossMonster> newAtk = null;
+            AttackTypeDelegate<BossMonster> _newAtk = null;
             specialAtkMode = false;
 
             while (true) 
             {
-                newAtk = base.GetAtkType();
-                if (newAtk == null) break;
-                if (newAtk.Method.Name.Equals("Rush") || newAtk.Method.Name.Equals("MagicAttack"))
+                _newAtk = base.GetAtkType();
+                if (_newAtk == null) break;
+                if (_newAtk.Method.Name.Equals("Rush") || _newAtk.Method.Name.Equals("MagicAttack"))
                 {
-                    if (newAtk.Method.Name.Equals("MagicAttack") && !TransformMode)
+                    if (_newAtk.Method.Name.Equals("MagicAttack") && !TransformMode)
                     {
                         specialAtkMode = true;
                         transforming = true;
                     }
                     break;
                 }
-                else if (!TransformMode && newAtk.Method.Name.Equals("Punch")) break;
-                else if (TransformMode && (newAtk.Method.Name.Equals("Laser") || newAtk.Method.Name.Equals("Defense"))) break;
+                else if (!TransformMode && _newAtk.Method.Name.Equals("Punch")) break;
+                else if (TransformMode && (_newAtk.Method.Name.Equals("Laser") || _newAtk.Method.Name.Equals("Defense"))) break;
             }
-            return newAtk;
+            return _newAtk;
         }
         public override void SetAnimation(string animName)
         {

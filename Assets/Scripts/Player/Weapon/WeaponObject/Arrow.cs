@@ -15,7 +15,7 @@ namespace LMS.User
 
             transform.position = pos;
 
-            float axis = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg - 135f;
+            float axis = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg + 180f;
             transform.rotation = Quaternion.Euler(0, 0, axis);
 
             SetVelocity(dir);

@@ -26,6 +26,7 @@ namespace LMS.Manager
         [SerializeField] private UnityEngine.UI.Text playerLevelText;
         [SerializeField] private MoneyUI moneyUI;
         [SerializeField] private int myMoney;
+        private float basicTimeScale = 1.0f;
 
         private MonsterSpawner monsterSpawner;
         [Header("# Player")]
@@ -41,10 +42,11 @@ namespace LMS.Manager
 
         [Header("# PlayState")]
         [SerializeField] private PlayState pState;
+
         public PlayState PState
         {
             get{ return pState; }
-            set { pState = value; }
+            set { if (!CutSceneManager.Instance.isCutSceneMode) pState = value; }
         }
         private float Exp
         {
@@ -65,7 +67,6 @@ namespace LMS.Manager
             get { return elapsedTime; }
             set { elapsedTime = value; }
         }
-        //[HideInInspector]
         public bool BossStage
         {
             get
@@ -112,7 +113,7 @@ namespace LMS.Manager
         public void PlayGame()
         {
             PState = PlayState.PLAY;
-            Time.timeScale = 1f;
+            Time.timeScale = basicTimeScale;
         }
         public bool IsGamePlay => PState == PlayState.PLAY;
         //----------------------------------------------------------------------------------------------------------------------
@@ -188,14 +189,22 @@ namespace LMS.Manager
 
         void Update()
         {
-            //TEST-------------------------------------------------------------------------------------------------
+            //TEST----------------------------------------------------------------------------------------------------------------
             playerLevelText.text = $"Lv : {playerLevel}\n¸ó½ºÅÍ °¹¼ö : {CommonMonster.aliveMonsterCount}\nTIme Scale : {Time.timeScale}";
-            if (Input.GetKeyDown(KeyCode.G)) /*GetExpBalls();*/Time.timeScale = 0f;
-            if (Input.GetKeyDown(KeyCode.F)) player.Revive();
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                PState = PlayState.PAUSE;
+                //basicTimeScale = 1f;
+                //Time.timeScale = basicTimeScale;
+            }
+            if (Input.GetKeyDown(KeyCode.G))
+            {
+                PState = PlayState.PLAY;
+                //basicTimeScale = 1f;
+                //Time.timeScale = basicTimeScale;
+            }
             if (Input.GetKeyDown(KeyCode.Space)) /*Time.timeScale = 1f;*/ Exp += maxExp;
-            //if (Input.GetKeyDown(KeyCode.J)) Time.timeScale += 0.1f;
-            //if (Input.GetKeyDown(KeyCode.H)) Time.timeScale -= 0.1f;
-            //TEST-------------------------------------------------------------------------------------------------
+            //TEST----------------------------------------------------------------------------------------------------------------
 
             MapSet();
         }

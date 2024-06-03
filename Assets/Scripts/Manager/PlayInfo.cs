@@ -9,8 +9,9 @@ namespace LMS.Manager
         // Map
         public static readonly float mapEndX = 4.12f;
         public static readonly float mapEndY = 2f;
+        public static readonly string outRangeTag = "OutRange";
 
         // Boss
-        public static readonly float BossSpawnTime = 3f; // seconds
+        public static readonly float BossSpawnTime = 300f; // seconds
     }
 }
