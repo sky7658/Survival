@@ -6105,7 +6105,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2969333510499002906, guid: 14beddd647df0f3409ef91ef7427775c, type: 3}
       propertyPath: m_CullingMode
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3141966634729451290, guid: 14beddd647df0f3409ef91ef7427775c, type: 3}
       propertyPath: m_Name
@@ -6117,11 +6117,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6739931645851410026, guid: 14beddd647df0f3409ef91ef7427775c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 22.09
+      value: 7.72
       objectReference: {fileID: 0}
     - target: {fileID: 6739931645851410026, guid: 14beddd647df0f3409ef91ef7427775c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.18
       objectReference: {fileID: 0}
     - target: {fileID: 6739931645851410026, guid: 14beddd647df0f3409ef91ef7427775c, type: 3}
       propertyPath: m_LocalPosition.z

@@ -1,7 +1,11 @@
+using LMS.General;
+using LMS.Manager;
+
 namespace LMS.User
 {
     public static class PlayerInfo
     {
+        public static readonly EntitySO playerSO = ResourceManager.Instance.GetSO<EntitySO>("PlayerSO");
         public static readonly string playerTag = "Player";
         public static readonly string playerLayer = "Player";
 
