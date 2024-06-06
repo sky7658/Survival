@@ -19,6 +19,7 @@ namespace LMS.User
             {
                 return abilityValue;
             }
+            protected set { abilityValue = value; }
         }
         public Ability(float basicValue, int level)
         {
@@ -41,7 +42,7 @@ namespace LMS.User
         private float GetValueByLevel(int level)
         {
             if (priceByLevel.Count - 1 < level || level < 0)
-                return default(float);
+                return basicValue;
             return basicValue + basicValue * GetRatioByLevel(level);
         }
 
@@ -67,6 +68,8 @@ namespace LMS.User
             ratioByLevel.Add(0.2f);
             ratioByLevel.Add(0.2f);
             ratioByLevel.Add(0.2f);
+
+            AbilityValue = GetValueByCurrentLevel();
         }
     }
     public class Hat : Ability
@@ -83,6 +86,8 @@ namespace LMS.User
             ratioByLevel.Add(0.2f);
             ratioByLevel.Add(0.2f);
             ratioByLevel.Add(0.2f);
+
+            AbilityValue = GetValueByCurrentLevel();
         }
     }
     public class Candy : Ability
@@ -99,6 +104,8 @@ namespace LMS.User
             ratioByLevel.Add(0.2f);
             ratioByLevel.Add(0.2f);
             ratioByLevel.Add(0.2f);
+
+            AbilityValue = GetValueByCurrentLevel();
         }
     }
 }

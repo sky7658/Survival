@@ -13,5 +13,7 @@ namespace LMS.User
         public static readonly string moveAnimName = "IsMove";
         public static readonly string deadAnimName = "Dead";
         public static readonly string reviveAnimName = "Revive";
+
+        public static readonly string[] abilityNames = { "Shoes", "Hat", "Cadny" };
     }
 }

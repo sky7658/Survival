@@ -47,6 +47,13 @@ namespace LMS.User
             base.Recovery(value);
             hpBar.UpdateGaugeBar(Hp);
         }
+        protected override void InitSO()
+        {
+            MaxHp = GameManager.Instance.GetAbilityValue("Candy");
+            Hp = MaxHp;
+            Speed = GameManager.Instance.GetAbilityValue("Shoes");
+            Defense = GameManager.Instance.GetAbilityValue("Hat");
+        }
         public override void Initialized()
         {
             base.Initialized();

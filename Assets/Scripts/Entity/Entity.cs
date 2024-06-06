@@ -7,16 +7,20 @@ namespace LMS.General
     public abstract class Entity : MonoBehaviour, IDamageable
     {
         [SerializeField] private EntitySO entitySO;
-        protected void InitSO()
+        protected virtual void InitSO()
         {
-            entitySO = entitySO == null ? ResourceManager.Instance.GetSO<EntitySO>(ObjectName) : entitySO;
-
+            maxHp = entitySO.MaxHp;
             hp = entitySO.MaxHp;
             speed = entitySO.BasicSpeed;
             defense = entitySO.BasicDefense;
         }
         public string ObjectName { get { return entitySO.ObjectName; } }
-        public float MaxHp { get { return entitySO.MaxHp; } }
+        private float maxHp;
+        public float MaxHp 
+        { 
+            get { return maxHp; }
+            protected set { maxHp = value; }
+        }
         [SerializeField] private float hp;
         public float Hp
         {

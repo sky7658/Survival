@@ -185,7 +185,8 @@ namespace LMS.Manager
             InitGameSetting();
         }
         #endregion
-
+        // TEST
+        [SerializeField] private GameObject optionUI;
 
         void Update()
         {
@@ -204,6 +205,7 @@ namespace LMS.Manager
                 //Time.timeScale = basicTimeScale;
             }
             if (Input.GetKeyDown(KeyCode.Space)) /*Time.timeScale = 1f;*/ Exp += maxExp;
+            if (Input.GetKeyDown(KeyCode.Escape)) optionUI.SetActive(true);
             //TEST----------------------------------------------------------------------------------------------------------------
 
             MapSet();

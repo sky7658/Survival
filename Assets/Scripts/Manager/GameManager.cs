@@ -18,33 +18,19 @@ namespace LMS.Manager
 
         #region 외부 상호작용 메소드
         // Ability
-        public int GetAbilityLevel(string name)
+        private Ability TryGetAbility(string name)
         {
             if (!abilities.TryGetValue(name, out var _ability))
             {
                 Debug.Log($"{name} is not exist in Abilities");
-                return default(int);
+                return null;
             }
-            return _ability.GetLevel;
+            return _ability;
         }
-        public int GetAbilityNextPrice(string name)
-        {
-            if (!abilities.TryGetValue(name, out var _ability)) 
-            {
-                Debug.Log($"{name} is not exist in Abilities");
-                return 0;
-            }
-            return _ability.GetPriceByNextLevel();
-        }
-        public float GetAbilityNextRatio(string name)
-        {
-            if (!abilities.TryGetValue(name, out var _ability))
-            {
-                Debug.Log($"{name} is not exist in Abilities");
-                return 0f;
-            }
-            return _ability.GetRatioByNextLevel();
-        }
+        public float GetAbilityValue(string name) => TryGetAbility(name).AbilityValue;
+        public int GetAbilityLevel(string name) => TryGetAbility(name).GetLevel;
+        public int GetAbilityNextPrice(string name) => TryGetAbility(name).GetPriceByNextLevel();
+        public float GetAbilityNextRatio(string name) => TryGetAbility(name).GetRatioByNextLevel();
         public bool TryUpgradeAbility(string name)
         {
             var _price = GetAbilityNextPrice(name);
@@ -53,13 +39,7 @@ namespace LMS.Manager
                 Debug.Log("돈 부족");
                 return false;
             }
-            if (!abilities.TryGetValue(name, out var _ability))
-            {
-                Debug.Log($"{name} is not exist in Abilities");
-                return false;
-            }
-            _ability.UpgradeAbility();
-
+            TryGetAbility(name).UpgradeAbility();
             pMoney -= _price;
             return true;
         }
@@ -78,7 +58,7 @@ namespace LMS.Manager
         {
             base.Awake();
         }
-        private void Start()
+        private void OnEnable()
         {
             InitPlayerAbility();
         }

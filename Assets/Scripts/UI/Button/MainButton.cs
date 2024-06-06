@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace LMS.UI
@@ -11,12 +12,15 @@ namespace LMS.UI
         [SerializeField] private Button OptionBtn;
         [SerializeField] private Button gameExitBtn;
 
-        [Header("# ShopUI")]
+        [Header("# UIObject")]
         [SerializeField] private GameObject shopUI;
+        [SerializeField] private GameObject optionUI;
 
         private void Awake()
         {
+            startBtn.onClick.AddListener(() => SceneManager.LoadScene(1)); // 이거 수정할거임
             ShopBtn.onClick.AddListener(() => shopUI.SetActive(true));
+            OptionBtn.onClick.AddListener(() => optionUI.SetActive(true));
         }
     }
 }
