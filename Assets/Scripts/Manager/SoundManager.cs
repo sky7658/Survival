@@ -1,4 +1,5 @@
 using LMS.Utility;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace LMS.Manager
@@ -48,17 +49,20 @@ namespace LMS.Manager
             get { return isSfxMute; }
             set { isSfxMute = value; }
         }
-
         private void SetBGMVolume() => bgmSc.volume = BgmVolume;
         private void SetSFXVolume() => sfxSc.volume = SfxVolume;
-
-        public void PlayBGM()
+        public void PlayBGM(string clipName)
         {
-
+            AudioClip _clip = ResourceManager.Instance.GetClip("BGM", clipName);
+            if (_clip is null) return;
+            bgmSc.clip = _clip;
+            bgmSc.Play();
         }
-        public void PlaySFX()
+        public void PlaySFX(string clipName)
         {
-
+            AudioClip _clip = ResourceManager.Instance.GetClip("SFX", clipName);
+            if (_clip is null) return;
+            bgmSc.PlayOneShot(_clip);
         }
     }
 }
