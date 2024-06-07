@@ -6,6 +6,9 @@ using LMS.Enemy;
 using LMS.User;
 using LMS.UI;
 using LMS.ItemObject;
+using UnityEngine.SceneManagement;
+using UnityEngine.SubsystemsImplementation;
+using Unity.VisualScripting;
 
 namespace LMS.Manager
 {
@@ -176,9 +179,6 @@ namespace LMS.Manager
             Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Enemy"), LayerMask.NameToLayer("Item"));
             Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Item"), LayerMask.NameToLayer("Item"));
             Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Item"), LayerMask.NameToLayer("WeaponObject"));
-        }
-        protected override void Awake()
-        {
         }
         private void Start()
         {

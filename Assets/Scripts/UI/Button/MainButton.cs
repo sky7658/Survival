@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace LMS.UI
@@ -18,7 +17,7 @@ namespace LMS.UI
 
         private void Awake()
         {
-            startBtn.onClick.AddListener(() => SceneManager.LoadScene(1)); // 이거 수정할거임
+            startBtn.onClick.AddListener(() => LoadingScene.LoadScene(1)); // 이거 수정할거임
             ShopBtn.onClick.AddListener(() => shopUI.SetActive(true));
             OptionBtn.onClick.AddListener(() => optionUI.SetActive(true));
         }

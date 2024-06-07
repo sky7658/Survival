@@ -33,7 +33,7 @@ namespace LMS.Utility
             }
             else
             {
-                Destroy(gameObject);
+                if (UseDontDestroy()) Destroy(gameObject);
             }
         }
 

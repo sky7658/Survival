@@ -13,7 +13,7 @@ namespace LMS.UI
         protected override void Awake()
         {
             base.Awake();
-            mainBtn.onClick.AddListener(() => SceneManager.LoadScene(0)); // 이거 수정할거임
+            mainBtn.onClick.AddListener(() => LoadingScene.LoadScene(0)); // 이거 수정할거임
         }
     }
 }

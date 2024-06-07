@@ -48,6 +48,7 @@ namespace LMS.UI
                     weaponUI.AddWeaponUI(wnameofIndex[selectIndexs[index]]); // Player가 가지고 있는 Weapon UI 업데이트
 
                     btns.ForEach(btn => btn.gameObject.SetActive(false));
+                    PlayManager.Instance.PlayGame();
                     gameObject.SetActive(false);
                 });
             }
@@ -61,10 +62,6 @@ namespace LMS.UI
                 PlayManager.Instance.PauseGame();
                 SetRewards();
             } else gameObject.SetActive(false);
-        }
-        private void OnDisable()
-        {
-            PlayManager.Instance.PlayGame();
         }
         private List<int> InitReardsIndexs()
         {
@@ -80,7 +77,6 @@ namespace LMS.UI
             }
             return _rewards;
         }
-
         private void SetRewards()
         {
             List<int> _list = InitReardsIndexs();
