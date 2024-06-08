@@ -7,6 +7,10 @@ namespace LMS.User
 {
     public class GemStone : WeaponObject
     {
+        protected static float cumulativeDamage;
+        public static float CumulativeDamage { get { return cumulativeDamage; } }
+        protected override void IncreaseCumlativeDamage(float value) => cumulativeDamage += value;
+
         private float createTime;
         private CoroutineController cc = new CoroutineController();
 

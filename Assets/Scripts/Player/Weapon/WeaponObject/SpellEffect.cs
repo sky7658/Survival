@@ -34,7 +34,7 @@ namespace LMS.User
                     monster.TakeDamage(_atk, _knockBackV.normalized);
 
                     var _sword = Utility.ObjectPool.Instance.GetObject<Sword>(Base.WeaponInfo.wonames[wInfo.wName]);
-                    _sword.Initialized(wInfo, targets[_index].transform);
+                    _sword.Initialized(wInfo, targets[_index].transform, _atk);
                 }
                 _pq.Remove(_pq.Min);
             }

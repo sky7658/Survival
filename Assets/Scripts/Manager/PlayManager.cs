@@ -29,6 +29,7 @@ namespace LMS.Manager
         [SerializeField] private UnityEngine.UI.Text playerLevelText;
         [SerializeField] private MoneyUI moneyUI;
         [SerializeField] private int myMoney;
+        public int GetMyMoney { get { return myMoney; } }
         private float basicTimeScale = 1.0f;
 
         private MonsterSpawner monsterSpawner;
@@ -121,6 +122,7 @@ namespace LMS.Manager
         public bool IsGamePlay => PState == PlayState.PLAY;
         //----------------------------------------------------------------------------------------------------------------------
         // 플레이어 레벨--------------------------------------------------------------------------------------------------------
+        public bool IsExistWeapon(string wName) => wController.IsExistWeapon(wName);
         public void WeaponLevelUp(string wName) => wController.AddWeapon(wName);
         public int GetWeaponLevel(string wName) => wController.GetWeaponLevel(wName);
         private void LevelUp()
@@ -211,5 +213,4 @@ namespace LMS.Manager
             MapSet();
         }
     }
-
 }

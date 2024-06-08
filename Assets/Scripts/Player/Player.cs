@@ -20,6 +20,7 @@ namespace LMS.User
             SetOriginColor();
             PlayManager.Instance.SlowPauseGame();
             SetAnimatorMode(AnimatorUpdateMode.UnscaledTime);
+            GameResult.CreateGameOverResult();
         }
         public void Revive()
         {

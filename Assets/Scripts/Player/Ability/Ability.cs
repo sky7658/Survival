@@ -11,7 +11,7 @@ namespace LMS.User
 
         private int level;
         public int GetLevel { get { return level; } }
-        private float basicValue;
+        protected float basicValue;
         private float abilityValue;
         public float AbilityValue
         {
@@ -39,7 +39,7 @@ namespace LMS.User
             return priceByLevel[level];
         }
         public float GetValueByCurrentLevel() => GetValueByLevel(level);
-        private float GetValueByLevel(int level)
+        protected virtual float GetValueByLevel(int level)
         {
             if (priceByLevel.Count - 1 < level || level < 0)
                 return basicValue;
@@ -59,15 +59,15 @@ namespace LMS.User
         public static readonly string abilityName = "Shoes";
         public Shoes(float basicValue, int level = -1) : base(basicValue, level)
         {
-            priceByLevel.Add(100);
-            priceByLevel.Add(100);
-            priceByLevel.Add(100);
-            priceByLevel.Add(100);
+            priceByLevel.Add(500);
+            priceByLevel.Add(3000);
+            priceByLevel.Add(13000);
+            priceByLevel.Add(30000);
 
             ratioByLevel.Add(0.2f);
-            ratioByLevel.Add(0.2f);
-            ratioByLevel.Add(0.2f);
-            ratioByLevel.Add(0.2f);
+            ratioByLevel.Add(0.4f);
+            ratioByLevel.Add(0.6f);
+            ratioByLevel.Add(0.8f);
 
             AbilityValue = GetValueByCurrentLevel();
         }
@@ -77,17 +77,23 @@ namespace LMS.User
         public static readonly string abilityName = "Hat";
         public Hat(float basicValue, int level = -1) : base(basicValue, level)
         {
-            priceByLevel.Add(100);
-            priceByLevel.Add(100);
-            priceByLevel.Add(100);
-            priceByLevel.Add(100);
+            priceByLevel.Add(500);
+            priceByLevel.Add(3000);
+            priceByLevel.Add(13000);
+            priceByLevel.Add(30000);
 
             ratioByLevel.Add(0.2f);
-            ratioByLevel.Add(0.2f);
-            ratioByLevel.Add(0.2f);
-            ratioByLevel.Add(0.2f);
+            ratioByLevel.Add(0.4f);
+            ratioByLevel.Add(0.6f);
+            ratioByLevel.Add(0.8f);
 
             AbilityValue = GetValueByCurrentLevel();
+        }
+        protected override float GetValueByLevel(int level)
+        {
+            if (priceByLevel.Count - 1 < level || level < 0)
+                return basicValue;
+            return basicValue + ratioByLevel[level];
         }
     }
     public class Candy : Ability
@@ -95,15 +101,15 @@ namespace LMS.User
         public static readonly string abilityName = "Candy";
         public Candy(float basicValue, int level = -1) : base(basicValue, level)
         {
-            priceByLevel.Add(100);
-            priceByLevel.Add(100);
-            priceByLevel.Add(100);
-            priceByLevel.Add(100);
+            priceByLevel.Add(500);
+            priceByLevel.Add(3000);
+            priceByLevel.Add(13000);
+            priceByLevel.Add(30000);
 
             ratioByLevel.Add(0.2f);
-            ratioByLevel.Add(0.2f);
-            ratioByLevel.Add(0.2f);
-            ratioByLevel.Add(0.2f);
+            ratioByLevel.Add(0.4f);
+            ratioByLevel.Add(0.6f);
+            ratioByLevel.Add(0.8f);
 
             AbilityValue = GetValueByCurrentLevel();
         }

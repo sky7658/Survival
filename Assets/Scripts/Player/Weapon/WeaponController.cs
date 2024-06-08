@@ -17,6 +17,7 @@ namespace LMS.User
             weaponCaches.Add(Base.WeaponInfo.wnameSO.Ring, new Ring(pTrans));
         }
 
+        public bool IsExistWeapon(string wName) => GetWeapon(wName) != null ? true : false;
         public void AddWeapon(string wName)
         {
             if (WeaponLevelUp(wName)) return;
@@ -28,7 +29,6 @@ namespace LMS.User
             }
             Debug.Log("존재하지 않은 Weapon 이름입니다.");
         }
-
         public void RemoveWeapon(string wName)
         {
             for (int i = 0; i < weapons.Count; i++)
@@ -42,7 +42,6 @@ namespace LMS.User
             }
             Debug.Log("존재하지 않은 Weapon 이름입니다.");
         }
-
         private Weapon GetWeapon(string wName)
         {
             foreach (var weapon in weapons)

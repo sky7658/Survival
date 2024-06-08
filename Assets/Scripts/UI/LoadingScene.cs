@@ -40,7 +40,9 @@ namespace LMS.UI
         {
             loadingBar = transform.GetChild(0).GetComponent<Image>();
             percentText = transform.GetChild(1).GetComponent<Text>();
-
+        }
+        private void OnEnable()
+        {
             loadingBar.fillAmount = 0f;
         }
         private void Load(string sceneName) => coroutine = Manager.CoroutineManager.Instance.ExecuteCoroutine(Loading(sceneName));

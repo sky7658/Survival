@@ -12,8 +12,15 @@ namespace LMS.Manager
         private Dictionary<string, Ability> abilities = new Dictionary<string, Ability>();
 
         // PlayerData
-        private int pMoney = 10000; // 임시 데이터
+        private int pMoney = 100000; // 임시 데이터
         public int GetPlayerMoney {  get { return pMoney; } }
+        #endregion
+
+        #region GameData
+        public void UpdateGameData(int money)
+        {
+            pMoney += money;
+        }
         #endregion
 
         #region 외부 상호작용 메소드
@@ -49,7 +56,7 @@ namespace LMS.Manager
         public void InitPlayerAbility()
         {
             // PlayerData를 불러와서 인스턴스 생성할 예정
-            abilities.Add(Shoes.abilityName, new Shoes(PlayerInfo.playerSO.BasicSpeed, 0));
+            abilities.Add(Shoes.abilityName, new Shoes(PlayerInfo.playerSO.BasicSpeed));
             abilities.Add(Hat.abilityName, new Hat(PlayerInfo.playerSO.BasicDefense));
             abilities.Add(Candy.abilityName, new Candy(PlayerInfo.playerSO.MaxHp));
         }

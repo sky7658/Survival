@@ -1,12 +1,12 @@
 using UnityEngine;
 using LMS.General;
 using Unity.VisualScripting;
+using System.Net.Http.Headers;
 
 namespace LMS.User
 {
     public abstract class WeaponObject : MonoBehaviour
     {
-        Transform t;
         protected WeaponInfo wInfo;
         protected float keepTime;
         private string woName;
@@ -24,13 +24,12 @@ namespace LMS.User
                 Debug.Log($"{woName} is not exist in WeaponObjectNames");
                 keepTime = 0f;
             }
-            t = GameObject.Find("Player").GetComponent<Transform>(); // 없애주세용x
         }
         public virtual void Initialized(WeaponInfo wInfo, Vector2 pos)
         {
             Initialized(wInfo);
         }
-        public virtual void Initialized(WeaponInfo wInfo, Transform target)
+        public virtual void Initialized(WeaponInfo wInfo, Transform target, float atk)
         {
             Initialized(wInfo);
         }
@@ -43,10 +42,12 @@ namespace LMS.User
                 {
                     if (wInfo.penetrationCnt == 0) return;
                     --wInfo.penetrationCnt;
-                    var _knockBackV = collision.transform.position - t.position; // 수정해주세용
+                    var _knockBackV = (Vector2)collision.transform.position - Manager.PlayManager.Instance.GetPlayerPos; // 수정해주세용
                     var _range = wInfo.atk * 0.2f;
                     var _atk = Random.Range(wInfo.atk - _range, wInfo.atk + _range + 1);
                     enemy.TakeDamage(_atk, _knockBackV.normalized);
+
+                    IncreaseCumlativeDamage(_atk);
                 }
 
                 if (wInfo.penetrationCnt == -1) return;
@@ -62,6 +63,7 @@ namespace LMS.User
             }
         }
 
+        protected abstract void IncreaseCumlativeDamage(float value);
         protected abstract void ReturnObject();
     }
 }

@@ -1,5 +1,7 @@
 using LMS.Manager;
+using System;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -37,7 +39,6 @@ namespace LMS.UI
                 prices.Add(abilities[i].transform.GetChild(4).GetComponent<Text>());
 
                 upgradeBtns[i].onClick.AddListener(() => UpgradeAbility(index));
-
             }
 
             exitBtn.onClick.AddListener(() => ButtonEvent.UIExitEvent(gameObject));
@@ -77,9 +78,23 @@ namespace LMS.UI
                 prices[index].text = string.Format(moneyText, _gmr.GetAbilityNextPrice(_name));
             }
 
+            UpdatePriceTextColor();
+
             if (_level < 0) return;
             for (int i = 0; i <= _level; i++)
                 abilities[index].transform.GetChild(2).transform.GetChild(i).transform.GetChild(0).gameObject.SetActive(true);
+        }
+        private void UpdatePriceTextColor()
+        {
+            for (int i = 0; i < abilityCount; i++)
+            {
+                var _gmr = GameManager.Instance;
+                var _name = nameofIndex[i];
+                var _nextPrice = _gmr.GetAbilityNextPrice(_name);
+
+                if (_nextPrice <= _gmr.GetPlayerMoney || _nextPrice.Equals(default(int))) prices[i].color = Color.white;
+                else prices[i].color = Color.red;
+            }
         }
     }
 }
