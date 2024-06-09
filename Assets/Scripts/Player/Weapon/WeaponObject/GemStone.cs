@@ -10,6 +10,7 @@ namespace LMS.User
         protected static float cumulativeDamage;
         public static float CumulativeDamage { get { return cumulativeDamage; } }
         protected override void IncreaseCumlativeDamage(float value) => cumulativeDamage += value;
+        public static void InitCumulativeDamage() => cumulativeDamage = 0f;
 
         private float createTime;
         private CoroutineController cc = new CoroutineController();

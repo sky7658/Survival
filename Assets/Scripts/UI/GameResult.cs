@@ -18,7 +18,7 @@ namespace LMS.UI
 
             var _result = Instantiate(ResourceManager.Instance.GetObject<GameResult>("Result"));
             _result.transform.SetParent(_parent, false);
-            _result.Initialized(resultText);
+            _result.Initialized(resultText, resultText == "Game Clear" ? 1 : 0);
         }
 
         [SerializeField] private Text gameResultText;
@@ -36,8 +36,10 @@ namespace LMS.UI
             mainBtn = transform.GetChild(1).GetComponent<Button>();
             moneyText = transform.GetChild(2).GetComponent<Text>();
         }
-        private void OnEnable()
+        public void Initialized(string resultText, int count)
         {
+            PlayManager.Instance.PauseGame();
+
             // 버튼 이벤트 추가
             mainBtn.onClick.AddListener(() => LoadingScene.LoadScene(0));
 
@@ -45,7 +47,9 @@ namespace LMS.UI
             var _getMoney = PlayManager.Instance.GetMyMoney;
             moneyText.text = string.Format(MoneyUI.moneyString + " 획득!", _getMoney);
             moneyText.transform.GetChild(0).GetComponent<Image>().sprite = Coin.GetMoneySprite(_getMoney);
-            GameManager.Instance.UpdateGameData(_getMoney);
+
+            // GameData Update
+            GameManager.Instance.UpdateGameData(_getMoney, count);
 
             // 누적 데미지 Text 생성
             int _index = 0;
@@ -83,14 +87,14 @@ namespace LMS.UI
 
                 var _text = Instantiate(ResourceManager.Instance.GetObject<Text>("DamageResultText"));
                 _text.transform.SetParent(transform, false);
-                _text.transform.localPosition = new Vector2(-260f, 110f - intervalY * _index++);
+                _text.transform.localPosition = new Vector2(0f, 110f - intervalY * _index++);
 
                 _text.transform.GetChild(0).GetComponent<Image>().sprite = ResourceManager.Instance.GetSprite(_imgName);
                 _text.text = string.Format(damageText, _damage);
-
             }
-        }
 
-        public void Initialized(string resultText) => gameResultText.text = string.Format(gameResultString, resultText);
+            // 게임 결과 Text
+            gameResultText.text = string.Format(gameResultString, resultText);
+        }
     }
 }

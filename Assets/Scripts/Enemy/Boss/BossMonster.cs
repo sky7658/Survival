@@ -1,6 +1,7 @@
 using UnityEngine;
 using LMS.State;
 using LMS.UI;
+using LMS.Manager;
 
 namespace LMS.Enemy
 {
@@ -159,6 +160,7 @@ namespace LMS.Enemy
             atkDelegate = GetAtkType();
             Hp = MaxHp;
             Atk *= 1.5f;
+            CutSceneManager.Instance.StartBossModeCutScene((Vector2)transform.position - PlayManager.Instance.GetPlayerPos);
         }
         void Update()
         {

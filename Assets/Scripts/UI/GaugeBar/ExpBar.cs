@@ -4,6 +4,7 @@ namespace LMS.UI
 {
     public class ExpBar : GaugeBar
     {
+        protected override float DeltaTime => Time.unscaledDeltaTime;
         public override void Initialized(float maxValue)
         {
             base.Initialized(maxValue);

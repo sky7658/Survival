@@ -10,6 +10,8 @@ namespace LMS.User
     {
         protected static float cumulativeDamage;
         public static float CumulativeDamage { get { return cumulativeDamage; } }
+        protected override void IncreaseCumlativeDamage(float value) => cumulativeDamage += value;
+        public static void InitCumulativeDamage() => cumulativeDamage = 0f;
         public override void Initialized(General.WeaponInfo wInfo, Vector2 pos)
         {
             base.Initialized(wInfo, pos);
@@ -23,7 +25,6 @@ namespace LMS.User
             SetVelocity(dir);
         }
 
-        protected override void IncreaseCumlativeDamage(float value) => cumulativeDamage += value;
         protected override void ReturnObject() => Utility.ObjectPool.Instance.ReturnObject(this, GetWoName);
     }
 }

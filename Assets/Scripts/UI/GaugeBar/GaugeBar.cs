@@ -15,7 +15,9 @@ namespace LMS.UI
 
         [SerializeField] protected float maxGaugeValue;
         [SerializeField] protected float gaugeValue;
-        
+
+        protected virtual float DeltaTime => Time.deltaTime;
+
         private Utility.CoroutineController cc;
 
         private void Awake()
@@ -50,7 +52,7 @@ namespace LMS.UI
 
             while (_elapsed < _fillTime)
             {
-                second.fillAmount = Mathf.Lerp(_orginValue, first.fillAmount, (_elapsed += Time.unscaledDeltaTime) / _fillTime);
+                second.fillAmount = Mathf.Lerp(_orginValue, first.fillAmount, (_elapsed += DeltaTime) / _fillTime);
                 yield return null;
             }
             second.fillAmount = first.fillAmount;

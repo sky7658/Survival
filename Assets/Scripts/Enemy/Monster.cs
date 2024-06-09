@@ -99,6 +99,7 @@ namespace LMS.Enemy
             }
             yield return UtilFunctions.WaitForSeconds(_deadTime);
             ReturnMonster();
+            if (GetType().IsSubclassOf(typeof(BossMonster))) GameResult.CreateGameClearResult();
         }
         public override void TakeDamage(float value, Vector2 vec = default)
         {

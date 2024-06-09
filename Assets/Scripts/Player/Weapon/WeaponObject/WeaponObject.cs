@@ -7,6 +7,13 @@ namespace LMS.User
 {
     public abstract class WeaponObject : MonoBehaviour
     {
+        public static void InitWeaponObjectCumulativeDamage()
+        {
+            Arrow.InitCumulativeDamage();
+            Sword.InitCumulativeDamage();
+            GemStone.InitCumulativeDamage();
+        }
+
         protected WeaponInfo wInfo;
         protected float keepTime;
         private string woName;

@@ -6,15 +6,13 @@ namespace LMS.Enemy
 {
     public class MonsterSpawner
     {
-        private Transform pTrans;
         private Coroutine coroutine;
         private int maxCommonMonsterCount = 100;
         public static readonly float _radius = 10f;
         private float ratio = 0.05f; // Default Value 0.05f
 
-        public MonsterSpawner(Transform pTrans) 
+        public MonsterSpawner() 
         {
-            this.pTrans = pTrans;
             StartCommonMonsterSpawn();
         }
         public void StartCommonMonsterSpawn() => coroutine = CoroutineManager.Instance.ExecuteCoroutine(AutoSpawn());
@@ -47,10 +45,10 @@ namespace LMS.Enemy
                     {
                         var _deg = Random.Range(0, 360);
                         var _boss = GetMonster(4);
-                        _boss.transform.position = (Vector2)pTrans.position
+                        _boss.transform.position = PlayManager.Instance.GetPlayerPos
                             + new Vector2(Mathf.Cos(_deg * Mathf.Deg2Rad) * (_radius + 2f), Mathf.Sin(_deg * Mathf.Deg2Rad) * (_radius + 2f));
 
-                        CutSceneManager.Instance.StartBossModeCutScene(_boss.transform.position - pTrans.position);
+                        CutSceneManager.Instance.StartBossModeCutScene((Vector2)_boss.transform.position - PlayManager.Instance.GetPlayerPos);
                         yield break;
                     }
                 }
@@ -85,7 +83,7 @@ namespace LMS.Enemy
                 var _y = Mathf.Sin(_deg * Mathf.Deg2Rad) * _radius;
 
                 Monster _monster = GetMonster(index);
-                if (_monster != null) _monster.transform.position = (Vector2)pTrans.position + new Vector2(_x, _y);
+                if (_monster != null) _monster.transform.position = PlayManager.Instance.GetPlayerPos + new Vector2(_x, _y);
             }
         }
         private float StartDegree()

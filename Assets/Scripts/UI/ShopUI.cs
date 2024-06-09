@@ -24,7 +24,7 @@ namespace LMS.UI
         private List<string> nameofIndex = new List<string>() { "Shoes", "Hat", "Candy" };
         private int abilityCount;
         private readonly string moneyText = "{0}G";
-        private readonly string abilityDescription = "´É·ÂÄ¡ {0}% »ó½Â";
+        private readonly string abilityDescription = "NextLevel : ´É·ÂÄ¡ {0}% »ó½Â";
 
         private void Awake()
         {
@@ -48,25 +48,25 @@ namespace LMS.UI
 
         private void OnEnable()
         {
-            myMoney.text = string.Format(moneyText, GameManager.Instance.GetPlayerMoney);
+            myMoney.text = string.Format(moneyText, GameManager.Instance.PlayerMoney);
         }
         private void UpgradeAbility(int index)
         {
-            if (GameManager.Instance.GetAbilityLevel(nameofIndex[index]) == User.Ability.abilityMaxLevel - 1) return;
-            if (GameManager.Instance.TryUpgradeAbility(nameofIndex[index]))
+            if (ShopManager.Instance.GetAbilityLevel(nameofIndex[index]) == User.Ability.abilityMaxLevel - 1) return;
+            if (ShopManager.Instance.TryUpgradeAbility(nameofIndex[index]))
             {
                 UpdateAbilityInfo(index);
             }
         }
         private void UpdateAbilityInfo(int index)
         {
-            var _gmr = GameManager.Instance;
-            myMoney.text = string.Format(moneyText, _gmr.GetPlayerMoney);
+            var _smr = ShopManager.Instance;
+            myMoney.text = string.Format(moneyText, GameManager.Instance.PlayerMoney);
 
             var _name = nameofIndex[index];
-            var _level = _gmr.GetAbilityLevel(_name);
+            var _level = _smr.GetAbilityLevel(_name);
 
-            var _nextRatio = _gmr.GetAbilityNextRatio(_name);
+            var _nextRatio = _smr.GetAbilityNextRatio(_name);
             if (_nextRatio == default(float))
             {
                 descriptions[index].text = "Max Level";
@@ -75,7 +75,7 @@ namespace LMS.UI
             else
             {
                 descriptions[index].text = string.Format(abilityDescription, _nextRatio * 100);
-                prices[index].text = string.Format(moneyText, _gmr.GetAbilityNextPrice(_name));
+                prices[index].text = string.Format(moneyText, _smr.GetAbilityNextPrice(_name));
             }
 
             UpdatePriceTextColor();
@@ -88,11 +88,10 @@ namespace LMS.UI
         {
             for (int i = 0; i < abilityCount; i++)
             {
-                var _gmr = GameManager.Instance;
                 var _name = nameofIndex[i];
-                var _nextPrice = _gmr.GetAbilityNextPrice(_name);
+                var _nextPrice = ShopManager.Instance.GetAbilityNextPrice(_name);
 
-                if (_nextPrice <= _gmr.GetPlayerMoney || _nextPrice.Equals(default(int))) prices[i].color = Color.white;
+                if (_nextPrice <= GameManager.Instance.PlayerMoney || _nextPrice.Equals(default(int))) prices[i].color = Color.white;
                 else prices[i].color = Color.red;
             }
         }

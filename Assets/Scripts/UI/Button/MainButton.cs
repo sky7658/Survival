@@ -17,9 +17,10 @@ namespace LMS.UI
 
         private void Awake()
         {
-            startBtn.onClick.AddListener(() => LoadingScene.LoadScene(1)); // 이거 수정할거임
+            startBtn.onClick.AddListener(() => LoadingScene.LoadScene(1));
             ShopBtn.onClick.AddListener(() => shopUI.SetActive(true));
             OptionBtn.onClick.AddListener(() => optionUI.SetActive(true));
+            gameExitBtn.onClick.AddListener(() => ButtonEvent.GameExitEvent());
         }
     }
 }

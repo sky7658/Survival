@@ -14,7 +14,7 @@ namespace LMS.UI
         [SerializeField] private List<Toggle> muteToggles = new List<Toggle>();
 
         [Header("# Button UI")]
-        [SerializeField] private Button exitBtn;
+        [SerializeField] protected Button exitBtn;
 
         protected virtual void Awake()
         {
@@ -33,11 +33,11 @@ namespace LMS.UI
 
         private void OnEnable()
         {
-            volumeSliders[0].value = SoundManager.Instance.BgmVolume;
-            volumeSliders[1].value = SoundManager.Instance.SfxVolume;
+            if (muteToggles[0].isOn.Equals(!SoundManager.Instance.IsBgmMute)) ToggleEvent(muteToggles[0].isOn, 0);
+            else muteToggles[0].isOn = !SoundManager.Instance.IsBgmMute;
 
-            muteToggles[0].isOn = !SoundManager.Instance.IsBgmMute;
-            muteToggles[1].isOn = !SoundManager.Instance.IsSfxMute;
+            if (muteToggles[1].isOn.Equals(!SoundManager.Instance.IsSfxMute)) ToggleEvent(muteToggles[1].isOn, 1);
+            else muteToggles[1].isOn = !SoundManager.Instance.IsSfxMute;
         }
 
         private void UpdateVolumeAmount(float value, int index)

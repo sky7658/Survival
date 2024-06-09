@@ -18,9 +18,8 @@ namespace LMS.User
             base.Dead();
             cc.OffCoroutine("HitColor");
             SetOriginColor();
-            PlayManager.Instance.SlowPauseGame();
+            PlayManager.Instance.SlowPauseGame(() => GameResult.CreateGameOverResult());
             SetAnimatorMode(AnimatorUpdateMode.UnscaledTime);
-            GameResult.CreateGameOverResult();
         }
         public void Revive()
         {

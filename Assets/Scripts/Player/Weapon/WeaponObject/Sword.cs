@@ -9,6 +9,7 @@ namespace LMS.User
     {
         protected static float cumulativeDamage;
         public static float CumulativeDamage { get { return cumulativeDamage; } }
+        public static void InitCumulativeDamage() => cumulativeDamage = 0f;
         protected override void IncreaseCumlativeDamage(float value) => cumulativeDamage += value;
 
         private Transform effectObject;

@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace LMS.UI
@@ -13,7 +10,8 @@ namespace LMS.UI
         protected override void Awake()
         {
             base.Awake();
-            mainBtn.onClick.AddListener(() => LoadingScene.LoadScene(0)); // 이거 수정할거임
+            mainBtn.onClick.AddListener(() => LoadingScene.LoadScene(0));
+            exitBtn.onClick.AddListener(() => Manager.PlayManager.Instance.PlayGame());
         }
     }
 }

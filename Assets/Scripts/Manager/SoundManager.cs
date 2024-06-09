@@ -13,7 +13,7 @@ namespace LMS.Manager
         [SerializeField] private AudioSource sfxSc;
 
         [Header("# Volume")]
-        [SerializeField] private float bgmVolume = 1f;
+        [SerializeField] private float bgmVolume;
         public float BgmVolume
         {
             get { return bgmVolume; }
@@ -24,7 +24,7 @@ namespace LMS.Manager
                 if (!IsBgmMute && BgmVolume > 0f) saveBgmVolume = BgmVolume;
             }
         }
-        [SerializeField] private float sfxVolume = 1f;
+        [SerializeField] private float sfxVolume;
         public float SfxVolume
         {
             get { return sfxVolume; }
@@ -35,8 +35,8 @@ namespace LMS.Manager
                 if (!isSfxMute && SfxVolume > 0f) saveSfxVolume = SfxVolume;
             }
         }
-        public float saveBgmVolume = 1f;
-        public float saveSfxVolume = 1f;
+        public float saveBgmVolume;
+        public float saveSfxVolume;
         [SerializeField] private bool isBgmMute = false;
         public bool IsBgmMute
         {

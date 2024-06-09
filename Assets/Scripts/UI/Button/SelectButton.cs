@@ -48,8 +48,8 @@ namespace LMS.UI
                     weaponUI.AddWeaponUI(wnameofIndex[selectIndexs[index]]); // Player가 가지고 있는 Weapon UI 업데이트
 
                     btns.ForEach(btn => btn.gameObject.SetActive(false));
-                    PlayManager.Instance.PlayGame();
                     gameObject.SetActive(false);
+                    PlayManager.Instance.PlayGame();
                 });
             }
 

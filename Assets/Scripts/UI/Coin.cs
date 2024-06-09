@@ -32,7 +32,7 @@ namespace LMS.UI
             while (_elapsed < 1f)
             {
                 _elapsed += Time.unscaledDeltaTime;
-                transform.localPosition = Vector2.SmoothDamp(transform.localPosition, new Vector2(589f, 260f), ref velocity, speed, Mathf.Infinity, Time.unscaledDeltaTime);
+                transform.localPosition = Vector2.SmoothDamp(transform.localPosition, new Vector2(610f, 248f), ref velocity, speed, Mathf.Infinity, Time.unscaledDeltaTime);
                 yield return null;
             }
             PlayManager.Instance.UpdateMoney(amount);

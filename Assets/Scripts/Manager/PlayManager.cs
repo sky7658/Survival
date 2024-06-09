@@ -9,6 +9,7 @@ using LMS.ItemObject;
 using UnityEngine.SceneManagement;
 using UnityEngine.SubsystemsImplementation;
 using Unity.VisualScripting;
+using LMS.Controller;
 
 namespace LMS.Manager
 {
@@ -29,10 +30,9 @@ namespace LMS.Manager
         [SerializeField] private UnityEngine.UI.Text playerLevelText;
         [SerializeField] private MoneyUI moneyUI;
         [SerializeField] private int myMoney;
-        public int GetMyMoney { get { return myMoney; } }
-        private float basicTimeScale = 1.0f;
+        [SerializeField] private UnityEngine.UI.Button optionButton;
+        [SerializeField] private GameObject optionUI;
 
-        private MonsterSpawner monsterSpawner;
         [Header("# Player")]
         [SerializeField] private Player player;
         private WeaponController wController;
@@ -46,6 +46,10 @@ namespace LMS.Manager
 
         [Header("# PlayState")]
         [SerializeField] private PlayState pState;
+
+        public int GetMyMoney { get { return myMoney; } }
+        private MonsterSpawner monsterSpawner;
+        private float basicTimeScale = 1.0f;
 
         public PlayState PState
         {
@@ -92,6 +96,11 @@ namespace LMS.Manager
 
             transform.position = _pos;
         }
+        private void ActiveOptionUI()
+        {
+            optionUI.SetActive(true);
+            PauseGame();
+        }
         #endregion
 
         #region 외부 상호작용 메소드
@@ -114,8 +123,10 @@ namespace LMS.Manager
             if (action != null) action();
             yield break;
         }
+
         public void PlayGame()
         {
+            if (optionUI.activeSelf || rewardsButton.activeSelf) return;
             PState = PlayState.PLAY;
             Time.timeScale = basicTimeScale;
         }
@@ -158,7 +169,9 @@ namespace LMS.Manager
         #region Init
         private void InitGameSetting()
         {
-            monsterSpawner = new MonsterSpawner(player.transform);
+            WeaponObject.InitWeaponObjectCumulativeDamage();
+
+            monsterSpawner = new MonsterSpawner();
             wController = new WeaponController(player.transform);
 
             ElapsedTime = 0;
@@ -174,7 +187,6 @@ namespace LMS.Manager
             moneyUI.UpdateMoney(myMoney);
 
             SetIgnoreCollision();
-            // 또 뭐가 필요할까?
         }
         private void SetIgnoreCollision()
         {
@@ -187,8 +199,6 @@ namespace LMS.Manager
             InitGameSetting();
         }
         #endregion
-        // TEST
-        [SerializeField] private GameObject optionUI;
 
         void Update()
         {
@@ -207,7 +217,7 @@ namespace LMS.Manager
                 //Time.timeScale = basicTimeScale;
             }
             if (Input.GetKeyDown(KeyCode.Space)) /*Time.timeScale = 1f;*/ Exp += maxExp;
-            if (Input.GetKeyDown(KeyCode.Escape)) optionUI.SetActive(true);
+            if (Input.GetKeyDown(KeyCode.Escape)) ActiveOptionUI();
             //TEST----------------------------------------------------------------------------------------------------------------
 
             MapSet();

@@ -12,8 +12,11 @@ namespace LMS.Enemy.Boss
 
         public void Enter(BossMonster obj)
         {
-            if (!obj.TransformMode && true /* 특정 조건을 달성하면 2페이즈로 넘어갈 수 있음*/) 
+            if (!obj.TransformMode && true /* 특정 조건을 달성하면 2페이즈로 넘어갈 수 있음*/)
+            {
+                obj.SetAnimation(MonsterInfo.bossIdleAnimName, false);
                 obj.TransformInit();
+            }
             else
             {
                 obj.SetAnimation(MonsterInfo.bossDeadAnimName);

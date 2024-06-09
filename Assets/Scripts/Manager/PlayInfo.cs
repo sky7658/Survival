@@ -12,6 +12,6 @@ namespace LMS.Manager
         public static readonly string outRangeTag = "OutRange";
 
         // Boss
-        public static readonly float BossSpawnTime = 300f; // seconds
+        public static readonly float BossSpawnTime = 5f; // seconds
     }
 }
