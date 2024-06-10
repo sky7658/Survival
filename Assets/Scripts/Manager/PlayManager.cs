@@ -219,7 +219,6 @@ namespace LMS.Manager
             if (Input.GetKeyDown(KeyCode.Space)) /*Time.timeScale = 1f;*/ Exp += maxExp;
             if (Input.GetKeyDown(KeyCode.Escape)) ActiveOptionUI();
             //TEST----------------------------------------------------------------------------------------------------------------
-
             MapSet();
         }
     }
