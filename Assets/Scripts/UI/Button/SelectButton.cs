@@ -8,11 +8,14 @@ namespace LMS.UI
 {
     public class SelectButton : MonoBehaviour
     {
-        [Header("Reward Button Object")]
+        [Header("# Reward Button Object")]
         [SerializeField] private List<Button> btns;
 
-        [Header("Weapon UI")]
+        [Header("# Weapon UI")]
         [SerializeField] private WeaponUI weaponUI;
+
+        [Header("# Image UI")]
+        [SerializeField] private Image backGround;
 
         private static readonly int rewardsCount = 2;       // 선택할 수 있는 보상 갯수
         private int[] selectIndexs = new int[rewardsCount]; // 선택한 Button에 Reward의 index값을 저장하는 배열
@@ -32,6 +35,8 @@ namespace LMS.UI
 
         private void Awake()
         {
+            backGround.rectTransform.sizeDelta = transform.parent.GetComponent<RectTransform>().sizeDelta;
+
             for (int i = 0; i < rewardsCount; i++)
             {
                 imgs[i] = btns[i].transform.GetChild(1).GetComponent<Image>();

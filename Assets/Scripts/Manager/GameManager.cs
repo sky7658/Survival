@@ -62,6 +62,7 @@ namespace LMS.Manager
         #region Init
         public void InitPlayerData()
         {
+            if (playerData == null) DataManager.LoadData();
             // Ability
             abilities.Add(new Shoes(PlayerInfo.playerSO.BasicSpeed, playerData.level[0]));
             abilities.Add(new Hat(PlayerInfo.playerSO.BasicDefense, playerData.level[1]));
@@ -81,13 +82,9 @@ namespace LMS.Manager
         {
             base.Awake();
             playerData = DataManager.LoadData();
-        }
-        private void OnEnable()
-        {
             InitPlayerData();
         }
         #endregion
-
         private void OnApplicationQuit()
         {
             SaveGameData();

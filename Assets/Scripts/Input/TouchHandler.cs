@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace LMS.Controller
 {
@@ -12,21 +11,12 @@ namespace LMS.Controller
         private UI.VirtualJoyStick joyStick;
         public TouchHandler()
         {
-            
+            var _prefab = Manager.ResourceManager.Instance.GetObject<UI.VirtualJoyStick>(UI.VirtualJoyStick.JoyStickName);
+            joyStick = GameObject.Instantiate(_prefab).GetComponent<UI.VirtualJoyStick>();
+            joyStick.transform.SetParent(GameObject.Find("Canvas").transform, false);
+            joyStick.transform.SetAsFirstSibling();
         }
-        public float x
-        {
-            get
-            {
-                return 0;
-            }
-        }
-        public float y
-        {
-            get
-            {
-                return 0;
-            }
-        }
+        public float x { get{ return joyStick.InputVector.x; } }
+        public float y { get { return joyStick.InputVector.y; } }
     }
 }

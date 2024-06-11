@@ -10,8 +10,8 @@ namespace LMS.Controller
 #if UNITY_ANDROID && !UNITY_EDITOR
         private static InputBase m_InputHandler = new TouchHandler();
 #else 
-        private static InputBase m_InputHandler = new TouchHandler();
-        //private static InputBase m_InputHandler = new MouseHandler();
+        //private static InputBase m_InputHandler = new TouchHandler();
+        private static InputBase m_InputHandler = new MouseHandler();
 #endif
         public static bool isClick => m_InputHandler.isClick;
         public static bool isMoveKeyDown()
@@ -30,7 +30,8 @@ namespace LMS.Controller
         {
             if (!Manager.PlayManager.Instance.IsGamePlay) return Vector2.zero;
 
-            var v = new Vector2(m_InputHandler.x, m_InputHandler.y).normalized;
+            var v = new Vector2(m_InputHandler.x, m_InputHandler.y);
+            if (v.magnitude > 1f) v = v.normalized;
             moveVector = v != Vector2.zero ? v : moveVector;
             return moveVector;
         }

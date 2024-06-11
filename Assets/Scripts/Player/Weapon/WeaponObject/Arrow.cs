@@ -15,7 +15,7 @@ namespace LMS.User
         public override void Initialized(General.WeaponInfo wInfo, Vector2 pos)
         {
             base.Initialized(wInfo, pos);
-            var dir = InputManager.moveVector;
+            var dir = InputManager.moveVector.normalized;
 
             transform.position = pos;
 

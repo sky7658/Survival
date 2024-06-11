@@ -6,10 +6,6 @@ using LMS.Enemy;
 using LMS.User;
 using LMS.UI;
 using LMS.ItemObject;
-using UnityEngine.SceneManagement;
-using UnityEngine.SubsystemsImplementation;
-using Unity.VisualScripting;
-using LMS.Controller;
 
 namespace LMS.Manager
 {
@@ -22,16 +18,9 @@ namespace LMS.Manager
         public void ZoomInOutCamera(float durateTime, System.Action action = null) => mCamera.CameraZoomInOut(durateTime, action);
         public void ShowTargetCamera(Vector2 pos, float durateTime, System.Action action = null) => mCamera.ShowTarget(pos, durateTime, action);
         #endregion
-
+        
         #region 인 게임 필요 변수 및 메소드, 맵 관련 메소드
-        [Header("# Play UI")]
-        [SerializeField] private GameObject rewardsButton;
-        [SerializeField] private GaugeBar expBar;
-        [SerializeField] private UnityEngine.UI.Text playerLevelText;
-        [SerializeField] private MoneyUI moneyUI;
         [SerializeField] private int myMoney;
-        [SerializeField] private UnityEngine.UI.Button optionButton;
-        [SerializeField] private GameObject optionUI;
 
         [Header("# Player")]
         [SerializeField] private Player player;
@@ -41,8 +30,9 @@ namespace LMS.Manager
 
         [Header("# Player Level")]
         [SerializeField] private int playerLevel;
-        [SerializeField] private float maxExp;
         [SerializeField] private float exp;
+        private float maxExp = 100f;
+
 
         [Header("# PlayState")]
         [SerializeField] private PlayState pState;
@@ -56,6 +46,7 @@ namespace LMS.Manager
             get{ return pState; }
             set { if (!CutSceneManager.Instance.isCutSceneMode) pState = value; }
         }
+        public float MaxExp { get { return maxExp; } }
         private float Exp
         {
             get { return exp; }
@@ -96,11 +87,6 @@ namespace LMS.Manager
 
             transform.position = _pos;
         }
-        private void ActiveOptionUI()
-        {
-            optionUI.SetActive(true);
-            PauseGame();
-        }
         #endregion
 
         #region 외부 상호작용 메소드
@@ -126,7 +112,6 @@ namespace LMS.Manager
 
         public void PlayGame()
         {
-            if (optionUI.activeSelf || rewardsButton.activeSelf) return;
             PState = PlayState.PLAY;
             Time.timeScale = basicTimeScale;
         }
@@ -138,23 +123,23 @@ namespace LMS.Manager
         public int GetWeaponLevel(string wName) => wController.GetWeaponLevel(wName);
         private void LevelUp()
         {
-            //playerLevelText.text = $"Lv : {++playerLevel}"; // Player Level Text 업데이트
+            //PlayerInterface.Instance.UpdateLevelText(++playerLevel);
             ++playerLevel; // 위에 코드로 수정할 예정
 
-            expBar.SetMaxGaugeValue(maxExp += Mathf.FloorToInt(maxExp * 0.25f)); // Max Exp 연산
-            rewardsButton.SetActive(true); // Rewards 선택
+            PlayerInterface.Instance.SetMaxGaugeValue(maxExp += Mathf.FloorToInt(maxExp * 0.25f));
+            PlayerInterface.Instance.ActiveRewardUI();
         }
         public void UpdateExp(float value)
         {
             Exp += value;
-            expBar.UpdateGaugeBar(Exp);
+            PlayerInterface.Instance.UpdateExpBar(Exp);
         }
         //----------------------------------------------------------------------------------------------------------------------
         // 플레이어 돈----------------------------------------------------------------------------------------------------------
         public void UpdateMoney(int amount)
         {
             myMoney += amount;
-            moneyUI.UpdateMoney(myMoney);
+            PlayerInterface.Instance.UpdateMoneyUI(myMoney);
         }
         //----------------------------------------------------------------------------------------------------------------------
         #endregion
@@ -175,16 +160,14 @@ namespace LMS.Manager
             wController = new WeaponController(player.transform);
 
             ElapsedTime = 0;
+            PlayerInterface.Instance.ActiveRewardUI();
+
             player.Initialized();
-            rewardsButton.SetActive(true);
 
             playerLevel = 1;
             exp = 0f;
-            maxExp = 100f;
-            expBar.Initialized(maxExp);
 
             myMoney = 0;
-            moneyUI.UpdateMoney(myMoney);
 
             SetIgnoreCollision();
         }
@@ -199,11 +182,10 @@ namespace LMS.Manager
             InitGameSetting();
         }
         #endregion
-
         void Update()
         {
             //TEST----------------------------------------------------------------------------------------------------------------
-            playerLevelText.text = $"Lv : {playerLevel}\n몬스터 갯수 : {CommonMonster.aliveMonsterCount}\nTIme Scale : {Time.timeScale}";
+            PlayerInterface.Instance.UpdateLevelText(playerLevel);
             if (Input.GetKeyDown(KeyCode.F))
             {
                 PState = PlayState.PAUSE;
@@ -217,7 +199,7 @@ namespace LMS.Manager
                 //Time.timeScale = basicTimeScale;
             }
             if (Input.GetKeyDown(KeyCode.Space)) /*Time.timeScale = 1f;*/ Exp += maxExp;
-            if (Input.GetKeyDown(KeyCode.Escape)) ActiveOptionUI();
+            if (Input.GetKeyDown(KeyCode.Escape)) PlayerInterface.Instance.ActiveOptionUI();
             //TEST----------------------------------------------------------------------------------------------------------------
             MapSet();
         }

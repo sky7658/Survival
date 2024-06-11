@@ -1,40 +1,54 @@
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 namespace LMS.UI
 {
-    public class VirtualJoyStick : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerDownHandler
+    public class VirtualJoyStick : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerUpHandler
     {
-        [SerializeField] private RectTransform joyStickObject;
+        public static readonly string JoyStickName = "JoyStick";
+
         [SerializeField] private RectTransform handle;
         [SerializeField] private RectTransform handleBackGround;
-        private Vector2 startPointer;
+        [SerializeField] private RectTransform parent;
+        private readonly float range = 50f;
+
+        private Vector2 inputVector = Vector2.zero;
+        public Vector2 InputVector { get { return inputVector; } }
         private void Awake()
         {
-            handleBackGround = Instantiate(joyStickObject);
-            handleBackGround.SetParent(transform, false);
-
-            handle = handleBackGround.transform.GetChild(0).GetComponent<RectTransform>();
+            parent = GetComponent<RectTransform>();
             handleBackGround.gameObject.SetActive(false);
+        }
+        private void Start()
+        {
+            parent.sizeDelta = parent.transform.parent.GetComponent<RectTransform>().sizeDelta;
         }
         public void OnPointerDown(PointerEventData eventData)
         {
             handleBackGround.gameObject.SetActive(true);
-            handleBackGround.anchoredPosition = eventData.position;
-        }
-        public void OnBeginDrag(PointerEventData eventData)
-        {
-            startPointer = eventData.position;
+            if (RectTransformUtility.ScreenPointToLocalPointInRectangle
+                (parent, eventData.position, eventData.pressEventCamera, out var _localPoint))
+            {
+                handleBackGround.anchoredPosition = _localPoint;
+            }
         }
         public void OnDrag(PointerEventData eventData)
         {
-            handle.anchoredPosition = eventData.position - startPointer;
+            if (RectTransformUtility.ScreenPointToLocalPointInRectangle
+                (handleBackGround, eventData.position, eventData.pressEventCamera, out var _localPoint))
+            {
+                var _dis = Mathf.Clamp(_localPoint.magnitude, 0, range);
+                var _dir = _localPoint.normalized;
+
+                handle.anchoredPosition = _dir * _dis;
+                inputVector = _localPoint.normalized * _dis / range;
+            }
         }
-        public void OnEndDrag(PointerEventData eventData)
+        public void OnPointerUp(PointerEventData eventData)
         {
             handle.anchoredPosition = Vector2.zero;
-            gameObject.SetActive(false);
+            inputVector = Vector2.zero;
+            handleBackGround.gameObject.SetActive(false);
         }
     }
 }

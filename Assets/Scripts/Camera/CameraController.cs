@@ -16,7 +16,7 @@ namespace LMS.User
 
         private float velocityF = 0f;
         private Vector3 velocity = Vector3.zero;
-        
+
         public void ShowTarget(Vector2 pos, float stayTime, Action action = null) => cc.ExecuteCoroutine(Move(pos, stayTime, action), "ShowTarget");
         private IEnumerator Move(Vector2 pos, float stayTime, Action action)
         {
@@ -90,10 +90,43 @@ namespace LMS.User
             transform.localPosition = orginPos;
             yield break;
         }
+        private void SetScreenSize()
+        {
+            float targetWidthAspect = 16.0f;
 
+            //세로 화면 비율
+            float targetHeightAspect = 9.0f;
+
+            //메인 카메라
+            Camera mainCamera = Camera.main;
+
+            mainCamera.aspect = targetWidthAspect / targetHeightAspect;
+
+            float widthRatio = (float)Screen.width / targetWidthAspect;
+            float heightRatio = (float)Screen.height / targetHeightAspect;
+
+            float heightadd = ((widthRatio / (heightRatio / 100)) - 100) / 200;
+            float widthtadd = ((heightRatio / (widthRatio / 100)) - 100) / 200;
+
+            // 16_10비율보다 가로가 짦다면(4_3 비율)
+            // 16_10비율보다 세로가 짧다면(16_9 비율)
+            // 시작 지점을 0으로 만들어준다
+            if (heightRatio > widthRatio)
+                widthtadd = 0.0f;
+            else
+                heightadd = 0.0f;
+
+
+            mainCamera.rect = new Rect(
+                mainCamera.rect.x + Math.Abs(widthtadd),
+                mainCamera.rect.y + Math.Abs(heightadd),
+                mainCamera.rect.width + (widthtadd * 2),
+                mainCamera.rect.height + (heightadd * 2));
+        }
         private void Awake()
         {
             mCamera = GetComponent<Camera>();
+            SetScreenSize();
         }
         void Start()
         {
