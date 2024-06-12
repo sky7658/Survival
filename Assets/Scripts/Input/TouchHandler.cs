@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 namespace LMS.Controller
 {
@@ -7,16 +6,28 @@ namespace LMS.Controller
     {
         public bool isClick => Input.touchCount > 0 && Input.GetTouch(0).phase.Equals(TouchPhase.Began);
         public Vector2 clickPos => Input.GetTouch(0).position;
-        public float wheelMount => Input.GetAxis("Mouse ScrollWheel");
+        public float wheelMount => WheelAmount();
         private UI.VirtualJoyStick joyStick;
-        public TouchHandler()
+        private UI.VirtualJoyStick JoyStick
         {
-            var _prefab = Manager.ResourceManager.Instance.GetObject<UI.VirtualJoyStick>(UI.VirtualJoyStick.JoyStickName);
-            joyStick = GameObject.Instantiate(_prefab).GetComponent<UI.VirtualJoyStick>();
-            joyStick.transform.SetParent(GameObject.Find("Canvas").transform, false);
-            joyStick.transform.SetAsFirstSibling();
+            get
+            {
+                if (joyStick == null)
+                {
+                    var _prefab = Manager.ResourceManager.Instance.GetObject<UI.VirtualJoyStick>(UI.VirtualJoyStick.JoyStickName);
+                    joyStick = GameObject.Instantiate(_prefab);
+                    joyStick.transform.SetParent(GameObject.Find("Canvas").transform, false);
+                    joyStick.transform.SetAsFirstSibling();
+                }
+                return joyStick;
+            }
         }
-        public float x { get{ return joyStick.InputVector.x; } }
-        public float y { get { return joyStick.InputVector.y; } }
+        public float x { get{ return JoyStick.InputVector.x; } }
+        public float y { get { return JoyStick.InputVector.y; } }
+
+        private float WheelAmount()
+        {
+            return default(float);
+        }
     }
 }

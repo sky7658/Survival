@@ -1,9 +1,6 @@
 using LMS.Enemy;
 using LMS.Manager;
 using LMS.Utility;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Timeline;
 using UnityEngine;
 
 namespace LMS.UI
@@ -32,8 +29,19 @@ namespace LMS.UI
                 PlayManager.Instance.PauseGame();
             }
         }
+        int fps = 0;
+        float time = 0f;
+        public UnityEngine.UI.Text t;
         public void UpdateLevelText(int value)
         {
+            fps++;
+            time += Time.unscaledDeltaTime;
+            if (time > 1f)
+            {
+                t.text = $"FPS : {fps}";
+                fps = 0;
+                time = 0f;
+            }
             //playerLevelText.text = $"Lv : {value}";
             playerLevelText.text = $"Lv : {value}\n¸ó½ºÅÍ °¹¼ö : {CommonMonster.aliveMonsterCount}\nTime Scale : {Time.timeScale}";
         }

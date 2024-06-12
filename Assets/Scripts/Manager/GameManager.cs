@@ -3,6 +3,7 @@ using UnityEngine;
 using LMS.User;
 using LMS.Utility;
 using LMS.Data;
+using UnityEditor;
 
 namespace LMS.Manager
 {
@@ -19,10 +20,10 @@ namespace LMS.Manager
         #endregion
 
         #region GameData
-        private PlayerData playerData;
+        private static PlayerData playerData;
 
         // Ability
-        private List<Ability> abilities = new List<Ability>();
+        private static List<Ability> abilities = new List<Ability>();
         public float GetAbilityValue(string name) => TryGetAbility(name).AbilityValue;
         public void UpdateGameData(int money, int clearCount)
         {
@@ -60,9 +61,17 @@ namespace LMS.Manager
         #endregion
 
         #region Init
-        public void InitPlayerData()
+        
+        [RuntimeInitializeOnLoadMethod]
+        private static void InitPlayerData()
         {
-            if (playerData == null) DataManager.LoadData();
+#if UNITY_ANDROID && !UNITY_EDITOR
+            Application.targetFrameRate = 120;
+#else 
+            Application.targetFrameRate = -1;
+#endif
+            playerData = DataManager.LoadData();
+
             // Ability
             abilities.Add(new Shoes(PlayerInfo.playerSO.BasicSpeed, playerData.level[0]));
             abilities.Add(new Hat(PlayerInfo.playerSO.BasicDefense, playerData.level[1]));
@@ -81,10 +90,8 @@ namespace LMS.Manager
         protected override void Awake()
         {
             base.Awake();
-            playerData = DataManager.LoadData();
-            InitPlayerData();
         }
-        #endregion
+#endregion
         private void OnApplicationQuit()
         {
             SaveGameData();

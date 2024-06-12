@@ -1,3 +1,4 @@
+using LMS.Manager;
 using LMS.State;
 
 namespace LMS.Enemy.Boss
@@ -12,7 +13,7 @@ namespace LMS.Enemy.Boss
 
         public void Enter(BossMonster obj)
         {
-            if (!obj.TransformMode && true /* 특정 조건을 달성하면 2페이즈로 넘어갈 수 있음*/)
+            if (!obj.TransformMode && (GameManager.Instance.ClearCount % 3).Equals(0))
             {
                 obj.SetAnimation(MonsterInfo.bossIdleAnimName, false);
                 obj.TransformInit();

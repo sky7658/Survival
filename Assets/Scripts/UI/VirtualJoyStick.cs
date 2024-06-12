@@ -1,3 +1,4 @@
+using LMS.Controller;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -18,10 +19,6 @@ namespace LMS.UI
         {
             parent = GetComponent<RectTransform>();
             handleBackGround.gameObject.SetActive(false);
-        }
-        private void Start()
-        {
-            parent.sizeDelta = parent.transform.parent.GetComponent<RectTransform>().sizeDelta;
         }
         public void OnPointerDown(PointerEventData eventData)
         {

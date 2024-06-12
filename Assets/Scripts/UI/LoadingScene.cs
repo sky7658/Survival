@@ -45,7 +45,11 @@ namespace LMS.UI
         {
             loadingBar.fillAmount = 0f;
         }
-        private void Load(string sceneName) => coroutine = Manager.CoroutineManager.Instance.ExecuteCoroutine(Loading(sceneName));
+        private void Load(string sceneName)
+        {
+            Manager.CoroutineManager.Instance.StopAllCoroutines();
+            coroutine = Manager.CoroutineManager.Instance.ExecuteCoroutine(Loading(sceneName));
+        }
         private IEnumerator Loading(string sceneName)
         {
             var _op = SceneManager.LoadSceneAsync(sceneName);

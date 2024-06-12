@@ -10,8 +10,8 @@ namespace LMS.Controller
 #if UNITY_ANDROID && !UNITY_EDITOR
         private static InputBase m_InputHandler = new TouchHandler();
 #else 
-        //private static InputBase m_InputHandler = new TouchHandler();
-        private static InputBase m_InputHandler = new MouseHandler();
+        private static InputBase m_InputHandler = new TouchHandler();
+        //private static InputBase m_InputHandler = new MouseHandler();
 #endif
         public static bool isClick => m_InputHandler.isClick;
         public static bool isMoveKeyDown()
