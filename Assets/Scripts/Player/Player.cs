@@ -39,6 +39,7 @@ namespace LMS.User
         public override void TakeDamage(float value, Vector2 vec = default)
         {
             if (invincible) return;
+            SoundManager.Instance.PlaySFX("PlayerHit");
             base.TakeDamage(value, vec);
             hpBar.UpdateGaugeBar(Hp);
         }

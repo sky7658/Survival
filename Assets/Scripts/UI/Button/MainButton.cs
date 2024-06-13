@@ -17,9 +17,9 @@ namespace LMS.UI
 
         private void Awake()
         {
-            startBtn.onClick.AddListener(() => LoadingScene.LoadScene(1));
-            ShopBtn.onClick.AddListener(() => shopUI.SetActive(true));
-            OptionBtn.onClick.AddListener(() => optionUI.SetActive(true));
+            startBtn.onClick.AddListener(() => ButtonEvent.ButtonClickEvent(() => LoadingScene.LoadScene(1)));
+            ShopBtn.onClick.AddListener(() => ButtonEvent.ButtonClickEvent(() => shopUI.SetActive(true)));
+            OptionBtn.onClick.AddListener(() => ButtonEvent.ButtonClickEvent(() => optionUI.SetActive(true)));
             gameExitBtn.onClick.AddListener(() => ButtonEvent.GameExitEvent());
         }
     }

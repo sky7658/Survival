@@ -52,7 +52,7 @@ namespace LMS.UI
         protected override void Awake()
         {
             base.Awake();
-            optionButton.onClick.AddListener(() => ActiveOptionUI());
+            optionButton.onClick.AddListener(() => ButtonEvent.ButtonClickEvent(() => ActiveOptionUI()));
             moneyUI.UpdateMoney(0);
         }
 

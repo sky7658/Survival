@@ -1,7 +1,5 @@
-using LMS.User;
 using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace LMS.Utility
@@ -73,7 +71,7 @@ namespace LMS.Utility
 
         private T CreateObject()
         {
-            var newObj = GameObject.Instantiate(Manager.ResourceManager.Instance.GetObject<T>(info.objName));
+            var newObj = GameObject.Instantiate(Manager.ResourceManager.GetObject<T>(info.objName));
             SetActParent(newObj.gameObject, false);
             return newObj;
         }

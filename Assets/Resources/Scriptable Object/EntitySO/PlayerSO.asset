@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PlayerSO
   m_EditorClassIdentifier: 
   objectName: Player
-  maxHp: 20
+  maxHp: 50
   basicSpeed: 150
   maxSpeed: 300
   basicDefense: 0

@@ -56,6 +56,7 @@ namespace LMS.UI
             if (ShopManager.Instance.TryUpgradeAbility(nameofIndex[index]))
             {
                 UpdateAbilityInfo(index);
+                SoundManager.Instance.PlaySFX("AbilityUpgrade");
             }
         }
         private void UpdateAbilityInfo(int index)

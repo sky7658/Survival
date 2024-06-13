@@ -29,11 +29,11 @@ namespace LMS.General
 
     public static class EntitySOData
     {
-        public static EntitySO playerSO = ResourceManager.Instance.GetSO<EntitySO>("PlayerSO");
-        public static EntitySO batSO = ResourceManager.Instance.GetSO<EntitySO>("BatSO");
-        public static EntitySO crabSO = ResourceManager.Instance.GetSO<EntitySO>("Crab");
-        public static EntitySO pebbleSO = ResourceManager.Instance.GetSO<EntitySO>("Pebble");
-        public static EntitySO slimeSO = ResourceManager.Instance.GetSO<EntitySO>("SlimeSO");
+        public static EntitySO playerSO = ResourceManager.GetSO<EntitySO>("PlayerSO");
+        public static EntitySO batSO = ResourceManager.GetSO<EntitySO>("BatSO");
+        public static EntitySO crabSO = ResourceManager.GetSO<EntitySO>("Crab");
+        public static EntitySO pebbleSO = ResourceManager.GetSO<EntitySO>("Pebble");
+        public static EntitySO slimeSO = ResourceManager.GetSO<EntitySO>("SlimeSO");
     }
 }
 

@@ -35,6 +35,7 @@ namespace LMS.UI
                 transform.localPosition = Vector2.SmoothDamp(transform.localPosition, new Vector2(610f, 248f), ref velocity, speed, Mathf.Infinity, Time.unscaledDeltaTime);
                 yield return null;
             }
+            SoundManager.Instance.PlaySFX("GetCoin");
             PlayManager.Instance.UpdateMoney(amount);
             ObjectPool.Instance.ReturnObject(this, coinName);
             yield return null;
@@ -42,11 +43,11 @@ namespace LMS.UI
 
         public static Sprite GetMoneySprite(int amount)
         {
-            if (amount > 10000) return ResourceManager.Instance.GetSprite("Money5");
-            if (amount > 1000) return ResourceManager.Instance.GetSprite("Money4");
-            if (amount > 100) return ResourceManager.Instance.GetSprite("Money3");
-            if (amount > 10) return ResourceManager.Instance.GetSprite("Money2");
-            return ResourceManager.Instance.GetSprite("Money1");
+            if (amount > 10000) return ResourceManager.GetSprite("Money5");
+            if (amount > 1000) return ResourceManager.GetSprite("Money4");
+            if (amount > 100) return ResourceManager.GetSprite("Money3");
+            if (amount > 10) return ResourceManager.GetSprite("Money2");
+            return ResourceManager.GetSprite("Money1");
         }
 
         private int GetMoneyAmount()

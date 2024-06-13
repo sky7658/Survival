@@ -53,16 +53,16 @@ namespace LMS.Manager
         private void SetSFXVolume() => sfxSc.volume = SfxVolume;
         public void PlayBGM(string clipName)
         {
-            AudioClip _clip = ResourceManager.Instance.GetClip("BGM", clipName);
+            AudioClip _clip = ResourceManager.GetClip("BGM", clipName);
             if (_clip is null) return;
             bgmSc.clip = _clip;
             bgmSc.Play();
         }
         public void PlaySFX(string clipName)
         {
-            AudioClip _clip = ResourceManager.Instance.GetClip("SFX", clipName);
+            AudioClip _clip = ResourceManager.GetClip("SFX", clipName);
             if (_clip is null) return;
-            bgmSc.PlayOneShot(_clip);
+            bgmSc.PlayOneShot(_clip, SfxVolume);
         }
     }
 }

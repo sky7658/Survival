@@ -15,6 +15,7 @@ namespace LMS.ItemObject
         {
             if (collision.tag.Equals(PlayerInfo.playerTag))
             {
+                SoundManager.Instance.PlaySFX("GetExp");
                 PlayManager.Instance.UpdateExp(amount);
                 ObjectPool.Instance.ReturnObject(this, ItemInfo.expBallName);
             }

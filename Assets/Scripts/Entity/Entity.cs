@@ -27,11 +27,12 @@ namespace LMS.General
             get { return hp; }
             protected set { hp = Mathf.Clamp(value, 0, MaxHp); }
         }
+        public float MaxSpeed { get { return entitySO.MaxSpeed; } }
         [SerializeField] private float speed;
         public virtual float Speed
         {
             get { return speed; }
-            protected set { speed = Mathf.Clamp(value, entitySO.BasicSpeed, entitySO.MaxSpeed); }
+            protected set { speed = Mathf.Clamp(value, entitySO.BasicSpeed, MaxSpeed); }
         }
         [SerializeField] private float defense; // % ∞‘¿Ã¡ˆ
         public float Defense

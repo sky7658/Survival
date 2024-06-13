@@ -16,7 +16,7 @@ namespace LMS.UI
         {
             Transform _parent = GameObject.Find("Canvas").transform;
 
-            var _result = Instantiate(ResourceManager.Instance.GetObject<GameResult>("Result"));
+            var _result = Instantiate(ResourceManager.GetObject<GameResult>("Result"));
             _result.transform.SetParent(_parent, false);
             _result.Initialized(resultText, resultText == "Game Clear" ? 1 : 0);
         }
@@ -41,7 +41,7 @@ namespace LMS.UI
             PlayManager.Instance.PauseGame();
 
             // 버튼 이벤트 추가
-            mainBtn.onClick.AddListener(() => LoadingScene.LoadScene(0));
+            mainBtn.onClick.AddListener(() => ButtonEvent.ButtonClickEvent(() => LoadingScene.LoadScene(0)));
 
             // 획득 Money 대입
             var _getMoney = PlayManager.Instance.GetMyMoney;
@@ -85,11 +85,11 @@ namespace LMS.UI
                     _value /= 1000f;
                 }
 
-                var _text = Instantiate(ResourceManager.Instance.GetObject<Text>("DamageResultText"));
+                var _text = Instantiate(ResourceManager.GetObject<Text>("DamageResultText"));
                 _text.transform.SetParent(transform, false);
                 _text.transform.localPosition = new Vector2(0f, 110f - intervalY * _index++);
 
-                _text.transform.GetChild(0).GetComponent<Image>().sprite = ResourceManager.Instance.GetSprite(_imgName);
+                _text.transform.GetChild(0).GetComponent<Image>().sprite = ResourceManager.GetSprite(_imgName);
                 _text.text = string.Format(damageText, _damage);
             }
 

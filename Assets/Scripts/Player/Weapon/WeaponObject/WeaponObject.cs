@@ -48,6 +48,7 @@ namespace LMS.User
                 if (collision.TryGetComponent<IDamageable>(out var enemy))
                 {
                     if (wInfo.penetrationCnt == 0) return;
+
                     --wInfo.penetrationCnt;
                     var _knockBackV = (Vector2)collision.transform.position - Manager.PlayManager.Instance.GetPlayerPos; // 수정해주세용
                     var _range = wInfo.atk * 0.2f;

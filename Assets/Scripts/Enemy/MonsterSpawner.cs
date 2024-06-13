@@ -35,7 +35,8 @@ namespace LMS.Enemy
                         {
                             _count = 1;
                             maxCommonMonsterCount += Mathf.FloorToInt(maxCommonMonsterCount * 0.5f);
-                            _mounsterCount = Mathf.FloorToInt(maxCommonMonsterCount * ratio);
+                            _mounsterCount = PlayManager.Instance.ElapsedTime >= PlayInfo.BossSpawnTime * 0.8f ?
+                                maxCommonMonsterCount / 2 : Mathf.FloorToInt(maxCommonMonsterCount * ratio);
                         }
                         int _mCount = maxCommonMonsterCount - CommonMonster.aliveMonsterCount;
                         Spawn(_mCount > _mounsterCount ? _mounsterCount : _mCount); // Spawn할려는 Monster 수가 Max보다 커지게 될 경우 

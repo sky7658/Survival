@@ -1,70 +1,91 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using LMS.Utility;
-using TMPro;
+using UnityEditor;
 
 namespace LMS.Manager
 {
-    public class ResourceManager : GeneralSingleton<ResourceManager>
+    public static class ResourceManager
     {
-        private ScriptableObject[] scriptableObjects = Resources.LoadAll<ScriptableObject>("Scriptable Object");
-        private GameObject[] prefabs = Resources.LoadAll<GameObject>("Prefabs");
-        private Sprite[] sprites = Resources.LoadAll<Sprite>("Images/Weapon");
-        private AudioClip[] bgmClips = Resources.LoadAll<AudioClip>("Sound/BGM");
-        private AudioClip[] sfxClips = Resources.LoadAll<AudioClip>("Sound/SFX");
 
-        public T GetSO<T>(string soName) where T : ScriptableObject
+        private static Dictionary<string, ScriptableObject> scriptableObjects;
+            
+        private static Dictionary<string, GameObject> prefabs;
+
+        private static Dictionary<string, Sprite> sprites;
+
+        private static Dictionary<string, AudioClip> bgmClips;
+        private static Dictionary<string, AudioClip> sfxClips;
+
+        static ResourceManager()
+        {
+            InitResources();
+        }
+        private static void InitResources()
+        {
+            scriptableObjects = LoadResources<ScriptableObject>("Scriptable Object");
+            prefabs = LoadResources<GameObject>("Prefabs");
+
+            sprites = LoadResources<Sprite>("Images/Weapon");
+            bgmClips = LoadResources<AudioClip>("Sound/BGM");
+            sfxClips = LoadResources<AudioClip>("Sound/SFX");
+        }
+        private static Dictionary<string, T> LoadResources<T>(string filePath) where T : Object
+        {
+            var _resources = Resources.LoadAll<T>(filePath);
+
+            Dictionary<string, T> _newResources = new Dictionary<string, T>();
+            foreach (var _resource in _resources) _newResources.Add(_resource.name, _resource);
+
+            return _newResources;
+        }
+        public static T GetSO<T>(string soName) where T : ScriptableObject
         {
             if (scriptableObjects is null)
             {
                 Debug.Log("scriptableObjects is null");
                 return null;
             }
-            foreach (var so in scriptableObjects)
+            if (!scriptableObjects.TryGetValue(soName, out var _so))
             {
-                if (so.name.Equals(soName))
-                    return (T)so;
+                Debug.Log($"{soName} is Not exist in ScriptableObjects");
+                return null;
             }
-            Debug.Log($"{soName} is Not exist in ScriptableObjects");
-            return null;
+            return (T)_so;
         }
 
-        public T GetObject<T>(string objName) where T : MonoBehaviour
+        public static T GetObject<T>(string objName) where T : MonoBehaviour
         {
             if (prefabs is null)
             {
                 Debug.Log("Prefabs is null");
                 return null;
             }
-            foreach (var obj in prefabs)
+            if (!prefabs.TryGetValue(objName, out var _obj))
             {
-                if (obj.name.Equals(objName))
-                    return obj.GetComponent<T>();
+                Debug.Log($"{objName} is Not exist in Prefabs");
+                return null;
             }
-            Debug.Log($"{objName} is not exist in Prefabs");
-            return null;
+            return _obj.GetComponent<T>();
         }
 
-        public Sprite GetSprite(string sprName)
+        public static Sprite GetSprite(string sprName)
         {
             if (sprites is null)
             {
                 Debug.Log("sprites is null");
                 return null;
             }
-            foreach (var obj in sprites)
+            if (!sprites.TryGetValue(sprName, out var _spr))
             {
-                if (obj.name.Equals(sprName))
-                    return obj;
+                Debug.Log($"{sprName} is not exist in Sprites");
+                return null;
             }
-            Debug.Log($"{sprName} is not exist in Sprites");
-            return null;
+            return _spr;
         }
-
-        public AudioClip GetClip(string dirName, string clipName)
+        public static AudioClip GetClip(string dirName, string clipName)
         {
-            AudioClip[] _clips = null;
+            Dictionary<string, AudioClip> _cpyClips;
 
             switch (dirName)
             {
@@ -74,7 +95,7 @@ namespace LMS.Manager
                         Debug.Log("bgmClips is null");
                         return null;
                     }
-                    _clips = bgmClips;
+                    _cpyClips = bgmClips;
                     break;
                 case "SFX":
                     if (sfxClips is null)
@@ -82,21 +103,20 @@ namespace LMS.Manager
                         Debug.Log("sfxClips is null");
                         return null;
                     }
-                    _clips = sfxClips;
+                    _cpyClips = sfxClips;
                     break;
                 default:
                     Debug.Log($"{dirName} is not exist in Sound Directory File names");
                     return null;
             }
 
-            foreach (var clip in _clips)
+            if (!_cpyClips.TryGetValue(clipName, out var _clip))
             {
-                if (clip.name.Equals(clipName))
-                    return clip;
+                Debug.Log($"{clipName} is not exist in {dirName} Directory File");
+                return null;
             }
 
-            Debug.Log($"{clipName} is not exist in {dirName} Directory File");
-            return null;
+            return _clip;
         }
     }
 }

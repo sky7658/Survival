@@ -123,6 +123,7 @@ namespace LMS.Manager
         public int GetWeaponLevel(string wName) => wController.GetWeaponLevel(wName);
         private void LevelUp()
         {
+            SoundManager.Instance.PlaySFX("LevelUp");
             //PlayerInterface.Instance.UpdateLevelText(++playerLevel);
             ++playerLevel; // 위에 코드로 수정할 예정
 

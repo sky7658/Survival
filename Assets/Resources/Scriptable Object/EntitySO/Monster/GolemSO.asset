@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GolemSO
   m_EditorClassIdentifier: 
   objectName: Golem
-  maxHp: 100
+  maxHp: 10000
   basicSpeed: 130
   maxSpeed: 300
   basicDefense: 0

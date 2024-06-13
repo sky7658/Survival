@@ -22,7 +22,7 @@ namespace LMS.UI
         {
             Transform _parent = GameObject.Find("Canvas").transform;
 
-            var _loading = Instantiate(Manager.ResourceManager.Instance.GetObject<LoadingScene>("LoadingImage"));
+            var _loading = Instantiate(Manager.ResourceManager.GetObject<LoadingScene>("LoadingImage"));
             _loading.transform.SetParent(_parent, false);
             _loading.Load(sceneName);
         }

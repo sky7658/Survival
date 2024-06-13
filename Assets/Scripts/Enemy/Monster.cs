@@ -103,6 +103,8 @@ namespace LMS.Enemy
         }
         public override void TakeDamage(float value, Vector2 vec = default)
         {
+            Manager.SoundManager.Instance.PlaySFX("MonsterHit");
+
             base.TakeDamage(value, vec);
             ObjectPool.Instance.GetObject<DamageText>("DamageText").Initialized(value, transform.position);        
         }

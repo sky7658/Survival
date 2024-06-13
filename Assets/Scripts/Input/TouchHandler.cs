@@ -14,7 +14,7 @@ namespace LMS.Controller
             {
                 if (joyStick == null)
                 {
-                    var _prefab = Manager.ResourceManager.Instance.GetObject<UI.VirtualJoyStick>(UI.VirtualJoyStick.JoyStickName);
+                    var _prefab = Manager.ResourceManager.GetObject<UI.VirtualJoyStick>(UI.VirtualJoyStick.JoyStickName);
                     joyStick = GameObject.Instantiate(_prefab);
                     joyStick.transform.SetParent(GameObject.Find("Canvas").transform, false);
                     joyStick.transform.SetAsFirstSibling();

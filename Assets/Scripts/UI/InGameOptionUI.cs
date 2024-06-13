@@ -10,8 +10,8 @@ namespace LMS.UI
         protected override void Awake()
         {
             base.Awake();
-            mainBtn.onClick.AddListener(() => LoadingScene.LoadScene(0));
-            exitBtn.onClick.AddListener(() => Manager.PlayManager.Instance.PlayGame());
+            mainBtn.onClick.AddListener(() => ButtonEvent.ButtonClickEvent(() => LoadingScene.LoadScene(0)));
         }
+        protected override void ExitButtonEvent() => ButtonEvent.ButtonClickEvent(() => PlayerInterface.Instance.ActiveOptionUI());
     }
 }

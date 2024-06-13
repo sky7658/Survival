@@ -28,8 +28,10 @@ namespace LMS.UI
                 muteToggles[i].onValueChanged.AddListener((value) => ToggleEvent(value, _index));
             }
 
-            exitBtn.onClick.AddListener(() => ButtonEvent.UIExitEvent(gameObject));
+            exitBtn.onClick.AddListener(() => ExitButtonEvent());
         }
+
+        protected virtual void ExitButtonEvent() => ButtonEvent.UIExitEvent(gameObject);
 
         private void OnEnable()
         {

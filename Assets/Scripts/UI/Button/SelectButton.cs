@@ -102,7 +102,7 @@ namespace LMS.UI
         }
         private Sprite SetImage(string wName)
         {
-            return ResourceManager.Instance.GetSprite(wName);
+            return ResourceManager.GetSprite(wName);
         }
         private string SetText(string wName)
         {

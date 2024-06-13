@@ -7,11 +7,11 @@ namespace LMS.Base
 {
     public static class WeaponInfo
     {
-        public static readonly WeaponSO wizardBookSO = ResourceManager.Instance.GetSO<WeaponSO>("WizardBookSO");
-        public static readonly WeaponSO bowSO = ResourceManager.Instance.GetSO<WeaponSO>("BowSO");
-        public static readonly WeaponSO ringSO = ResourceManager.Instance.GetSO<WeaponSO>("RingSO");
+        public static readonly WeaponSO wizardBookSO = ResourceManager.GetSO<WeaponSO>("WizardBookSO");
+        public static readonly WeaponSO bowSO = ResourceManager .GetSO<WeaponSO>("BowSO");
+        public static readonly WeaponSO ringSO = ResourceManager.GetSO<WeaponSO>("RingSO");
 
-        public static readonly WeaponNameSO wnameSO = ResourceManager.Instance.GetSO<WeaponNameSO>("WeaponNameSO");
+        public static readonly WeaponNameSO wnameSO = ResourceManager.GetSO<WeaponNameSO>("WeaponNameSO");
 
         public static readonly Dictionary<string, string> WeaponDescriptions = new Dictionary<string, string>()
         {

@@ -16,7 +16,7 @@ namespace LMS.Enemy
             {
                 if (isAtkCool)
                 {
-                    base.Speed = 500f;
+                    base.Speed = MaxSpeed;
                     return base.Speed;
                 }
                 else
@@ -119,7 +119,7 @@ namespace LMS.Enemy
         }
         public override void TakeDamage(float value, Vector2 vec = default)
         {
-            
+            if (transformMode && transforming) value = 0f;
             base.TakeDamage(value, vec);
             hpBar.UpdateGaugeBar(Hp);
         }
@@ -143,10 +143,6 @@ namespace LMS.Enemy
             stateM.Initailized();
 
             hpBar.gameObject.SetActive(true);
-        }
-        private void OnDisable()
-        {
-            hpBar.gameObject.SetActive(false);
         }
         private void Start()
         {
