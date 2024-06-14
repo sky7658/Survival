@@ -90,6 +90,7 @@ namespace LMS.Manager
         protected override void Awake()
         {
             base.Awake();
+            Debug.Log("Called GameManager Awake");
         }
 #endregion
         private void OnApplicationQuit()

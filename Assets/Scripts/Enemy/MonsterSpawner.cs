@@ -34,9 +34,9 @@ namespace LMS.Enemy
                         if (++_count > 20)
                         {
                             _count = 1;
-                            maxCommonMonsterCount += Mathf.FloorToInt(maxCommonMonsterCount * 0.5f);
-                            _mounsterCount = PlayManager.Instance.ElapsedTime >= PlayInfo.BossSpawnTime * 0.8f ?
-                                maxCommonMonsterCount / 2 : Mathf.FloorToInt(maxCommonMonsterCount * ratio);
+                            maxCommonMonsterCount = Mathf.Clamp(maxCommonMonsterCount + Mathf.FloorToInt(maxCommonMonsterCount * 0.5f), 0, 400);
+                            _mounsterCount = PlayManager.Instance.ElapsedTime >= PlayInfo.BossSpawnTime * 0.2f ?
+                                Mathf.FloorToInt(maxCommonMonsterCount * 0.5f) : Mathf.FloorToInt(maxCommonMonsterCount * ratio);
                         }
                         int _mCount = maxCommonMonsterCount - CommonMonster.aliveMonsterCount;
                         Spawn(_mCount > _mounsterCount ? _mounsterCount : _mCount); // Spawn할려는 Monster 수가 Max보다 커지게 될 경우 
@@ -67,7 +67,7 @@ namespace LMS.Enemy
             }
             CreateMonster(count, MonsterInfo.commonMonsterTypeCount - 1);
         }
-        private void CreateMonster(int count, int index)
+        public void CreateMonster(int count, int index)
         {
             if (count == 0) return;
             for (int i = 0; i < count; i++)

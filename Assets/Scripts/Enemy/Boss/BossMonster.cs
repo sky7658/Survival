@@ -144,6 +144,10 @@ namespace LMS.Enemy
 
             hpBar.gameObject.SetActive(true);
         }
+        private void OnDisable()
+        {
+            hpBar.gameObject.SetActive(false);
+        }
         private void Start()
         {
             hpBar.Initialized(MaxHp);

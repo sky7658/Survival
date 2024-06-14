@@ -31,7 +31,7 @@ namespace LMS.Manager
         [Header("# Player Level")]
         [SerializeField] private int playerLevel;
         [SerializeField] private float exp;
-        private float maxExp = 100f;
+        private float maxExp = 10000000f;
 
 
         [Header("# PlayState")]
@@ -177,6 +177,7 @@ namespace LMS.Manager
             Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Enemy"), LayerMask.NameToLayer("Item"));
             Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Item"), LayerMask.NameToLayer("Item"));
             Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Item"), LayerMask.NameToLayer("WeaponObject"));
+            Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Enemy"), LayerMask.NameToLayer("Enemy"));
         }
         private void Start()
         {
@@ -199,7 +200,7 @@ namespace LMS.Manager
                 //basicTimeScale = 1f;
                 //Time.timeScale = basicTimeScale;
             }
-            if (Input.GetKeyDown(KeyCode.Space)) /*Time.timeScale = 1f;*/ Exp += maxExp;
+            if (Input.GetKeyDown(KeyCode.Space)) /*Exp += maxExp*/ monsterSpawner.CreateMonster(100, 0);
             if (Input.GetKeyDown(KeyCode.Escape)) PlayerInterface.Instance.ActiveOptionUI();
             //TEST----------------------------------------------------------------------------------------------------------------
             MapSet();

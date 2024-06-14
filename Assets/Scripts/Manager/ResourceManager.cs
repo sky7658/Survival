@@ -19,6 +19,7 @@ namespace LMS.Manager
 
         static ResourceManager()
         {
+            Debug.Log("Called ResourceManager");
             InitResources();
         }
         private static void InitResources()
