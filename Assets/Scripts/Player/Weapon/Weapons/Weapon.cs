@@ -48,8 +48,8 @@ namespace LMS.General
                 if (wActive != value)
                 {
                     wActive = value;
-                    if (wActive) cc.ExecuteCoroutine(AutoAttack(), "AutoAttack");
-                    else cc.OffAllCoroutines();
+                    //if (wActive) cc.ExecuteCoroutine(AutoAttack(), "AutoAttack");
+                    //else cc.OffAllCoroutines();
                 }
             }
         }

@@ -13,7 +13,7 @@ namespace LMS.Enemy
 
         public MonsterSpawner() 
         {
-            StartCommonMonsterSpawn();
+            //StartCommonMonsterSpawn();
         }
         public void StartCommonMonsterSpawn() => coroutine = CoroutineManager.Instance.ExecuteCoroutine(AutoSpawn());
         public void StopCommonMonsterSpawn() => CoroutineManager.Instance.QuitCoroutine(coroutine);

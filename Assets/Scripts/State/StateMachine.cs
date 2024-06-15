@@ -10,20 +10,15 @@ namespace LMS.State
     {
         private T obj;
         private IState<T> curState;
-        protected Dictionary<string, IState<T>> statecache = new Dictionary<string, IState<T>>();
-
+        protected abstract bool GetStateCache(string stateName, out IState<T> value);
         public StateMachine(T refObj)
         {
             obj = refObj;
         }
 
-        public virtual void Initailized()
+        public void Initailized()
         {
-            if (!statecache.TryGetValue("Idle", out var initState))
-            {
-                Debug.Log("Don't Exist StateName");
-                return;
-            }
+            if (!GetStateCache("Idle", out var initState)) return;
             curState = initState;
             curState.Enter(obj);
         }
@@ -50,13 +45,13 @@ namespace LMS.State
             IState<T> _state = null;
 
             if (Time.timeScale == 0f) return curState;
-            if (curState == null || !Manager.PlayManager.Instance.IsGamePlay) if (statecache.TryGetValue("Idle", out _state)) return _state;
+            if (curState == null || !Manager.PlayManager.Instance.IsGamePlay) if (GetStateCache("Idle", out _state)) return _state;
 
-            if (curState.Dead(obj)) if (statecache.TryGetValue("Dead", out _state)) return _state;
-            if (curState.Hit(obj)) if (statecache.TryGetValue("Hit", out _state)) return _state;
-            if (curState.Attack(obj)) if (statecache.TryGetValue("Attack", out _state)) return _state;
-            if (curState.Move(obj)) if (statecache.TryGetValue("Move", out _state)) return _state;
-            if (curState.Idle(obj)) if (statecache.TryGetValue("Idle", out _state)) return _state;
+            if (curState.Dead(obj)) if (GetStateCache("Dead", out _state)) return _state;
+            if (curState.Hit(obj)) if (GetStateCache("Hit", out _state)) return _state;
+            if (curState.Attack(obj)) if (GetStateCache("Attack", out _state)) return _state;
+            if (curState.Move(obj)) if (GetStateCache("Move", out _state)) return _state;
+            if (curState.Idle(obj)) if (GetStateCache("Idle", out _state)) return _state;
 
             Debug.Log("CheckTransState is Null");
             return _state;
@@ -70,52 +65,78 @@ namespace LMS.State
 
     public class PlayerStateMachine : StateMachine<Player>
     {
+        private Dictionary<string, IState<Player>> pStateCache = new Dictionary<string, IState<Player>>()
+        {
+            { "Idle", new User.IdleState() },
+            { "Move", new User.MoveState() },
+            { "Dead", new User.DeadState() }
+        };
         public PlayerStateMachine(Player refObj) : base(refObj)
         {
-            statecache.Add("Idle", new User.IdleState());
-            statecache.Add("Move", new User.MoveState());
-            statecache.Add("Dead", new User.DeadState());
             Initailized();
         }
-
-        public override void Initailized()
+        protected override bool GetStateCache(string stateName, out IState<Player> value)
         {
-            base.Initailized();
+            if (!pStateCache.TryGetValue(stateName, out var _state))
+            {
+                Debug.Log($"{stateName} is not exist in PlayerState");
+                value = null;
+                return false;
+            }
+            value = _state;
+            return true;
         }
     }
 
     public class MonsterStateMachine : StateMachine<CommonMonster>
     {
+        private static Dictionary<string, IState<CommonMonster>> mStateCache = new Dictionary<string, IState<CommonMonster>>()
+        {
+            { "Idle", new Enemy.Common.IdleState() },
+            { "Move", new Enemy.Common.MoveState() },
+            { "Attack", new Enemy.Common.AttackState() },
+            { "Hit", new Enemy.Common.HitState() },
+            { "Dead", new Enemy.Common.DeadState() }
+        };
         public MonsterStateMachine(CommonMonster refObj) : base(refObj)
         {
-            statecache.Add("Idle", new Enemy.Common.IdleState());
-            statecache.Add("Move", new Enemy.Common.MoveState());
-            statecache.Add("Attack", new Enemy.Common.AttackState());
-            statecache.Add("Hit", new Enemy.Common.HitState());
-            statecache.Add("Dead", new Enemy.Common.DeadState());
             Initailized();
         }
-
-        public override void Initailized()
+        protected override bool GetStateCache(string stateName, out IState<CommonMonster> value)
         {
-            base.Initailized();
+            if (!mStateCache.TryGetValue(stateName, out var _state))
+            {
+                Debug.Log($"{stateName} is not exist in CommonMonster");
+                value = null;
+                return false;
+            }
+            value = _state; 
+            return true;
         }
     }
-
     public class BossStateMachine : StateMachine<BossMonster>
     {
+        private Dictionary<string, IState<BossMonster>> mStateCache = new Dictionary<string, IState<BossMonster>>()
+        {
+            { "Idle", new Enemy.Boss.IdleState() },
+            { "Move", new Enemy.Boss.MoveState() },
+            { "Attack", new Enemy.Boss.AttackState() },
+            { "Dead", new Enemy.Boss.DeadState() }
+        };
         public BossStateMachine(BossMonster refObj) : base(refObj)
         {
-            statecache.Add("Idle", new Enemy.Boss.IdleState());
-            statecache.Add("Move", new Enemy.Boss.MoveState());
-            statecache.Add("Attack", new Enemy.Boss.AttackState());
-            statecache.Add("Dead", new Enemy.Boss.DeadState());
             Initailized();
         }
-
-        public override void Initailized()
+        protected override bool GetStateCache(string stateName, out IState<BossMonster> value)
         {
-            base.Initailized();
+            if (!mStateCache.TryGetValue(stateName, out var _state))
+            {
+                Debug.Log($"{stateName} is not exist in BossMonsterState");
+                value = null;
+                return false;
+            }
+            value = _state;
+            return true;
         }
     }
 }
