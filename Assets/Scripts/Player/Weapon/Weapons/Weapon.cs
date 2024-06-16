@@ -29,6 +29,7 @@ namespace LMS.General
             return a;
         }
     }
+
     public abstract class Weapon
     {
         private CoroutineController cc;

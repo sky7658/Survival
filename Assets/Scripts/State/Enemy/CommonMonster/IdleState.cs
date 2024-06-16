@@ -4,12 +4,14 @@ namespace LMS.Enemy.Common
 {
     public class IdleState : IState<CommonMonster>
     {
-        public bool Idle(CommonMonster obj) => true;
-        public bool Move(CommonMonster obj) => obj.IsChaseAble;
-        public bool Attack(CommonMonster obj) => obj.IsAttackAble;
-        public bool Hit(CommonMonster obj) => obj.IsHit;
-        public bool Dead(CommonMonster obj) => obj.Hp <= 0;
-
+        public IState<CommonMonster> TransState(CommonMonster obj)
+        {
+            if (obj.Hp <= 0) return null;
+            if (obj.IsHit) return null;
+            if (obj.IsAttackAble) return null;
+            if (obj.IsChaseAble) return null;
+            return null;
+        }
         public void Enter(CommonMonster obj)
         {
             obj.SetAnimation(MonsterInfo.commonIdleAnimName, false);
@@ -21,5 +23,4 @@ namespace LMS.Enemy.Common
         {
         }
     }
-
 }

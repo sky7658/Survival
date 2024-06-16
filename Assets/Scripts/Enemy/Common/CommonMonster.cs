@@ -8,7 +8,7 @@ namespace LMS.Enemy
     public abstract class CommonMonster : Monster
     {
         public static int aliveMonsterCount = 0;
-        private MonsterStateMachine stateM;
+        private CommonStateMachine stateM;
         protected override void Attack(Vector2 targetPos) => cc.ExecuteCoroutine(AttackMotion(targetPos), "Attack");
         protected abstract IEnumerator AttackMotion(Vector2 targetPos);
         public override bool AttackOut()
@@ -96,7 +96,7 @@ namespace LMS.Enemy
         protected override void OnEnable()
         {
             aliveMonsterCount++;
-            stateM.Initailized();
+            stateM.Initialized();
             hit = false;
             base.OnEnable();
         }
@@ -108,7 +108,7 @@ namespace LMS.Enemy
         {
             base.Initialized();
 
-            stateM = new MonsterStateMachine(this);
+            stateM = new CommonStateMachine(this);
 
             if (!MonsterInfo.monsterAtkRanges.TryGetValue(ObjectName, out var atkRange))
             {

@@ -1,16 +1,16 @@
 using LMS.State;
-using System.Diagnostics;
 
 namespace LMS.Enemy.Boss
 {
     public class IdleState : IState<BossMonster>
     {
-        public bool Idle(BossMonster obj) => true;
-        public bool Move(BossMonster obj) => obj.IsChaseAble && !obj.IsTrans;
-        public bool Attack(BossMonster obj) => obj.IsAttackAble && !obj.IsTrans;
-        public bool Hit(BossMonster obj) => false;
-        public bool Dead(BossMonster obj) => obj.Hp <= 0;
-
+        public IState<BossMonster> TransState(BossMonster obj)
+        {
+            if (obj.Hp <= 0) return null;
+            if (obj.IsAttackAble && !obj.IsTrans) return null;
+            if (obj.IsChaseAble && !obj.IsTrans) return null;
+            return null;
+        }
         public void Enter(BossMonster obj)
         {
             if (obj.IsTrans && obj.TransformMode) obj.SetAnimation(MonsterInfo.bossUpgradeAnimName);

@@ -140,7 +140,7 @@ namespace LMS.Enemy
         {
             base.OnEnable();
             if (atkDelegate == null) atkDelegate = GetAtkType();
-            stateM.Initailized();
+            stateM.Initialized();
 
             hpBar.gameObject.SetActive(true);
         }

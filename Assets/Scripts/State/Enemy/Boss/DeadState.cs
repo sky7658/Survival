@@ -5,12 +5,12 @@ namespace LMS.Enemy.Boss
 {
     public class DeadState : IState<BossMonster>
     {
-        public bool Idle(BossMonster obj) => obj.Hp > 0;
-        public bool Move(BossMonster obj) => false;
-        public bool Attack(BossMonster obj) => false;
-        public bool Hit(BossMonster obj) => false;
-        public bool Dead(BossMonster obj) => obj.Hp <= 0;
-
+        public IState<BossMonster> TransState(BossMonster obj)
+        {
+            if (obj.Hp <= 0) return null;
+            if (obj.Hp > 0) return null;
+            return null;
+        }
         public void Enter(BossMonster obj)
         {
             if (!obj.TransformMode && (GameManager.Instance.ClearCount % 3).Equals(0))

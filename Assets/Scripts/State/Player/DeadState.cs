@@ -1,17 +1,14 @@
-using LMS.Enemy;
 using LMS.State;
-using UnityEngine;
 
 namespace LMS.User
 {
     public class DeadState : IState<Player>
     {
-        public bool Idle(Player obj) => obj.Hp > 0;
-        public bool Move(Player obj) => false;
-        public bool Attack(Player obj) => false;
-        public bool Hit(Player obj) => false;
-        public bool Dead(Player obj) => obj.Hp <= 0;
-
+        public IState<Player> TransState(Player obj)
+        {
+            if (obj.Hp > 0) return StateCache.TryGetPlayerStateCache("Idle");
+            return StateCache.TryGetPlayerStateCache("Dead");
+        }
         public void Enter(Player obj)
         {
             obj.Dead();
@@ -22,7 +19,6 @@ namespace LMS.User
         }
         public void Exit(Player obj)
         {
-            obj.SetAnimation(PlayerInfo.reviveAnimName);
         }
     }
 }

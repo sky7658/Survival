@@ -1,16 +1,18 @@
+using LMS.Controller;
 using LMS.State;
-using UnityEngine;
 
 namespace LMS.Enemy.Common
 {
     public class HitState : IState<CommonMonster>
     {
-        public bool Idle(CommonMonster obj) => true;
-        public bool Move(CommonMonster obj) => obj.IsChaseAble && !obj.IsHit;
-        public bool Attack(CommonMonster obj) => obj.IsAttackAble && !obj.IsHit;
-        public bool Hit(CommonMonster obj) => obj.IsHit;
-        public bool Dead(CommonMonster obj) => obj.Hp <= 0;
-
+        public IState<CommonMonster> TransState(CommonMonster obj)
+        {
+            if (obj.Hp <= 0) return null;
+            if (obj.IsHit) return null;
+            if (obj.IsAttackAble && !obj.IsHit) return null;
+            if (obj.IsChaseAble && !obj.IsHit) return null;
+            return null;
+        }
         public void Enter(CommonMonster obj)
         {
             obj.SetAnimation(MonsterInfo.commonHitAnimName);

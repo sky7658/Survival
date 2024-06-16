@@ -4,12 +4,11 @@ namespace LMS.Enemy.Common
 {
     public class DeadState : IState<CommonMonster>
     {
-        public bool Idle(CommonMonster obj) => false;
-        public bool Move(CommonMonster obj) => false;
-        public bool Attack(CommonMonster obj) => false;
-        public bool Hit(CommonMonster obj) => false;
-        public bool Dead(CommonMonster obj) => obj.Hp <= 0;
-
+        public IState<CommonMonster> TransState(CommonMonster obj)
+        {
+            if (obj.Hp <= 0) return null;
+            return null;
+        }
         public void Enter(CommonMonster obj)
         {
             obj.SetAnimation(MonsterInfo.commonDeadAnimName);
@@ -22,5 +21,4 @@ namespace LMS.Enemy.Common
         {
         }
     }
-
 }
