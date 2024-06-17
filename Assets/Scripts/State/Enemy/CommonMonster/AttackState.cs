@@ -6,11 +6,11 @@ namespace LMS.Enemy.Common
     {
         public IState<CommonMonster> TransState(CommonMonster obj)
         {
-            if (obj.Hp <= 0) return null;
-            if (obj.IsHit) return null;
-            if (obj.IsAttackAble || obj.IsAtk) return null;
-            if (!obj.IsAtk && obj.IsChaseAble) return null;
-            return null;
+            if (obj.Hp <= 0) return StateCache.TryGetCommomMonsterStateCache("Dead");
+            if (obj.IsHit) return StateCache.TryGetCommomMonsterStateCache("Hit");
+            if (obj.IsAttackAble || obj.IsAtk) return StateCache.TryGetCommomMonsterStateCache("Attack");
+            if (!obj.IsAtk && obj.IsChaseAble) return StateCache.TryGetCommomMonsterStateCache("Move");
+            return StateCache.TryGetCommomMonsterStateCache("Idle");
         }
         public void Enter(CommonMonster obj)
         {

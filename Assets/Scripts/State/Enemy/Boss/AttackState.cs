@@ -6,10 +6,10 @@ namespace LMS.Enemy.Boss
     {
         public IState<BossMonster> TransState(BossMonster obj)
         {
-            if (obj.Hp <= 0) return null;
-            if (obj.IsAttackAble || obj.IsAtk) return null;
-            if (obj.IsChaseAble && !obj.IsAtk && !obj.SpecialAttackMode) return null;
-            return null;
+            if (obj.Hp <= 0) return StateCache.TryGetBossMonsterStateCache("Dead");
+            if (obj.IsAttackAble || obj.IsAtk) return StateCache.TryGetBossMonsterStateCache("Attack");
+            if (obj.IsChaseAble && !obj.IsAtk && !obj.SpecialAttackMode) return StateCache.TryGetBossMonsterStateCache("Move"); ;
+            return StateCache.TryGetBossMonsterStateCache("Idle");
         }
         public void Enter(BossMonster obj)
         {

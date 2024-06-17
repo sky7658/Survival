@@ -51,6 +51,17 @@ namespace LMS.Enemy
             isAtk = true;
             Attack(targetTrans.position);
         }
+
+        // ReFactoring-----------------------------------------------------------------------
+
+        public void InitAttack()
+        {
+
+        }
+
+        // ReFactoring-----------------------------------------------------------------------
+
+
         protected abstract void Attack(Vector2 targetPos);
         private void OnTriggerEnter2D(Collider2D collision)
         {
